@@ -1,11 +1,10 @@
-import ShoppinCart from "../pages/ShoppinCart.vue"
-
+import ShoppingCart from "../pages/ShoppingCart.vue"
 
 export default [
   {
     path: '/cart',
     name: 'ShoppinCart',
-    component: ShoppinCart
+    component: ShoppingCart
   },
 
 ]

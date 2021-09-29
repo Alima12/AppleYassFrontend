@@ -3,7 +3,7 @@ import SingleProduct from "../pages/SingleProduct.vue"
 
 export default [
   {
-    path: '/product',
+    path: '/product/:code',
     name: 'SingleProduct',
     component: SingleProduct
   },
