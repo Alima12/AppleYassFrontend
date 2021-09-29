@@ -52,7 +52,7 @@
           <div class="existance">
             <span class="count">فقط {{product.inventory}} عدد باقی مانده</span>
           </div>
-          <button class="btn btn-success text-center">خرید</button>
+          <button class="btn btn-success text-center">افزودن به سبد خرید</button>
         </div>
       </div>
     </div>

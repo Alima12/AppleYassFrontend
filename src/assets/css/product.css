@@ -163,6 +163,8 @@
 }
 .single-product .buy-box .buy button{
     width: 100%;
+    padding: 10px 15px;
+    font-weight: bold;
 }
 
 
