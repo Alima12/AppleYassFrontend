@@ -4,6 +4,8 @@ import About from '../views/About.vue'
 import userRoutes from '@/modules/User/routes'
 import cartRoutes from '@/modules/Cart/routes'
 import productRoutes from '@/modules/Product/routes'
+import panel from '@/modules/Panel/routes'
+
 
 const routes = [
   {
@@ -19,6 +21,7 @@ const routes = [
   ...cartRoutes,
   ...productRoutes,
   ...userRoutes,
+  ...panel,
 ]
 
 const router = createRouter({
