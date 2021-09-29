@@ -1,5 +1,12 @@
 <template>
   <div class="category">
-    <h1>This is an Categories page</h1>
+    <h1>This is a Categories page</h1>
+    {{$route}}
   </div>
 </template>
+<script>
+export default{
+  name:"Category"
+}
+</script>
+

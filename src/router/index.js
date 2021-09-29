@@ -14,8 +14,13 @@ const routes = [
     component: Home
   },
   {
-    path: '/category/:code',
+    path: '/category',
     name: 'Category',
+    component: Category
+  },
+  {
+    path: '/category/:code',
+    name: 'SingleCategory',
     component: Category
   },
   ...cartRoutes,
