@@ -39,8 +39,8 @@ const actions = {
   }
 }
 
-export default createStore({
+export default{
   state,
   mutations,
   actions
-})
+}

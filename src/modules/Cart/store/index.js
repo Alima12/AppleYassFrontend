@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 const state= {
-  cartItems:[]
+  cartItems:[{name:"df"}]
 }
 const mutations= {
   updateCartItems(state,payload){
@@ -50,9 +50,9 @@ const getters = {
 }
 
 
-export default createStore({
+export default {
   state,
   mutations,
   actions,
   getters
-});
+}
