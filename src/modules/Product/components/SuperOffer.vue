@@ -6,21 +6,24 @@
           <span class="title">
             پیشنهاد شگفت انگیز
           </span>
+
           <div class="body container-fluid">
             <div class="row">
               <div class="col-lg-4">
                 <div class="image-container">
-                  <img  :src="image" alt="">
+                  <router-link :to="`/product/${product.code}`">
+                      <img  :src="product.images[0].image" alt="">
+                  </router-link>
                 </div>
               </div>
               <div class="col-lg-8">
                 <div class="spedification">
                   <div class="price-row">
-                    <div class="price">{{price}}</div>
-                    <div class="off">{{disscount}}</div>
+                    <div class="price">{{product.price}}</div>
+                    <div class="off">%{{product.discoutPercent}} تخفیف</div>
                   </div>
                   <div class="title">
-                      {{name}}
+                      {{product.name}}
                   </div>
                   <hr class="px-5"/>
                   <div class="counter-down">
@@ -35,11 +38,12 @@
               </div>
             </div>
           </div>
+          
         </div>
       </div>
       <div class="col-lg-3">
         <div class="banner">
-          <img :src="bannerImage" alt="">
+          <img :src="product.images[0].offerBanner" alt="">
         </div>
       </div>
   </div>
@@ -51,30 +55,25 @@
 export default {
   name: 'SuperOffer',
   data(){
+    let superProduct = this.$store.getters.getSuperOfferProduct
     return {
-      uniqueId:"2323sds",
-      name:"تبلت اپل مدل iPad Mini 5 2019 7.9 inch WiFi ظرفیت 64 گیگابایت ",
-      image:"https://dkstatics-public.digikala.com/digikala-products/110767188.jpg",
-      bannerImage: "https://previews.123rf.com/images/icreative3d/icreative3d1608/icreative3d160800122/60598852-discount-12-percent-off-3d-illustration-on-white-background-.jpg",
-      price: "10,990,000 تومان ",
-      disscount: "12% تخفیف",
+      product:superProduct,
       discountTill:[0,0,0],
-      remainTimeSecond: 70000
     }
   },
   methods:{
     setTime(){
-      if (this.remainTimeSecond > 0) {
-        let hour = Math.floor(this.remainTimeSecond/3600);
-        let min = Math.floor((this.remainTimeSecond%3600)/60);
-        let sec =  this.remainTimeSecond % 3600 % 60
+      if (this.product.remainTimeSecond > 0) {
+        let hour = Math.floor(this.product.remainTimeSecond/3600);
+        let min = Math.floor((this.product.remainTimeSecond%3600)/60);
+        let sec =  this.product.remainTimeSecond % 3600 % 60
         this.discountTill = [hour,min,sec]
       }
     } 
   },
   mounted(){
     setInterval(()=>{
-        this.remainTimeSecond-=1;
+        this.product.remainTimeSecond-=1;
         this.setTime();
     },1000)
   },
