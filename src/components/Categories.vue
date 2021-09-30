@@ -57,7 +57,7 @@
   position: absolute;
   bottom: 0px;
   left: 0px;
-  background-color: rgba(0, 0, 0, .4);
+  background-color: rgba(255, 255, 255, .4);
   height: 50px;
   display: flex;
   justify-content: center;
@@ -66,14 +66,14 @@
   transition: all 1s;
   border-radius: 3px 3px 0px 0px;
   font-size: 1.3em;
-  color: #ecf0f1;
+  color: #2c3e50;
   cursor: pointer;
 
 }
 .category-container a{
   color: #fff200 !important;
 }
-.category-container span:hover{
+.category-container:hover span{
   height: 100%;
 }
 </style>
