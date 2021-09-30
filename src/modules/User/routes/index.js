@@ -7,16 +7,19 @@ export default [
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: Login,
+    loginRedirect:true
   },
   {
     path: '/register',
     name: 'Register',
-    component: Register
+    component: Register,
+    loginRedirect:true
   },
   {
     path: '/profile',
     name: 'Profile',
-    component:Profile 
+    component:Profile,
+    loginRequired:true
   }
 ]
