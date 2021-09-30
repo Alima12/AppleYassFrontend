@@ -170,4 +170,10 @@
 }
 
 
-
+.title-new-product{
+    margin-bottom: 10px;
+}
+.title-new-product span{
+    padding: 5px 20px;
+    border-bottom: 2px solid #c0392b;
+}

@@ -21,35 +21,40 @@
 
   </body>
   <script>
-    $('#owl-product').owlCarousel({
-      rtl:true,
-      margin:10,
-      responsive:{
-          0:{
-              items:1
-          },
-          600:{
-              items:3
-          },
-          1000:{
-              items:4
-          }
+    let sliders = ['#owl-product','#category','#owl-product-likely']
+    sliders.forEach(slide=>{
+      let responsive = {
+            0:{
+                items:1
+            },
+            600:{
+                items:3
+            },
+            1000:{
+                items:4
+            }
       }
-    })
-    $('#category').owlCarousel({
-      rtl:true,
-      margin:10,
-      responsive:{
-          0:{
-              items:2
-          },
-          600:{
-              items:4
-          },
-          1000:{
-              items:7
-          }
+      if (slide == '#category'){
+        responsive = {
+            0:{
+                items:2
+            },
+            600:{
+                items:4
+            },
+            1000:{
+                items:6
+            }
       }
+      }
+      $(slide).owlCarousel({
+
+        rtl:true,
+        margin:10,
+        responsive
+       
+      })
     })
+    
   </script>
 </html>

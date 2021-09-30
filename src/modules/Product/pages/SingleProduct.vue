@@ -73,18 +73,40 @@
 
   </div>
 
-  <div class="row"></div>
+  <div class="row">
+    <section class="dragable-list">
+      <div class="title">
+        <h3 class="title-new-product">
+          <span>
+            محصولات مشابه
+          </span>
+          </h3>
+      </div>
+      <div id="owl-product-likely" class="owl-carousel owl-theme">
+        <div class="item" v-for="product in products">
+          <Product :product="product" />
+        </div>
+      </div>
+    </section>
+  </div>
 </div>
 </template>
 <script>
   import "@/assets/css/product.css";
+  import Product from '../components/Product';
+ 
   export default {
     name: "SingleProduct",
+    components:{
+      Product,
+    },
     data(){
       let product = this.$store.getters.getProduct(this.$route.params.code)
+      let likelyProcuts =this.$store.getters.getProducts;
       return{
         image  : "",
         product:product,
+        products:likelyProcuts,
         
 
       }
