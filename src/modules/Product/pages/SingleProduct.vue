@@ -31,9 +31,9 @@
           <small>تنها خریداران حق ثبت امتیاز دارند</small>
         </div>
         <div class="colors">
-          <a href="" v-for="color in product.colors">
-            <i  class="fa fa-circle fa-3x" :style="`color: ${color}`"></i>
-          </a>
+          <span v-for="color in product.colors">
+            <div :class="{'active':activeColor == color.color}" :style="`background-color: ${color.color}`" @click="setPrice(color)"> </div>
+          </span>
         </div>
         <div class="mt-4">
           <p>ویژگی ها:</p>
@@ -60,13 +60,14 @@
             <label for="number-product">تعداد:</label>
             <input name="number-product" type="number"  class="form-control" :max="product.maxCount?product.maxCount: 1" min="1" value="1">
           </div>
-          <div class="existance" v-if="product.inventory<=5">
-            <span class="count">فقط {{product.inventory}} عدد باقی مانده</span>
+          <div class="existance" v-if="inventory<=5" :class="{'zero':inventory <= 0}">
+            <span class="count" v-if="inventory > 0">فقط {{inventory}} عدد باقی مانده</span>
+            <span v-else>موجود نیست</span>
           </div>
-          <div class="cost">
-            <span>{{product.price}}</span>
+          <div class="cost" v-if="inventory > 0">
+            <span>{{price.toLocaleString()}} تومان</span>
           </div>
-          <button class="btn btn-success text-center">افزودن به سبد خرید</button>
+          <button class="btn btn-success text-center" :class="{'disabled':inventory == 0}">افزودن به سبد خرید</button>
         </div>
       </div>
     </div>
@@ -101,13 +102,18 @@
       Product,
     },
     data(){
-      let product = this.$store.getters.getProduct(this.$route.params.code)
+      let product = this.$store.getters.getProduct(this.$route.params.code);
+      let price = product.colors[0].price;
+      let activeColor= product.colors[0].color;
+      let inventory= product.colors[0].inventory;
       let likelyProcuts =this.$store.getters.getProducts;
       return{
         image  : "",
         product:product,
         products:likelyProcuts,
-        
+        price:price,
+        activeColor:activeColor,
+        inventory:inventory
 
       }
     },
@@ -121,6 +127,17 @@
       },
       addFavorite(){
         this.product.isUserFavorite = !this.product.isUserFavorite;
+      },
+      setactive(color){
+        if (color == '#f1c40f'){
+          return 'active'
+        }
+        return ''
+      },
+      setPrice(color){
+        this.price = color.price;
+        this.activeColor = color.color;
+        this.inventory = color.inventory;
       }
 
     }

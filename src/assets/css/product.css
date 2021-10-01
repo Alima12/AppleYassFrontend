@@ -101,10 +101,25 @@
 
 .single-product .detial-container .colors{
     margin-top: 10px;
+    border-radius: 90%;
+    display: flex;
 }
 
-.single-product .detial-container .colors i{
+.single-product .detial-container .colors div{
     margin-right: 4px;
+    width:40px;
+    height:40px;
+    border-radius:100%;
+    border:1px solid #444;
+    transition: all .4s;
+}
+
+.single-product .detial-container .colors span{
+    cursor: pointer;
+}
+.single-product .detial-container .colors div.active{
+    border: 3px outset red;
+    
 }
 
 
@@ -156,6 +171,13 @@
     text-align: center;
     margin: 10px 0px;
 }
+.single-product .buy-box .buy .existance.zero{
+    background-color: rgba(136, 125, 125, 0.048);
+}
+.single-product .buy-box .buy .existance.zero span{
+    color: #666;
+}
+
 .single-product .buy-box .buy .existance span{
     color: white;
     font-size: 1.1em;
