@@ -1,5 +1,6 @@
 <template>
 <div class="container-fluid single-product">
+  {{$store.getters.getCartItems}}
   <div class="row mb-3">
     <h3 class="text-center">{{product.name}}</h3>
     <div class="px-3 mb-3">
@@ -58,7 +59,7 @@
         <div class="buy">
           <div class="counts">
             <label for="number-product">تعداد:</label>
-            <input name="number-product" type="number"  class="form-control" :max="product.maxCount?product.maxCount: 1" min="1" value="1">
+            <input type="number" v-model="count" class="form-control" :max="inventory" />
           </div>
           <div class="existance" v-if="inventory<=5" :class="{'zero':inventory <= 0}">
             <span class="count" v-if="inventory > 0">فقط {{inventory}} عدد باقی مانده</span>
@@ -67,13 +68,12 @@
           <div class="cost" v-if="inventory > 0">
             <span>{{price.toLocaleString()}} تومان</span>
           </div>
-          <button class="btn btn-success text-center" :class="{'disabled':inventory == 0}">افزودن به سبد خرید</button>
+          <button @click="addToCart()" class="btn btn-success text-center" :class="{'disabled':inventory == 0}">افزودن به سبد خرید</button>
         </div>
       </div>
     </div>
 
   </div>
-
   <div class="row">
     <section class="dragable-list">
       <div class="title">
@@ -108,7 +108,8 @@
         products:[],
         price:0,
         activeColor:"white",
-        inventory:0
+        inventory:0,
+        count:1,
       }
     },
     created(){
@@ -144,6 +145,23 @@
         this.activeColor = activeColor;
         this.inventory = inventory;
         this.image = this.product.images[0].image
+    },
+    addToCart(){
+      let color = this.product.colors.find(color=> color.color == this.activeColor).color;
+      let items = this.$store.getters.getCartItems;
+      let cartItem = items.find(item=>item.code == this.product.code && item.color == color)
+      if(cartItem){
+        this.$store.dispatch("updateItem",[cartItem.code,this.count,color]);
+      }else{
+        let item = {
+          code:this.product.code,
+          color,
+          count:this.count,
+          price: this.price
+        }
+        this.$store.dispatch('addItem',item);
+      }
+
     }
 
     },
@@ -154,6 +172,13 @@
           window.scrollTo({top:0,behavior:"smooth"})
         }
       },
+      count(value){
+        if(value > this.inventory){
+          this.count = this.inventory
+        }else if(value <=0){
+          this.count = 1;
+        }
+      }
     },
   }
 </script>

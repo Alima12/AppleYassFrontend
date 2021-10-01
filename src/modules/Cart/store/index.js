@@ -1,11 +1,19 @@
 import { createStore } from 'vuex'
 const state= {
-  cartItems:[{name:"df"}]
+  cartItems:[]
 }
 const mutations= {
   updateCartItems(state,payload){
     state.cartItems = payload
   },
+  cartItemsAdd(state,item){
+    state.cartItems.push(item)
+  },
+  addNumber(state,items){
+    let product = state.cartItems.find(i=> i.code == items[0] && i.color == items[2])
+    product.count += items[1];
+  }
+
 }
 const actions = {
   getCartItems({ commit }) {
@@ -27,6 +35,13 @@ const actions = {
     // axios.delete('/api/cart/delete/all').then((response) => {
     //   commit('updateProductItems', response.data)
     // });
+  },
+  addItem({commit},item){
+    commit('cartItemsAdd',item);
+  },
+  updateItem({commit},items){
+    commit('addNumber',items)
+    
   }
 }
 
