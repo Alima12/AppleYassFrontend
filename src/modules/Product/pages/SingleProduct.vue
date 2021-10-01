@@ -13,9 +13,9 @@
         </div>
         <div class="other-images">
           <div class="preview-container">
-            <a href="#"  v-for="item in product.images">
+            <span v-for="item in product.images">
               <img @click="setImage(item.id)" :src="item.image" alt="">
-            </a>
+            </span>
           </div>
         </div>
       </div>
@@ -116,7 +116,6 @@
     },
     methods:{
       setImage(imageId){
-        console.log(imageId)
         this.image = this.product.images.find(img=> img.id == imageId).image
       },
       addFavorite(){
@@ -150,7 +149,10 @@
     },
     watch: {
       '$route' (to, from) {
-        this.setProduct(this.$route.params.code)
+        if(this.$route.name=="SingleProduct"){
+          this.setProduct(this.$route.params.code)
+          window.scrollTo({top:0,behavior:"smooth"})
+        }
       },
     },
   }

@@ -17,7 +17,7 @@ const state = {
       isSpecialOffer:false,
       images:[
         {
-          id:0,
+          id:1,
           image:"https://dkstatics-public.digikala.com/digikala-products/121904901.jpg"
         },
       ],
@@ -41,7 +41,7 @@ const state = {
       attributes:["جنسه بدنه: آلمینیوم","حافظه داخلی: 64 گیگابایت ","شبکه های ارتباطی: بدون سیم‌کارت","رابط‌ها: جک 3.5 میلی‌متری صدا"],
       images:[
         {
-          id:0,
+          id:1,
           image:"https://dkstatics-public.digikala.com/digikala-products/110767188.jpg",
           offerBanner:"https://previews.123rf.com/images/icreative3d/icreative3d1608/icreative3d160800122/60598852-discount-12-percent-off-3d-illustration-on-white-background-.jpg",
         },
@@ -62,7 +62,7 @@ const state = {
       isSpecialOffer:true,
       images:[
         {
-          id:0,
+          id:1,
           image:"https://dkstatics-public.digikala.com/digikala-products/114699730.jpg"
         },
       ]
@@ -82,7 +82,7 @@ const state = {
       isSpecialOffer:false,
       images:[
         {
-          id:0,
+          id:1,
           image:"https://dkstatics-public.digikala.com/digikala-products/d52027e381580114b15d694e62903a0a4c90084d_1629541316.jpg"
         },
       ]
@@ -102,7 +102,7 @@ const state = {
       isSpecialOffer:true,
       images:[
         {
-          id:0,
+          id:1,
           image:"https://dkstatics-public.digikala.com/digikala-products/88c2e4e7b57345a928a24a884d91e2da5c31955d_1631516350.jpg"
         },]
       },
