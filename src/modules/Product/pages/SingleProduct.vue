@@ -1,7 +1,7 @@
 <template>
 <div class="container-fluid single-product">
   <div class="row mb-3">
-            <h3 class="text-center">{{product.name}}</h3>
+    <h3 class="text-center">{{product.name}}</h3>
     <div class="px-3 mb-3">
       <hr />
     </div>
@@ -102,23 +102,17 @@
       Product,
     },
     data(){
-      let product = this.$store.getters.getProduct(this.$route.params.code);
-      let price = product.colors[0].price;
-      let activeColor= product.colors[0].color;
-      let inventory= product.colors[0].inventory;
-      let likelyProcuts =this.$store.getters.getProducts;
       return{
-        image  : "",
-        product:product,
-        products:likelyProcuts,
-        price:price,
-        activeColor:activeColor,
-        inventory:inventory
-
+        image:"",
+        product:{},
+        products:[],
+        price:0,
+        activeColor:"white",
+        inventory:0
       }
     },
-    mounted(){
-      this.image = this.product.images[0].image
+    created(){
+      this.setProduct(this.$route.params.code)
     },
     methods:{
       setImage(imageId){
@@ -138,8 +132,26 @@
         this.price = color.price;
         this.activeColor = color.color;
         this.inventory = color.inventory;
-      }
-
+      },
+      setProduct(code){
+        let product = this.$store.getters.getProduct(code);
+        let price = product.colors[0].price;
+        let activeColor= product.colors[0].color;
+        let inventory= product.colors[0].inventory;
+        let likelyProcuts =this.$store.getters.getProducts;
+        this.product = product;
+        this.products = likelyProcuts;
+        this.price = price;
+        this.activeColor = activeColor;
+        this.inventory = inventory;
+        this.image = this.product.images[0].image
     }
+
+    },
+    watch: {
+      '$route' (to, from) {
+        this.setProduct(this.$route.params.code)
+      },
+    },
   }
 </script>
