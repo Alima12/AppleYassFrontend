@@ -115,6 +115,9 @@
     created(){
       this.setProduct(this.$route.params.code)
     },
+    mounted(){
+      window.scrollTo({top:0,behavior:"smooth"})
+    },
     methods:{
       setImage(imageId){
         this.image = this.product.images.find(img=> img.id == imageId).image
