@@ -317,3 +317,32 @@
     text-align: justify;
 
 }
+
+
+
+/* Details */
+.detail-section{
+    font-size: 1em;
+}
+.detail-section ul .item{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border-bottom: 1px solid #999;
+    margin: 5px 0px;
+}
+.detail-section ul li:nth-last-child(){
+    border-bottom: none;
+}
+
+.detail-section ul .item .title{
+    font-size: 1.1em;
+    font-weight: 100;
+    font-style: italic;
+
+}
+.detail-section ul .item .content{
+    color: #111;
+    font-weight: bold;
+
+}

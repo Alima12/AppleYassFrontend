@@ -128,7 +128,7 @@
 
             </div>
             <div class="submitbtn mt-1 p-2">
-                <button class="btn btn-success w-25 float-end">ارسال</button>
+                <button class="btn btn-success p-1 float-end">ارسال</button>
             </div>
         </form>
     </div>

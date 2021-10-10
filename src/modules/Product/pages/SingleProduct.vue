@@ -90,9 +90,70 @@
       </div>
     </section>
   </div>
+  
+  <div class="row" style="margin: 70px 0px;">
+
+    <div class="" style="paddingl-right:20px">
+      <h4 style="font-wright:bold; color:#555; padding-right:30px; border-bottom: 2.5px solid #e74c3c; width:120px; padding-bottom:15px;font-weight:bold;">بررسی</h4>
+    </div>
+    <div class="col-12 mt-2">
+      <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingOne">
+            <button class="accordion-button collapsed collapse-title" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+              مشخصات فنی
+            </button>
+          </h2>
+          <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+              <div class="detail-section">
+                <ul>
+                  <i class="item">
+                    <spna class="title">جنس بدنه:</spna>
+                    <spna class="content"> آلمینیوم</spna>
+                  </i>
+                  <i class="item">
+                    <spna class="title">حافظه:</spna>
+                    <spna class="content">64 گیگ</spna>
+                  </i>
+                  <i class="item">
+                    <spna class="title">جنس گلس:</spna>
+                    <spna class="content">نانو</spna>
+                  </i>
+                  <i class="item">
+                    <spna class="title">بیشتر</spna>
+                    <spna class="content">هیچی</spna>
+                  </i>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingTwo">
+            <button class="accordion-button collapsed collapse-title" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+              نقد و بررسی
+            </button>
+          </h2>
+          <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+              <div class="detail-section" style="text-align:justify;">
+               چه خبره با این رشد صعودی ه قیمت؟؟!!!! چه دلار بره بالا چه ثابت بمونه، تافته هر ماه داره محصولاتشو گرون تر میکنه چه خبره با این رشد صعودی ه قیمت؟؟!!!! چه دلار بره بالا چه ثابت بمونه، تافته هر ماه داره محصولاتشو گرون تر میکنه چه خبره با این رشد صعودی ه قیمت؟؟!!!! چه دلار بره بالا چه ثابت بمونه، تافته هر ماه داره محصولاتشو گرون تر میکنهچه خبره با این رشد صعودی ه قیمت؟؟!!!! چه دلار بره بالا چه ثابت بمونه، تافته هر ماه داره محصولاتشو گرون تر میکنهچه خبره با این رشد صعودی ه قیمت؟؟!!!! چه دلار بره بالا چه ثابت بمونه، تافته هر ماه داره محصولاتشو گرون تر میکنهچه خبره با این رشد صعودی ه قیمت؟؟!!!! چه دلار بره بالا چه ثابت بمونه، تافته هر ماه داره محصولاتشو گرون تر میکنهچه خبره با این رشد صعودی ه قیمت؟؟!!!! چه دلار بره بالا چه ثابت بمونه، تافته هر ماه داره محصولاتشو گرون تر میکنهچه خبره با این رشد صعودی ه قیمت؟؟!!!! چه دلار بره بالا چه ثابت بمونه، تافته هر ماه داره محصولاتشو گرون تر میکنهچه خبره با این رشد صعودی ه قیمت؟؟!!!! چه دلار بره بالا چه ثابت بمونه، تافته هر ماه داره محصولاتشو گرون تر میکنهچه خبره با این رشد صعودی ه قیمت؟؟!!!! چه دلار بره بالا چه ثابت بمونه، تافته هر ماه داره محصولاتشو گرون تر میکنهچه خبره با این رشد صعودی ه قیمت؟؟!!!! چه دلار بره بالا چه ثابت بمونه، تافته هر ماه داره محصولاتشو گرون تر میکنه
+              </div>
+            </div>
+          </div>
+        </div>
+       
+    </div>
+    
+    </div>
+  </div>
+
+
   <div class="row">
     <Comments />
   </div>
+
 </div>
 </template>
 <script>
@@ -191,3 +252,8 @@
     },
   }
 </script>
+<style>
+.collapse-title{
+  font-weight:bold;
+}
+</style>
