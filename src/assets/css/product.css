@@ -237,6 +237,8 @@
 }
 .comments .comment.reply{
     margin-right: 20px;
+    background-color: rgba(178, 190, 195,.45);
+
 
 }
 

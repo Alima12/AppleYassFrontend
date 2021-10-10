@@ -5,109 +5,63 @@
         </span>
     </h4>
     <section class="comments">
-        <div class="comment">
+        <div class="comment" v-for="comment in commentList">
             <div class="head">
                 <div class="name-date">
                     <div class="name">
-                        <img src="https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png" alt="">
-                        <span>علی</span> 
+                        <img :src="comment.image" alt="">
+                        <span>{{comment.name}}</span> 
                     </div>
                     <div class="date">
-                        <span>- سه روز پیش</span>
+                        <span>{{comment.date}}</span>
                     </div>
                 </div>
                 <div class="like-box">
                     <div class="like">
-                        <span>20</span>
+                        <span>{{comment.likes}}</span>
                         <i class="fa fa-thumbs-up like"></i>
                     </div>
                     <div class="dislike">
-                        <span>10</span>
+                        <span>{{comment.dislikes}}</span>
                         <i class="fa fa-thumbs-down dislike"></i>
                     </div>
                 </div>
             </div>
             <div class="body">
-                <p class="comment-text">
-                    دیدار تیم ملی فوتبال ایران و کره جنوبی بدون تماشاگر شد
-
-🔺 تیم‌های ملی فوتبال ایران و کره جنوبی از ساعت ۱۷ روز سه شنبه در مرحله سوم انتخابی جام جهانی قطر در ورزشگاه آزادی با هم دیدار می‌کنند.دیدار تیم ملی فوتبال ایران و کره جنوبی بدون تماشاگر شد
-
-🔺 تیم‌های ملی فوتبال ایران و کره جنوبی از ساعت ۱۷ روز سه شنبه در مرحله سوم انتخابی جام جهانی قطر در ورزشگاه آزادی با هم دیدار می‌کنند.دیدار تیم ملی فوتبال ایران و کره جنوبی بدون تماشاگر شد
-
-🔺 تیم‌های ملی فوتبال ایران و کره جنوبی از ساعت ۱۷ روز سه شنبه در مرحله سوم انتخابی جام جهانی قطر در ورزشگاه آزادی با هم دیدار می‌کنند.
-                </p>
+                <p class="comment-text">{{comment.content}}</p>
+            </div>
+            <div class="comment reply" v-for="reply in comment.reply">
+                <div class="head">
+                    <div class="name-date">
+                        <div class="name">
+                            <img :src="reply.image" alt="">
+                            <span>{{reply.name}}</span> 
+                        </div>
+                        <div class="date">
+                            <span>{{reply.date}}</span>
+                        </div>
+                    </div>
+                    <div class="like-box">
+                        <div class="like">
+                            <span>{{reply.likes}}</span>
+                            <i class="fa fa-thumbs-up like"></i>
+                        </div>
+                        <div class="dislike">
+                            <span>{{reply.dislikes}}</span>
+                            <i class="fa fa-thumbs-down dislike"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="body">
+                    <p class="comment-text">{{reply.content}}</p>
+                </div>
             </div>
         </div>
-        <div class="comment">
-            <div class="head">
-                <div class="name-date">
-                    <div class="name">
-                        <img src="https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png" alt="">
-                        <span>علی</span> 
-                    </div>
-                    <div class="date">
-                        <span>- سه روز پیش</span>
-                    </div>
-                </div>
-                <div class="like-box">
-                    <div class="like">
-                        <span>20</span>
-                        <i class="fa fa-thumbs-up like"></i>
-                    </div>
-                    <div class="dislike">
-                        <span>10</span>
-                        <i class="fa fa-thumbs-down dislike"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="body">
-                <p class="comment-text">
-                    دیدار تیم ملی فوتبال ایران و کره جنوبی بدون تماشاگر شد
-
-🔺 تیم‌های ملی فوتبال ایران و کره جنوبی از ساعت ۱۷ روز سه شنبه در مرحله سوم انتخابی جام جهانی قطر در ورزشگاه آزادی با هم دیدار می‌کنند.دیدار تیم ملی فوتبال ایران و کره جنوبی بدون تماشاگر شد
-
-🔺 تیم‌های ملی فوتبال ایران و کره جنوبی از ساعت ۱۷ روز سه شنبه در مرحله سوم انتخابی جام جهانی قطر در ورزشگاه آزادی با هم دیدار می‌کنند.دیدار تیم ملی فوتبال ایران و کره جنوبی بدون تماشاگر شد
-
-🔺 تیم‌های ملی فوتبال ایران و کره جنوبی از ساعت ۱۷ روز سه شنبه در مرحله سوم انتخابی جام جهانی قطر در ورزشگاه آزادی با هم دیدار می‌کنند.
-                </p>
-            </div>
+        <div v-if="commentList.length< 1">
+            کامنتی وجود ندارد
         </div>
 
-        <div class="comment reply">
-            <div class="head">
-                <div class="name-date">
-                    <div class="name">
-                        <img src="https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png" alt="">
-                        <span>علی</span> 
-                    </div>
-                    <div class="date">
-                        <span>- سه روز پیش</span>
-                    </div>
-                </div>
-                <div class="like-box">
-                    <div class="like">
-                        <span>20</span>
-                        <i class="fa fa-thumbs-up like"></i>
-                    </div>
-                    <div class="dislike">
-                        <span>10</span>
-                        <i class="fa fa-thumbs-down dislike"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="body">
-                <p class="comment-text">
-                    دیدار تیم ملی فوتبال ایران و کره جنوبی بدون تماشاگر شد
-
-🔺 تیم‌های ملی فوتبال ایران و کره جنوبی از ساعت ۱۷ روز سه شنبه در مرحله سوم انتخابی جام جهانی قطر در ورزشگاه آزادی با هم دیدار می‌کنند.دیدار تیم ملی فوتبال ایران و کره جنوبی بدون تماشاگر شد
-
-🔺 تیم‌های ملی فوتبال ایران و کره جنوبی از ساعت ۱۷ روز سه شنبه در مرحله سوم انتخابی جام جهانی قطر در ورزشگاه آزادی با هم دیدار می‌کنند.دیدار تیم ملی فوتبال ایران و کره جنوبی بدون تماشاگر شد
-
-🔺 تیم‌های ملی فوتبال ایران و کره جنوبی از ساعت ۱۷ روز سه شنبه در مرحله سوم انتخابی جام جهانی قطر در ورزشگاه آزادی با هم دیدار می‌کنند.
-                </p>
-            </div>
-        </div>
+    
     </section>
     <div class="col-10 mx-auto">
         <hr />
@@ -138,14 +92,12 @@
 <script>
   export default {
     name: "Comments",
+    props:["commentList"]
     
   }
 </script>
 
 <style>
-.send-comment{
-    /* border: 1px solid #555; */
-}
 .send-comment h5{
     padding: 20px 0px;
     color:#333;

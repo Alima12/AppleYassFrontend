@@ -21,7 +21,16 @@ const state = {
           image:"https://dkstatics-public.digikala.com/digikala-products/121904901.jpg"
         },
       ],
-      attributes:["جنسه بدنه: آلمینیوم","حافظه داخلی: 64 گیگابایت ","شبکه های ارتباطی: بدون سیم‌کارت","رابط‌ها: جک 3.5 میلی‌متری صدا"]
+      attributes:["جنسه بدنه: آلمینیوم","حافظه داخلی: 64 گیگابایت ","شبکه های ارتباطی: بدون سیم‌کارت","رابط‌ها: جک 3.5 میلی‌متری صدا"],
+      comments:[
+        {name:"علی", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:20,dislikes:19,content:"عالیه حتما بخرید",reply:[]},
+        {name:"محمد", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:10,dislikes:50,content:"عالیه حتما بخرید",reply:[]},
+        {name:"امیر", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:10,dislikes:25,content:"عالیه حتما بخرید",reply:[]},
+        {name:"حسین", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:29,dislikes:10,content:"عالیه حتما بخرید",reply:[]},
+        {name:"وحیذ", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:50,dislikes:10,content:"عالیه حتما بخرید",reply:[{name:"علی", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:50,dislikes:0,content:"عالیه حتما بخرید"},{name:"علی", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:50,dislikes:0,content:"عالیه حتما بخرید"},{name:"علی", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:50,dislikes:0,content:"عالیه حتما بخرید"}]},
+
+      ]
+      
     },
     {
       code:"2a4CbSu",
@@ -45,7 +54,8 @@ const state = {
           image:"https://dkstatics-public.digikala.com/digikala-products/110767188.jpg",
           offerBanner:"https://previews.123rf.com/images/icreative3d/icreative3d1608/icreative3d160800122/60598852-discount-12-percent-off-3d-illustration-on-white-background-.jpg",
         },
-      ]
+      ],
+      comments:[],
     },
     {
       code:"2a21bA",
@@ -57,7 +67,7 @@ const state = {
       title:"JBL Speaker Pulse 4",
       category:{name:"speaker"},
       is_super_offer:false,
-      name:"اسپیکر بلوتوثی قابل حمل جی بی ال مدل Pulse 4 ",
+      name:"اسپیکر بلوتوثی  مدل Pulse 4 ",
       stars:5,
       isSpecialOffer:true,
       images:[
@@ -65,7 +75,8 @@ const state = {
           id:1,
           image:"https://dkstatics-public.digikala.com/digikala-products/114699730.jpg"
         },
-      ]
+      ],
+      comments:[],
     },
     {
       code:"5Sab4u",
@@ -85,7 +96,8 @@ const state = {
           id:1,
           image:"https://dkstatics-public.digikala.com/digikala-products/d52027e381580114b15d694e62903a0a4c90084d_1629541316.jpg"
         },
-      ]
+      ],
+      comments:[],
     },
     {
       code:"3dfdfg",
@@ -104,8 +116,10 @@ const state = {
         {
           id:1,
           image:"https://dkstatics-public.digikala.com/digikala-products/88c2e4e7b57345a928a24a884d91e2da5c31955d_1631516350.jpg"
-        },]
-      },
+        },
+      ],
+      comments:[]
+    },
     {
       code:"432435j",
       hotProduc:false,
@@ -122,7 +136,8 @@ const state = {
         {id:1,image:"https://dkstatics-public.digikala.com/digikala-products/113542044.jpg"},
         {id:2,image:"https://dkstatics-public.digikala.com/digikala-products/113542040.jpg"},
         {id:3,image:"https://dkstatics-public.digikala.com/digikala-products/113542037.jpg"}
-      ]
+      ],
+      comments:[],
     }
   ],
 }

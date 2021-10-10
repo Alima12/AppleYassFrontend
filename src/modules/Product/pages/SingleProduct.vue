@@ -151,7 +151,7 @@
 
 
   <div class="row">
-    <Comments />
+    <Comments  :commentList="product.comments" />
   </div>
 
 </div>
