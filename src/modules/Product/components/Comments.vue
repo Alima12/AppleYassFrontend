@@ -109,6 +109,31 @@
             </div>
         </div>
     </section>
+    <div class="col-10 mx-auto">
+        <hr />
+    </div>
+    <div class="col-8 mx-auto p-2 send-comment">
+        
+        <h5 class="text-center">
+            ارسال نظر
+        </h5>
+        <form class="form">
+            <div class="name my-1 p-2">
+                <label for="username" class="mb-1" style="color:#444">نام شما:</label>
+                <input type="text" class="form-control" name="username"/>
+            </div>
+            <div class="coment-content my-1 p-2">
+                <label for="commentcontent" class="mb-1" style="color:#444">نظر:</label>
+                <textarea name="commentcontent" class="form-control" cols="30" rows="10"></textarea>
+
+            </div>
+            <div class="submitbtn mt-1 p-2">
+                <button class="btn btn-success w-25 float-end">ارسال</button>
+            </div>
+        </form>
+    </div>
+   
+    
 </template>
 <script>
   export default {
@@ -118,6 +143,12 @@
 </script>
 
 <style>
-
+.send-comment{
+    /* border: 1px solid #555; */
+}
+.send-comment h5{
+    padding: 20px 0px;
+    color:#333;
+}
 
 </style>
