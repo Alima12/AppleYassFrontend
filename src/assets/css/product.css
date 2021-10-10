@@ -204,3 +204,116 @@
     padding: 5px 20px;
     border-bottom: 2px solid #c0392b;
 }
+
+
+
+
+
+
+/* Comments */
+.comments-title{
+    margin: 10px 0px;
+}
+.comments-title span{
+    padding: 10px 30px;
+    font-weight: bold;
+    font-size: 1em;
+    border-bottom: 2.5px solid #e74c3c; 
+    color: #444;
+}
+.comments {
+    margin-top: 20px;
+    font-size: 1em;
+    padding: 10px 15px;
+
+}
+.comments .comment{
+    margin: 15px 0px;
+    border: 1px solid #444;
+    border-radius: 10px;
+    background-color: rgba(178, 190, 195,.3);
+    padding: 10px 15px;
+
+}
+.comments .comment.reply{
+    margin-right: 20px;
+
+}
+
+.comments .comment .head{
+    padding: 5px 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.comments .comment .head .name-date{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.comments .comment .head .name-date .name{
+    margin-left: 10px;
+
+}
+.comments .comment .head .name-date .name img{
+    width: 60px;
+
+}
+.comments .comment .head .name-date .name span{
+    margin-right: 10px;
+    margin-left: 2px;
+    font-size: 1.2em;
+
+}
+.comments .comment .head .name-date .date{
+
+}
+.comments .comment .head .name-date .date span{
+    font-size: .9em;
+}
+.comments .comment .head .like-box{
+    padding: 5px 8px;
+    display: flex;
+    flex-direction: column;
+
+}
+.comments .comment .head .like-box i{
+    font-size: 1.4em;
+    cursor: pointer;
+
+}
+.comments .comment .head .like-box .like{
+    color: #27ae60;
+    display: flex;
+    align-items: center;
+   
+
+}
+.comments .comment .head .like-box .like span{
+    margin-left: 5px;
+    color: #222;   
+    font-weight: bold;
+}
+.comments .comment .head .like-box .dislike{
+    color: #c0392b;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+}
+
+.comments .comment .head .like-box .dislike span{
+    font-weight: bold;
+    color: #222;
+    margin-left: 5px;
+}
+.comments .comment .body{
+    padding: 10px 15px;
+
+    color: #333;
+
+}
+.comments .comment .body .comment-text{
+    text-align: justify;
+
+}

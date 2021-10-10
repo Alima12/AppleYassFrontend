@@ -90,16 +90,23 @@
       </div>
     </section>
   </div>
+  <div class="row">
+    
+    <Comments />
+  </div>
 </div>
 </template>
 <script>
   import "@/assets/css/product.css";
   import Product from '../components/Product';
+  import Comments from '../components/Comments';
+
  
   export default {
     name: "SingleProduct",
     components:{
       Product,
+      Comments
     },
     data(){
       return{
