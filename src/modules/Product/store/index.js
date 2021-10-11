@@ -29,7 +29,11 @@ const state = {
         {name:"حسین", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:29,dislikes:10,content:"عالیه حتما بخرید",reply:[]},
         {name:"وحیذ", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:50,dislikes:10,content:"عالیه حتما بخرید",reply:[{name:"علی", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:50,dislikes:0,content:"عالیه حتما بخرید"},{name:"علی", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:50,dislikes:0,content:"عالیه حتما بخرید"},{name:"علی", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:50,dislikes:0,content:"عالیه حتما بخرید"}]},
 
-      ]
+      ],
+      technicalattrs:[{name:"",value:""},],
+      moreDetails: "",
+
+
       
     },
     {
@@ -56,6 +60,9 @@ const state = {
         },
       ],
       comments:[],
+      technicalattrs:[{name:"",value:""},],
+      moreDetails: "",
+
     },
     {
       code:"2a21bA",
@@ -77,6 +84,9 @@ const state = {
         },
       ],
       comments:[],
+      technicalattrs:[{name:"",value:""},],
+      moreDetails: "",
+
     },
     {
       code:"5Sab4u",
@@ -98,6 +108,9 @@ const state = {
         },
       ],
       comments:[],
+      technicalattrs:[{name:"",value:""},],
+      moreDetails: "",
+
     },
     {
       code:"3dfdfg",
@@ -118,7 +131,11 @@ const state = {
           image:"https://dkstatics-public.digikala.com/digikala-products/88c2e4e7b57345a928a24a884d91e2da5c31955d_1631516350.jpg"
         },
       ],
-      comments:[]
+      comments:[],
+      technicalattrs:[{name:"",value:""},],
+      moreDetails: "",
+
+
     },
     {
       code:"432435j",
@@ -138,6 +155,8 @@ const state = {
         {id:3,image:"https://dkstatics-public.digikala.com/digikala-products/113542037.jpg"}
       ],
       comments:[],
+      technicalattrs:[{name:"",value:""},],
+      moreDetails: "",
     }
   ],
 }
