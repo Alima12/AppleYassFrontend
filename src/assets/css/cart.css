@@ -1,0 +1,147 @@
+.produoct-cart-items{
+    padding: 30px 20px;
+    margin-top: 0px;
+    margin-bottom: 50px;
+}
+
+/* # Each Cart Item Style */
+
+.cart-item{
+    padding: 5px;
+    border: 1px outset #999;
+    border-radius: 8px;
+    margin: 20px 0px;
+    box-shadow: 0px 2px 8px 0px #666;
+    
+}
+
+.cart-item .image-container img{
+    width: 100%;
+    border-radius: 3px;
+}
+
+.cart-item .details{
+    font-size: 1em;
+    padding: 10px;
+
+}
+
+.cart-item .details .product-title{
+    margin:20px 10px;
+    font-weight: bold;
+    font-size: 1.2em;
+    
+}
+
+.cart-item .details .more{
+    padding: 2px;
+}
+
+
+
+.cart-item .details .more ul li{
+    list-style-type: none;
+    margin: 5px 0px;
+}
+
+.cart-item .details .more ul li span{
+    padding: 2px;
+    
+}
+
+
+.cart-item .details .actions{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.cart-item .details .actions .update{
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+
+}
+
+
+.cart-item .details .actions .update .decrease-increase input{
+    width: 80px;
+    margin-left: 10px;
+    text-align: center;
+}
+
+.cart-item .details .actions .update .delete{
+    padding: 5px;
+
+}
+
+.cart-item .details .actions .update .delete .delete-product{
+    font-size: .8em;
+}
+
+.cart-item .details .actions .price{
+    font-size: 1.1em;
+    font-weight: bold;
+    padding: 10px;
+}
+
+
+
+
+/* # End Cart Item Style */
+
+
+
+
+/* # Total Price Section */
+.cart-all-price .total{
+    font-size: 1em;
+    padding: 10px 15px;
+    border: 1px solid #777;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px 0px #666;
+}
+
+
+.cart-all-price .total .price{
+    border-bottom: 1px solid #777;
+    padding: 10px;
+    margin: 20px 0px;
+
+}
+
+.cart-all-price .total .price span{
+    font-size: 1.2em;
+    color: #333;
+
+}
+
+.cart-all-price .total .price h4{
+    font-weight: bold;
+    margin-top: 10px;
+
+}
+
+
+.cart-all-price .total .discount-section{
+    margin: 20px 10px;
+
+}
+
+.cart-all-price .total .discount-section .active-code{
+    background-color: rgba(39, 174, 96,.8) !important;
+}
+
+.cart-all-price .total .discount-section .active-code span{
+    font-weight: bold;
+
+}
+.cart-all-price .total .discount-section .active-code input{
+
+}
+
+
+
+/* # Total Price Section */
