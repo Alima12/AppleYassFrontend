@@ -2,8 +2,9 @@
   <nav>
     <div class="nav-right">
         <router-link to="/"><i class="fa fa-home"></i></router-link>
-        <router-link to="/cart">
+        <router-link to="/cart" class="cart-icon">
             <i class="fa fa-shopping-cart"></i>
+            <span class="badge badge-danger">{{$store.getters.getCartQuantity}}</span>
         </router-link>
 
         <router-link to="/about" class="search-box-input">
@@ -41,3 +42,17 @@ export default {
   }
 }
 </script>
+<style>
+  .cart-icon{
+    position: relative;
+  }
+  .cart-icon span{
+    position: absolute;
+    font-size: .8em;
+    color: white;
+    right: -5px;
+    background: #e74c3c;
+    padding: 2px 4px;
+    border-radius: 10px;
+  }
+</style>
