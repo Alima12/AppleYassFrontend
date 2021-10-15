@@ -11,7 +11,7 @@ const mutations= {
   },
   addNumber(state,items){
     let product = state.cartItems.find(i=> i.code == items[0] && i.color == items[2])
-    product.count += items[1];
+    product.count = items[1];
   }
 
 }
@@ -49,15 +49,15 @@ const getters = {
   getCartItems: state => state.cartItems,
   getCartTotalPrice: state=>{
     let totalPrice = 0;
-    state.cartItems.reduce(item=>{
-      totalPrice += (item.price * item.quantity);
+    state.cartItems.forEach(item => {
+      totalPrice += (item.price * item.count);
     });
     return totalPrice;
   },
   getCartQuantity: state=>{
     let totalItems = 0;
-    state.cartItems.reduce(item=>{
-      totalItems += item.quantity;
+    state.cartItems.forEach(item => {
+      totalItems += item.count;
     });
     return totalItems
   }

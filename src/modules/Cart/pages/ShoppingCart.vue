@@ -2,12 +2,10 @@
   <h2 class="bg-dark text-white text-center p-3">
     سبد خرید
     <i class="fa fa-shopping-cart text-success mx-2"></i>
-    </h2>
+  </h2>
   <div class="container-fluid produoct-cart-items">
-      <cartItem :item="{}" />
-      <cartItem :item="{}" />
-      <cartItem :item="{}" />
-      <cartItem :item="{}" />
+      <cartItem :item="item"  v-for="item in items"/>
+
   </div>
   <div class="container-fluid cart-all-price">
     <div class="row d-flex justify-content-end">
@@ -15,7 +13,7 @@
            <div class="total text-center">
             <div class="price">
               <span>جمع سبد خرید</span>
-              <h4>2,900,000 تومان</h4>
+              <h4>{{totalPrice.toLocaleString()}} تومان</h4>
             </div>
             <div class="discount-section">
                 <div class="accordion" id="accordionExample">
@@ -25,7 +23,7 @@
                         تخفیف
                       </button>
                     </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                       <div class="accordion-body">
                         <div class="input-group mb-3 active-code">
                           <span class="input-group-text" id="inputGroup-sizing-default">کد تخفیف</span>
@@ -53,6 +51,18 @@
     name: "ShoppingCart",
     components:{
       cartItem,
-    }
+    },
+    data(){
+      return {
+        items:this.$store.getters.getCartItems,
+        totalPrice:this.$store.getters.getCartTotalPrice,
+      }
+    },
+    created(){
+      setInterval(()=>{
+        this.totalPrice = this.$store.getters.getCartTotalPrice;
+      },1000);
+    },
+
   }
 </script>

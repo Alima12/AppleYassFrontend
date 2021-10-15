@@ -1,10 +1,10 @@
 <template>
     <div class="row cart-item">
         <div class="col-2 image-container">
-            <img src="https://dkstatics-public.digikala.com/digikala-products/114699730.jpg" alt="">
+            <img :src="item.img" alt="">
         </div>
         <div class="col-10 details">
-            <h4 class="product-title">اسپیکر jbl قابل حمل</h4>
+            <h4 class="product-title">{{item.name}}</h4>
             <div class="more">
                 <ul>
 
@@ -40,14 +40,14 @@
             <div class="actions">
                 <div class="update">
                     <div class="decrease-increase">
-                        <input type="number" name="" id="" min="1">
+                        <input type="number" name="" id="" min="1" v-model="count">
                     </div>
                     <div class="delete">
                         <button class="btn btn-danger delete-product"><i class="fa fa-trash"></i></button>
                     </div>
                 </div>
                 <div class="price">
-                    <span>58,000 تومان</span>
+                    <span>{{item.price.toLocaleString()}} تومان</span>
                 </div>
             </div>
         </div>
@@ -56,6 +56,24 @@
 <script>
   export default {
     name: "cartItem",
-    props:['item']
+    props:['item'],
+    data(){
+        let count = this.item.count;
+
+        return {
+            count,
+        }
+    },
+    methods:{
+      increase(){
+          this.$store.dispatch("updateItem",[this.item.code,this.count,this.item.color]);
+      }
+    },
+    watch:{
+        count(){
+            this.increase();
+        }
+    }
+
   }
 </script>

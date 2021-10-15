@@ -1,6 +1,5 @@
 <template>
 <div class="container-fluid single-product">
-  {{$store.getters.getCartItems}}
   <div class="row mb-3">
     <h3 class="text-center">{{product.name}}</h3>
     <div class="px-3 mb-3">
@@ -215,7 +214,10 @@
           code:this.product.code,
           color,
           count:this.count,
-          price: this.price
+          price: this.price,
+          img:this.image,
+          name:this.product.name
+
         }
         this.$store.dispatch('addItem',item);
       }
