@@ -41,7 +41,7 @@ const actions = {
   },
   updateItem({commit},items){
     commit('addNumber',items)
-    
+
   }
 }
 

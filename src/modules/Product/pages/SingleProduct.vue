@@ -221,6 +221,7 @@
         }
         this.$store.dispatch('addItem',item);
       }
+      this.$router.push('/cart')
 
     }
 
