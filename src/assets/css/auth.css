@@ -1,0 +1,76 @@
+.Loginroot{
+    height:100%;
+    width:100%;
+    background-size:100% 100%;
+    background-image: url('https://wallpapershome.com/images/wallpapers/macos-big-sur-1440x2560-wwdc-2020-4k-22654.jpg');
+    margin-bottom:0px;
+}
+
+.auth-container{
+    background-color: #f1f2f6;
+    border-radius: 20px;
+    box-shadow: 0px 2px 8px 0px #444;
+    padding: 20px 5px;
+    color: #444;
+    font-size: 1em;
+}
+
+.auth-container .auth-form{
+    padding: 10px 5px;
+
+}
+
+.auth-container .auth-form .title{
+    margin: 20px 0px;
+    margin-bottom: 50px;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.auth-container .auth-form .title p{
+    text-align: center;
+    color: #2f3542;
+}
+
+.auth-container .auth-form form{
+
+}
+
+.auth-container .auth-form form div{
+    padding: 10px 20px;
+    margin: 15px 0px;
+}
+
+.auth-container .auth-form form div label{
+    margin-bottom: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+.auth-container .auth-form form div input{
+    height: 45px;
+}
+
+.auth-container .auth-form form div button{
+    padding: 10px 5px;
+    font-weight: bold;
+}
+
+.auth-container .auth-form form div.link-to{
+    margin: 10px 5px;
+    font-size: .9em;
+}
+
+.auth-container .auth-form form div.link-to span{
+    font-size: 1.1em;
+    margin-right: 5px;
+
+}
+.auth-container .auth-form form div.link-to a{
+    font-size: 1.3em;
+    margin-right: 10px;
+    
+}
+
+.auth-container .auth-form form div.link-to span i{
+    font-size: 1.4em;
+}
