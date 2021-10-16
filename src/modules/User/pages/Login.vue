@@ -22,6 +22,11 @@
       <span>حساب کاربری ندارید؟ </span>
        <router-link to="/auth/register">ثبت نام</router-link>
     </div>
+    <div class="link-to">
+      <span><i class="fa fa-key"></i></span>
+      <span>رمز عبور خود را فراموش کرده اید؟</span>
+       <router-link to="/auth/reset_password">بازیابی</router-link>
+    </div>
     <div> 
       <button class="btn btn-primary w-25 float-end">ورود</button>
     </div>
