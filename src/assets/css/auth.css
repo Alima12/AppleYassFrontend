@@ -48,41 +48,41 @@
 
 }
 
-.auth-container .auth-form form div{
+.auth-container .auth-form form>div{
     padding: 10px 20px;
     margin: 15px 0px;
 }
 
-.auth-container .auth-form form div label{
+.auth-container .auth-form form>div label{
     margin-bottom: 8px;
     font-size: 1.1em;
     font-weight: bold;
 }
-.auth-container .auth-form form div input{
+.auth-container .auth-form form>div input{
     height: 45px;
 }
 
-.auth-container .auth-form form div button{
+.auth-container .auth-form form>div button{
     padding: 10px 5px;
     font-weight: bold;
 }
 
-.auth-container .auth-form form div.link-to{
+.auth-container .auth-form form>div.link-to{
     margin: 10px 5px;
     font-size: .9em;
 }
 
-.auth-container .auth-form form div.link-to span{
+.auth-container .auth-form form>div.link-to span{
     font-size: 1.1em;
     margin-right: 5px;
 
 }
-.auth-container .auth-form form div.link-to a{
+.auth-container .auth-form form>div.link-to a{
     font-size: 1.3em;
     margin-right: 10px;
     
 }
 
-.auth-container .auth-form form div.link-to span i{
+.auth-container .auth-form form>div.link-to span i{
     font-size: 1.4em;
 }
