@@ -1,7 +1,7 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
 const state = {
-  isAuthenticated:false,
+  isAuthenticated:true,
   token:""
 }
 

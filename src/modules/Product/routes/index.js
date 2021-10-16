@@ -5,7 +5,9 @@ export default [
   {
     path: '/product/:code',
     name: 'SingleProduct',
-    component: SingleProduct
+    component: SingleProduct,
+    loginRedirect:true
+
   },
 
 ]

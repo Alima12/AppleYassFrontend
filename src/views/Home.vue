@@ -9,6 +9,7 @@
     </main>
     
   </div>
+    <Footer />
 </template>
 
 <script>
@@ -19,7 +20,7 @@ import SuperOffer from "../modules/Product/components/SuperOffer";
 import NewProducts from "../modules/Product/components/NewProducts";
 import Categories from "../components/Categories";
 
-
+  import Footer from "../components/Footer"
 
 
 import "@/assets/css/home.css"
@@ -32,6 +33,7 @@ export default {
     SuperOffer,
     NewProducts,
     Categories,
+    Footer
   }
 }
 </script>

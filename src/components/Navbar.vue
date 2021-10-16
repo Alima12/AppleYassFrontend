@@ -7,15 +7,15 @@
             <span class="badge badge-danger">{{$store.getters.getCartQuantity}}</span>
         </router-link>
 
-        <router-link to="/about" class="search-box-input">
-            <input type="text" class="searchInput form-control" :class="{'active':active==true}"/>
-            <i class="fa fa-search" @click="toggleSearchBox()"></i>
+        <router-link to="/search" class="search-box-input">
+            <input type="text" class="searchInput form-control"/>
+            <i class="fa fa-search"></i>
         </router-link>
     </div>
     <div class="nav-left">
         <div class="register-login">
             <i class="fa fa-user"></i>
-            <router-link to="/register">
+            <router-link to="/auth">
             ثبت نام / ورود
             </router-link>
             
@@ -28,18 +28,6 @@
 
 export default {
   name: 'Navbar',
-  data(){
-    return {
-        active: false
-    }
-  },
-  components: {
-  },
-  methods:{
-    toggleSearchBox(){
-        this.active = !this.active;
-    }
-  }
 }
 </script>
 <style>
