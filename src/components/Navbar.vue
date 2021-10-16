@@ -15,7 +15,7 @@
     <div class="nav-left">
         <div class="register-login">
             <i class="fa fa-user"></i>
-            <router-link to="/auth">
+            <router-link to="/auth/login">
             ثبت نام / ورود
             </router-link>
             

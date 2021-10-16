@@ -8,23 +8,8 @@
         </div>
       </div>
     </div>
-
-
-
-
-
-
-
-
-          <!-- <router-link to="/auth/login">login</router-link>  -->
-  
   </div>
 </div>
-
-
-
-
-
 </template>
 <script>
 import '@/assets/css/auth.css'
