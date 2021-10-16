@@ -4,7 +4,7 @@
   </div>
   <form action="" class="needs-validation" novalidate @submit.prevent="formvalid()">
     <div>
-      <label for="username" class="form-label"> نام کاربری:</label>
+      <label for="email" class="form-label"> ایمیل:</label>
       <input class="form-control" :class="{'is-valid':emailE==false,'is-invalid':emailE==true}"  v-model="email" name="username" required/>
       <div class="invalid-feedback">
         {{emailEM}}
