@@ -36,6 +36,8 @@
         panelRoutes:[
           {path:"/panel/dashboard",title:"داشبورد",icon:"i-dashboard"},
           {path:"/panel/profile",title:"پروفایل",icon:"i-user__inforamtion"},
+          {path:"/panel/users",title:"کاربران",icon:"i-users"},
+
         ]
       }
     },

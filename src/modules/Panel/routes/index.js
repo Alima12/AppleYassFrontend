@@ -1,7 +1,7 @@
 import HomePanel from "../pages/Main.vue"
 import Dashboard from "../pages/Home.vue"
 import Profile from "../pages/Profile.vue"
-
+import Users from "../pages/Users.vue"
 
 
 export default [
@@ -21,6 +21,12 @@ export default [
         path: 'profile',
         name: 'پروفایل',
         component: Profile,
+
+      },
+      {
+        path: 'users',
+        name: 'کاربران',
+        component: Users,
 
       },
     ]

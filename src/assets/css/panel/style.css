@@ -596,7 +596,7 @@ textarea {
 }
 
 .sidebar__nav .i-users a::before {
-    content: "\E136";
+    content: "\f0c0";
 }
 
 .sidebar__nav .i-categories a::before {

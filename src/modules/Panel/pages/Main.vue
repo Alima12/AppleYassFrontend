@@ -15,7 +15,6 @@
   </div>
   <div class="content">
     <HeaderPanel />
-    <!-- {{$route}} -->
     <div class="breadcrumb">
         <ul>
             <li v-for="route in $route.matched">
