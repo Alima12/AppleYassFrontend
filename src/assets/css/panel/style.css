@@ -585,6 +585,15 @@ textarea {
     color: #2b4a83;
     
 }
+.sidebar__nav .i-chart a::before {
+    content: "\f201";
+    
+}
+
+.sidebar__nav .i-basket a::before {
+    content: "\f291";
+    
+}
 
 .sidebar__nav .i-dashboard a::before {
     content: "\f080";
@@ -595,16 +604,20 @@ textarea {
     content: "\E0c2";
 }
 
+.sidebar__nav .i-setting a::before {
+    content: "\f013";
+}
+
 .sidebar__nav .i-users a::before {
     content: "\f0c0";
 }
 
 .sidebar__nav .i-categories a::before {
-    content: "\E028";
+    content: "\f03a";
 }
 
 .sidebar__nav .i-slideshow a::before {
-    content: "\E0f7";
+    content: "\f03e";
 }
 
 .sidebar__nav .i-ads a::before {
@@ -622,7 +635,7 @@ textarea {
 
 
 .sidebar__nav .i-comments a::before {
-    content: "\E047";
+    content: "\f27a";
 }
 
 .sidebar__nav .i-tickets a::before {
@@ -630,11 +643,15 @@ textarea {
 }
 
 .sidebar__nav .i-transactions a::before {
-    content: "\E0f1";
+    content: "\f0d6";
+}
+
+.sidebar__nav .i-orders a::before {
+    content: "\f0d1";
 }
 
 .sidebar__nav .i-discounts a::before {
-    content: "\E020";
+    content: "\f06b";
 }
 .bg-fafafa{
     background-color: #fafafa;
@@ -957,41 +974,32 @@ textarea {
     padding: 20px;
     width: 100%;
 }
+.slide-action a{
+    font-family: FontAwesome;
+    font-size: 23px;
 
+}
 .item-delete:before {
-    content: '\e129';
-    font-size: 16px;
+    content: '\f1f8';
+    color: #d63031;
 }
 
-.item-reject:before {
-    content: '\e043';
-    font-size: 16px;
-
-}
-
-.item-confirm:before {
-    content: '\e037';
-    font-size: 16px;
-
-}
 .item-eye:before {
-    content: '\e065';
-    font-size: 14px;
+    content: '\f06e';
+    color: #9b59b6;
+
 }
 .item-lock:before {
     content: '\E0c4';
-    font-size: 16px;
+}
 
-}
-.item-answer:before {
-    content: '\e037';
-    font-size: 16px;
-}
 
 .item-edit:before {
-    content: '\e141';
-    font-size: 16px;
+    content: '\f14b';
+    color: #f1c40f;
 }
+
+
 .tab__box{
     background: #fff;
     margin-bottom: 30px;
