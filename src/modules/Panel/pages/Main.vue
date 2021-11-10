@@ -8,7 +8,7 @@
               <div class="v-dialog__container" style="display: block;"></div>
               <div class="box__camera default__avatar"></div>
           </div>
-          <span class="profile__name">کاربر : محمد نیکو</span>
+          <span class="profile__name">کاربر : علی مهدوی</span>
       </div>
 
       <SideBar />
