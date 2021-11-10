@@ -1,6 +1,13 @@
 <template>
   <ul>
-        <li class="item-li i-dashboard is-active"><a href="index.html">پیشخوان</a></li>
+        <li
+          v-for="route in panelRoutes"
+          class="item-li"
+          :class="setClass(route)"
+        >
+          <router-link :to="route.path">{{route.title}}</router-link>  
+        </li>  
+        <!-- <li class="item-li i-dashboard is-active"><a href="index.html">پیشخوان</a></li> -->
         <!-- <li class="item-li i-courses "><a href="courses.html">دوره ها</a></li>
         <li class="item-li i-users"><a href="users.html"> کاربران</a></li>
         <li class="item-li i-categories"><a href="categories.html">دسته بندی ها</a></li>
@@ -18,13 +25,28 @@
         <li class="item-li i-my__peyments"><a href="mypeyments.html">پرداخت های من</a></li>
         <li class="item-li i-notification__management"><a href="notification-management.html">مدیریت اطلاع رسانی</a>
         </li> -->
-        <li class="item-li i-user__inforamtion"><a href="user-information.html">پروفایل</a></li>
     </ul>
 </template>
 <script>
 
   export default {
     name: "SideBar",
+    data(){
+      return{
+        panelRoutes:[
+          {path:"/panel/dashboard",title:"داشبورد",icon:"i-dashboard"},
+          {path:"/panel/profile",title:"پروفایل",icon:"i-user__inforamtion"},
+        ]
+      }
+    },
+    methods:{
+      setClass(route){
+        console.log(this.$route.path)
+        let cls = `${route.icon}`
+        cls += route.path == this.$route.path ? ` is-active` : ''
+        return cls
+      }
+    }
   }
 </script>
 

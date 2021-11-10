@@ -51,7 +51,5 @@
     color:#444;
     cursor: pointer; 
 }
-.bars:hover{
-    color: gold;
-}
+
 </style>

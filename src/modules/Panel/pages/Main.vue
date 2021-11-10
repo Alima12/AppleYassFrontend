@@ -20,19 +20,17 @@
             <li><a href="index.html" title="پیشخوان">پیشخوان</a></li>
           </ul>
     </div>
-    <Home />
+    <router-view></router-view>
 </div>
   
 </template>
 <script>
-  import Home from "./Home"
   import SideBar from "../components/SideBar"
   import HeaderPanel from '../components/Header'
 
   export default {
     name: "Panel",
     components:{
-      Home,
       SideBar,
       HeaderPanel
 

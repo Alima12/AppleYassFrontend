@@ -1,12 +1,12 @@
 <template>
 
   <div class="main-content">
-    this is home Page
+    this is Profile Page
   </div>
 </template>
 <script>
   export default {
-    name: "Home",
+    name: "Profile",
     components:{},
     created(){
        
