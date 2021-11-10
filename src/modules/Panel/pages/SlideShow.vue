@@ -1,7 +1,6 @@
 <template>
 
   <div class="main-content">
-    {{slides}}
      <div class="tab__box">
             <div class="tab__items">
                 <a class="tab__item is-active" href="slideshow.html">لیست اسلاید ها</a>
