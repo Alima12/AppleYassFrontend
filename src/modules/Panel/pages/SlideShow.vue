@@ -1,6 +1,7 @@
 <template>
 
   <div class="main-content">
+    {{slides}}
      <div class="tab__box">
             <div class="tab__items">
                 <a class="tab__item is-active" href="slideshow.html">لیست اسلاید ها</a>
@@ -32,7 +33,13 @@
                     </td>
                     <td>1399/11/11</td>
                     <td class="slide-action">
-                        <a href="" target="_blank" class="item-eye mlg-15" title="وضعیت"></a>
+                        <a 
+                          class="item-eye mlg-15"
+                          title="وضعیت"
+                          @click.prevent="deactive(slide.index)"
+                          :class="{'deactive':slide.isActive}"
+                        >
+                        </a>
                         <a href="" class="item-edit  mlg-15" title="ویرایش"></a>
                         <a href="" class="item-delete mlg-15" title="حذف"></a>
                     </td>
@@ -53,25 +60,33 @@
     },
     data(){
         return{
-            slides:[
-          {
-            index:1 ,
-            image:"https://photos5.appleinsider.com/gallery/43148-83800-210713-iPhone12-xl.jpg",
-            text:"اپل یاس ",
-          },
-          {
-            index:2 ,
-            image:"https://9to5mac.com/wp-content/uploads/sites/6/2021/04/big-display-imac.jpg",
-            text:"اپل یاس ",
-          },
-          {
-            index:3 ,
-            image:"https://cdn.mos.cms.futurecdn.net/LjqKgNBc8TCXke3CNekJgA.jpg",
-            text:"اپل یاس ",
-          }
+          slides:[
+              {
+                index:1 ,
+                image:"https://photos5.appleinsider.com/gallery/43148-83800-210713-iPhone12-xl.jpg",
+                text:"اپل یاس ",
+                isActive:true,
+              },
+              {
+                index:2 ,
+                image:"https://9to5mac.com/wp-content/uploads/sites/6/2021/04/big-display-imac.jpg",
+                text:"اپل یاس ",
+                isActive:true,
+              },
+              {
+                index:3 ,
+                image:"https://cdn.mos.cms.futurecdn.net/LjqKgNBc8TCXke3CNekJgA.jpg",
+                text:"اپل یاس ",
+                isActive:true,
+              }
         
-      ]
-        }
+        ]
+      }
+    },
+    methods:{
+      deactive(index){
+        this.slides.find(slide=>slide.index == index).isActive = !this.slides.find(slide=>slide.index == index).isActive
+      }
     }
   }
 

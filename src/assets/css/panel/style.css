@@ -985,8 +985,15 @@ textarea {
 }
 
 .item-eye:before {
+    content: '\f070';
+    color: #2c3e50;
+    transition: all 1s;
+
+}
+
+.item-eye.deactive:before {
     content: '\f06e';
-    color: #9b59b6;
+    color: #2980b9;
 
 }
 .item-lock:before {
