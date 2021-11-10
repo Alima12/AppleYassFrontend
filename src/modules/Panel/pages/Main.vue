@@ -15,10 +15,13 @@
   </div>
   <div class="content">
     <HeaderPanel />
+    <!-- {{$route}} -->
     <div class="breadcrumb">
         <ul>
-            <li><a href="index.html" title="پیشخوان">پیشخوان</a></li>
-          </ul>
+            <li v-for="route in $route.matched">
+              <router-link :to="route.path">{{route.name}}</router-link>
+            </li>
+        </ul>
     </div>
     <router-view></router-view>
 </div>

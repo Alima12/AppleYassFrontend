@@ -7,19 +7,21 @@ import Profile from "../pages/Profile.vue"
 export default [
   {
     path: '/panel',
-    name: 'homePanel',
+    name: 'پنل',
     component: HomePanel,
     loginRequired:true,
     children: [
       {
         path: 'dashboard',
-        name: 'Dashboard',
+        name: 'پیشخوان',
         component: Dashboard,
+
       },
       {
         path: 'profile',
-        name: 'Profile',
+        name: 'پروفایل',
         component: Profile,
+
       },
     ]
   },
