@@ -36,6 +36,12 @@ const router = createRouter({
 
 
 router.beforeEach((to, from, next) => {
+  if(to.matched.length == 1 && to.matched[0].path == "/panel"){
+    next("/panel/dashboard")
+  }
+  if(to.matched.length == 1 && to.matched[0].path == "/auth"){
+    next("/")
+  }
   if (to.matched.some(record => record.meta.loginRequired)) {
     if (store.state.user.isAuthenticated) {
       next()
