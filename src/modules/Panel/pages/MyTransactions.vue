@@ -1,7 +1,7 @@
 <template>
 
   <div class="main-content">
-    this is MyTransactions Page
+    
   </div>
 </template>
 <script>

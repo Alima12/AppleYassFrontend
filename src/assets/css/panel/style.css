@@ -373,12 +373,12 @@ textarea {
     cursor: pointer;
 }
 
-.btn-webamooz_net {
+.btn-my-styles {
     background-color: #46b2f0 !important;
     color: #fff;
 }
 
-.btn-webamooz_net:hover {
+.btn-my-styles:hover {
     background-color: #259ee3 !important;
     transition: background-color 200ms;
 }
@@ -596,7 +596,7 @@ textarea {
 }
 
 .sidebar__nav .i-dashboard a::before {
-    content: "\f080";
+    content: "\f009";
     
 }
 
@@ -981,17 +981,21 @@ textarea {
 }
 .item-delete:before {
     content: '\f1f8';
+    font-family: FontAwesome;
     color: #d63031;
 }
 
 .item-eye:before {
-    content: '\f070';
+    content: '\f06e';
+
     color: #2c3e50;
+    font-family: FontAwesome;
     transition: all 1s;
 
 }
 
 .item-eye.deactive:before {
+    content: '\f070';
     content: '\f06e';
     color: #2980b9;
 
@@ -1004,6 +1008,8 @@ textarea {
 .item-edit:before {
     content: '\f14b';
     color: #f1c40f;
+    font-family: FontAwesome;
+
 }
 
 

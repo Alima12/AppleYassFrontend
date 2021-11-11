@@ -29,6 +29,7 @@
 <script>
   import SideBar from "../components/SideBar"
   import HeaderPanel from '../components/Header'
+  import 'vue-loading-overlay/dist/vue-loading.css';
 
   export default {
     name: "Panel",
@@ -75,6 +76,7 @@
   @import "../../../assets/css/panel/style.css";
   @import "../../../assets/css/panel/responsive_768.css";
   @import "../../../assets/css/panel/responsive_991.css";
+  
   .header nav.panel{
     display: none ;
   }
