@@ -49,8 +49,16 @@ export default [
         name: 'مدیریت اسلاید ها',
         component: SlideShow,
         adminPermission:true,
-
+        children:[
+          {
+            path: 'add',
+            name: 'افزودن اسلاید',
+            component: SlideShow,
+            adminPermission:true,
+          },
+        ]
       },
+
       {
         path: 'mytransactions',
         name: 'تراکنش های من',
