@@ -42,7 +42,13 @@ export default [
         name: 'کاربران',
         component: Users,
         adminPermission:true,
-
+        children:[
+          {
+            path: 'new',
+            name: 'افزودن کاربر جدید',
+            component: Users,
+          },
+        ]
       },
       {
         path: 'slideshow',
