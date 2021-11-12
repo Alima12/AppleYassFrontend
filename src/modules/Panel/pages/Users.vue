@@ -12,11 +12,11 @@
     <div class="users-list" v-if="$route.path=='/panel/users'">
         <div class="d-flex flex-space-between item-center flex-wrap padding-30 border-radius-3 bg-white">
             <div class="t-header-search">
-                <form action="" onclick="event.preventDefault();">
+                <form action="" @click.prevent="filterUsers()">
                     <div class="t-header-searchbox font-size-13">
-                        <input type="text" class="text search-input__box font-size-13" placeholder="جستجوی کاربر">
+                        <input v-model="sName" type="text" class="text search-input__box font-size-13" placeholder="جستجوی کاربر">
                         <div class="t-header-search-content ">
-                            <input type="text" v-model="sName" class="text margin-bottom-20" placeholder="نام و نام خانوادگی">
+                            <input type="text" v-model="sIP" class="text margin-bottom-20" placeholder="ایپی">
                             <input type="text" v-model="sEmail" class="text"  placeholder="ایمیل">
                             <input type="text" v-model="sNumber" class="text" placeholder="شماره">
                             <btutton class="btn btn-my-styles">جستجو</btutton>
@@ -115,6 +115,7 @@
             sName:"",
             sEmail:"",
             sNumber:"",
+            sIP:"",
             filterdUsers:users,
             activeCat:'all',
             editUser:{}
@@ -222,6 +223,13 @@
             }else{
                 this.filterdUsers = this.users;
                 this.activeCat = 'all';
+            }
+            if(this.sName!="" || this.sEmail!="" || this.sNumber!="" || this.sIP!=""){
+                this.filterdUsers = this.filterdUsers.filter(user=> user.fullname.toLowerCase().includes(this.sName.toLowerCase()));
+                this.filterdUsers = this.filterdUsers.filter(user=> user.email.toLowerCase().includes(this.sEmail.toLowerCase()));
+                this.filterdUsers = this.filterdUsers.filter(user=> user.phoneNumber.includes(this.sNumber));
+                this.filterdUsers = this.filterdUsers.filter(user=> user.ip.includes(this.sIP));
+
             }
         },
         editPrepareUser(){
