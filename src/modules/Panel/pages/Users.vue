@@ -1,5 +1,4 @@
 <template>
-
   <div class="main-content">
     <div class="tab__box">
         <div class="tab__items">
@@ -54,18 +53,45 @@
                     <td>{{user.dateJoin}}</td>
                     <td class="text-success">{{user.ip}}</td>
                     <td>
-                        <a style="font-size:20px" href="" class="item-delete mlg-15" title="حذف"></a>
-                        <a style="font-size:20px" href="" class="item-edit " title="ویرایش"></a>
+                        <a style="font-size:20px;cursor:pointer;" @click.prevent="deleteUser(user.id)" class="item-delete mlg-15" title="حذف"></a>
+                        <router-link :to="`/panel/users/${user.id}`" style="font-size:20px" href="" class="item-edit " title="ویرایش"></router-link>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
+    <div v-else class="create-user">
+         <div class="row no-gutters  bg-white">
+            <div class="col-12">
+                <p class="box__title" v-if="$route.name != 'edit-user'">افزودن کاربر</p>
+                <p class="box__title" v-else>ویرایش کاربر</p>
+                <form action="" class="padding-30" method="post">
+                    <input v-model="editUser.fullname" type="text" class="text" placeholder="نام و نام خانوادگی">
+                    <input v-model="editUser.phoneNumber" type="text" class="text" placeholder="شماره موبایل">
+                    <input v-model="editUser.email" type="text" class="text" placeholder="ایمیل">
+                    <input v-model="editUser.ip" type="text" class="text" placeholder="آی پی" disabled>
+                    <select name="" id="">
+                        <option value="0">کاربر فعال</option>
+                        <option value="1">کاربر غیر فعال</option>
+                        <option value="2">مدیر</option>
+                    </select>
 
+                    <button class="btn btn-my-styles" v-if="$route.name != 'edit-user'">افزودن</button>
+                
+                    <button class="btn btn-my-styles" v-else>ویرایش</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
   </div>
+
 </template>
+
 <script>
+  import Swal from 'sweetalert2'
+
   export default {
     name: "Users",
     components:{},
@@ -90,7 +116,8 @@
             sEmail:"",
             sNumber:"",
             filterdUsers:users,
-            activeCat:'all'
+            activeCat:'all',
+            editUser:{}
         }
     },
     created(){
@@ -106,6 +133,77 @@
 
             }
         })
+        $(document).on('click', '.dropdown-select', function (event) {
+          if ($(event.target).hasClass('dd-searchbox')) {
+              return;
+          }
+          $('.dropdown-select').not($(this)).removeClass('open');
+          $(this).toggleClass('open');
+          if ($(this).hasClass('open')) {
+              $(this).find('.option').attr('tabindex', 0);
+              $(this).find('.selected').focus();
+          } else {
+              $(this).find('.option').removeAttr('tabindex');
+              $(this).focus();
+          }
+      });
+      $(document).on('click', function (event) {
+          if ($(event.target).closest('.dropdown-select').length === 0) {
+              $('.dropdown-select').removeClass('open');
+              $('.dropdown-select .option').removeAttr('tabindex');
+          }
+          event.stopPropagation();
+      });
+      $(document).on('click', '.dropdown-select .option', function (event) {
+          $(this).closest('.list').find('.selected').removeClass('selected');
+          $(this).addClass('selected');
+          var text = $(this).data('display-text') || $(this).text();
+          $(this).closest('.dropdown-select').find('.current').text(text);
+          $(this).closest('.dropdown-select').prev('select').val($(this).data('value')).trigger('change');
+      });
+
+      $(document).on('keydown', '.dropdown-select', function (event) {
+          var focused_option = $($(this).find('.list .option:focus')[0] || $(this).find('.list .option.selected')[0]);
+          if (event.keyCode == 13) {
+              if ($(this).hasClass('open')) {
+                  focused_option.trigger('click');
+              } else {
+                  $(this).trigger('click');
+              }
+              return false;
+              // Down
+          } else if (event.keyCode == 40) {
+              if (!$(this).hasClass('open')) {
+                  $(this).trigger('click');
+              } else {
+                  focused_option.next().focus();
+              }
+              return false;
+              // Up
+          } else if (event.keyCode == 38) {
+              if (!$(this).hasClass('open')) {
+                  $(this).trigger('click');
+              } else {
+                  var focused_option = $($(this).find('.list .option:focus')[0] || $(this).find('.list .option.selected')[0]);
+                  focused_option.prev().focus();
+              }
+              return false;
+              // Esc
+          } else if (event.keyCode == 27) {
+              if ($(this).hasClass('open')) {
+                  $(this).trigger('click');
+              }
+              return false;
+          }
+      });
+
+    },
+    updated(){
+        this.editPrepareUser()
+    },
+    mounted(){
+        this.editPrepareUser()
+
     },
     methods:{
         filterUsers(value=""){
@@ -125,6 +223,60 @@
                 this.filterdUsers = this.users;
                 this.activeCat = 'all';
             }
+        },
+        editPrepareUser(){
+            if(this.$route.params.id){
+                this.editUser = this.users.find(user=> user.id == this.$route.params.id)
+                setTimeout(()=>{
+                    let current = document.querySelector("span.current")
+                    let premission = 'کاربر غیر فعال'
+                    if(this.editUser.isAdmin){
+                        premission = "ادمین"
+                    }else if(this.editUser.isActive){
+                        premission = "کاربر فعال"
+                    }
+                    current.innerText = premission;
+                },1000)
+               
+            }
+        },
+        deleteUser(id){
+            let user = this.users.find(usr=> usr.id == id);
+            Swal.fire({
+                title: '<h5>حذف کاربر</h5>',
+                html: `<div>
+                <div>
+                    <p>اسم: ${user.fullname}</p>
+                    <p>شماره تلفن : ${user.phoneNumber}</p>
+                    <p>ایمیل: ${user.email}</p>
+                    <p>آیپی: ${user.ip}</p>
+
+
+                </div>
+                <p>توجه داشته باشید با حذف کردن کاربر فوق هیچ راهی برای برگرداند آن وجود ندارد</p>
+                <p>*تمامی سوابق کاربر باقی خواهند ماند</p>
+                <small>*از جمله سفارشات و تراکنش ها ولی نام کاربر در آن ذکر نخواهد شد</small>
+                            </div>`,
+                icon: 'warning',
+                confirmButtonText: 'حذف کن',
+                confirmButtonColor:"#e74c3c",
+                CancelButtonColor:"#95a5a6",
+                cancelButtonText:"انصراف",
+                confirmButtonText: 'حذف',
+                showCancelButton: true,
+            }).then(result=>{
+                if (result.isConfirmed) {
+                    this.users = this.users.filter(usr=> usr.id !== user.id);
+                    this.filterUsers()
+                    Swal.fire({
+                        title: 'حذف با موفقیت انجام شد',
+                        text:'دسته بندی مورد نظر حذف شد',
+                        icon:'success',
+                        confirmButtonColor:"#27ae60",
+                        confirmButtonText: 'متوجه شدم',
+                    })
+                }
+            });
         }
     }
   }

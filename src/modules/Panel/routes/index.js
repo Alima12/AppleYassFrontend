@@ -48,6 +48,11 @@ export default [
             name: 'افزودن کاربر جدید',
             component: Users,
           },
+          {
+            path: ':id',
+            name: 'edit-user',
+            component: Users,
+          },
         ]
       },
       {
