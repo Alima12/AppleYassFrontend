@@ -1,7 +1,7 @@
 <template>
 
   <div class="main-content">
-    <form action="">
+    <form action="" @submit.prevent="saveProfile()">
        <div class="profile__info border cursor-pointer text-center">
           <div class="avatar__img">
             <img src="https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg" class="avatar___img">
@@ -26,15 +26,22 @@
       </div>
       <div class="row p-1">
         <div class="col-lg-10 col-md-8 col-sm-12">  
-          <label for="email" class="mb-2">شماره موبایل:</label>
-          <input name="email" v-model="phoneNumber" type="text" class="text font-size-13 text-end" placeholder="شماره موبایل">
+          <label for="number" class="mb-2">شماره موبایل:</label>
+          <input name="number" v-model="phoneNumber" type="text" class="text font-size-13 text-end" placeholder="مثال: 09123456789">
           <button class="btn btn-info" v-if="!changeMode" @click.prevent="changeNumber()">عوض کردن</button>
-          <button class="btn btn-warning" v-else>تایید</button>
-
+          <button class="btn btn-warning" v-else @click.prevent="confirmChange()">تایید</button>
+          
         </div>
         <div class="col-lg-2 col-md-4 col-sm-12" v-if="changeMode">  
           <label for="email" class="mb-2">کد:</label>
-          <input name="email" v-model="phoneNumber" type="text" class="text font-size-13 text-end" placeholder="کد تایید">
+          <input name="email" type="text" class="text font-size-13 text-end" placeholder="کد تایید">
+        </div>
+        <div class="alert alert-danger mt-2 text-center" v-if="phoneNumberE">
+          فرمت وارد شده اشتباه است
+          <br>
+          <p class="text-dark mt-1">
+            شماره باید کاملا با اعداد انگلیسی نوشته شود و با 0 شروع شود
+          </p>
         </div>
       </div>
 
@@ -49,7 +56,6 @@
                 {{address}}
               </span>
               <i class="fa fa-trash fa-2x text-danger" @click="deleteAddress(address)"></i>
-              
             </p>
           </div> 
           <button class="btn btn-success d-flex align-items-center" @click.prevent="addAdress()"><i class="fa fa-plus-circle fa-2x"></i></button>
@@ -57,9 +63,6 @@
       </div>
 
       <div class="row p-1 my-3">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-           
-        </div>
         <div class="col-lg-4 col-md-8 col-sm-12 mx-auto">
           <button class="w-100 btn btn-primary p-3">
             <span>
@@ -83,6 +86,8 @@
       return{
         fullname:"",
         changeMode:false,
+        phoneNumber:'',
+        phoneNumberE:false,
         user:{
           address:[
             "فارس/شیراز/گلستان/خیابان رایحه/مجتمع فرهنگیان/بلوک 2/ طبقه اول /واحد 412",
@@ -95,8 +100,17 @@
       }
     },
     methods:{
+      confirmChange(){
+        // do ajax
+      },
       changeNumber(){
-        this.changeMode = true;
+        if (/^0\d{10}$/.test(this.phoneNumber)){
+          this.changeMode = true;
+          // do ajax
+        }else{
+          this.phoneNumberE = true
+        }
+
       },
       deleteAddress(address){
         Swal.fire({
@@ -148,7 +162,11 @@
               this.newAddress = "";
           }
         });
-      }
+      },
+      saveProfile(){
+
+      },
+      
       
     },
     mounted(){
@@ -162,6 +180,10 @@
     watch:{
       fileImg(){
         this.imageChanged = true; 
+      },
+      phoneNumber(){
+        this.changeMode = false;
+        this.phoneNumberE = false;
       }
     }
 
