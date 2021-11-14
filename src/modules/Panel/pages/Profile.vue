@@ -52,9 +52,24 @@
               
             </p>
           </div> 
-          <button class="btn btn-success" @click.prevent="addAdress()">اضافه کردن</button>
+          <button class="btn btn-success d-flex align-items-center" @click.prevent="addAdress()"><i class="fa fa-plus-circle fa-2x"></i></button>
         </div>
       </div>
+
+      <div class="row p-1 my-3">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+           
+        </div>
+        <div class="col-lg-4 col-md-8 col-sm-12 mx-auto">
+          <button class="w-100 btn btn-primary p-3">
+            <span>
+              ذخیره
+            </span> 
+          </button>
+        </div>
+      </div>
+
+
 
     </form>
   </div>
@@ -74,7 +89,9 @@
             "کهگیلویه و بویر احمد/دهدشت/گلزار شهدا/گلزار هشتم"
           ]
         },
-        newAddress:''
+        newAddress:'',
+        fileImg:"",
+        imageChanged:false
       }
     },
     methods:{
@@ -133,6 +150,19 @@
         });
       }
       
+    },
+    mounted(){
+      setTimeout(()=>{
+        let fileInput= document.querySelector(".avatar-img__input")
+        $(".avatar-img__input").on('change', (e)=> {
+          this.fileImg = e.target.files[0];
+        });
+      },1000);
+    },
+    watch:{
+      fileImg(){
+        this.imageChanged = true; 
+      }
     }
 
   }
