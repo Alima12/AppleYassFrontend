@@ -12,11 +12,15 @@
           <span class="profile__name">کاربر : علی مهدوی</span>
         </div>
       <div class="row p-1">
-        <div class="col-lg-6 col-md-6 col-sm-12">  
+        <div class="col-lg-6 col-md-6 col-sm-6">  
           <label for="fullname" class="mb-2">نام و نام خانوادگی:</label>
           <input name="fullname" v-model="fullname" type="text" class="text font-size-13" placeholder="نام و نام خانوادگی">
         </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 d-flex align-items-center justify-content-end">  
+          <router-link to="/panel" class="btn btn-my-styles">تغییر رمز</router-link>
+        </div>
       </div>
+
 
       <div class="row p-1">
         <div class="col-lg-12 col-md-12 col-sm-12">  
@@ -51,11 +55,11 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
           <div class="current-address">
             <h4>آدرس ها</h4>
-            <p class="user-address" v-for="address in user.address">
+            <p class="user-address" v-for="add in address">
               <span>
-                {{address}}
+                {{add}}
               </span>
-              <i class="fa fa-trash fa-2x text-danger" @click="deleteAddress(address)"></i>
+              <i class="fa fa-trash fa-2x text-danger" @click="deleteAddress(add)"></i>
             </p>
           </div> 
           <button class="btn btn-success d-flex align-items-center" @click.prevent="addAdress()"><i class="fa fa-plus-circle fa-2x"></i></button>
@@ -88,12 +92,11 @@
         changeMode:false,
         phoneNumber:'',
         phoneNumberE:false,
-        user:{
-          address:[
+        address:[
             "فارس/شیراز/گلستان/خیابان رایحه/مجتمع فرهنگیان/بلوک 2/ طبقه اول /واحد 412",
             "کهگیلویه و بویر احمد/دهدشت/گلزار شهدا/گلزار هشتم"
-          ]
-        },
+        ],
+        email:"aliali.ali1378@yahoo.com",
         newAddress:'',
         fileImg:"",
         imageChanged:false
@@ -126,7 +129,7 @@
           showCancelButton: true,
         }).then(result=>{
           if (result.isConfirmed) {
-              this.user.address = this.user.address.filter(ad=> ad != address);
+              this.address = this.address.filter(ad=> ad != address);
               Swal.fire({
                   title: 'حذف با موفقیت انجام شد',
                   text:'حذف آدرس با موفقیت انجام شد',
@@ -151,7 +154,7 @@
           this.newAddress = document.querySelector(".new-address-form").value
           if (result.isConfirmed && this.newAddress != '') {
 
-              this.user.address.push(this.newAddress);
+              this.address.push(this.newAddress);
               Swal.fire({
                   title: 'موفق',
                   text:'آدرس با موفقیت اضافه شد',
