@@ -92,6 +92,13 @@ export default [
         name: 'محصولات',
         component: Products,
         adminPermission:true,
+        children:[
+          {
+            path: ':id',
+            name: 'صفحه بندی',
+            component: Products,
+          },
+        ]
 
       },
       {
