@@ -16,13 +16,13 @@
     </div>
     <div class="pagination row">
       <div class="col-lg-6 col-md-8 col-sm-12 mx-auto pages-container">
-        <router-link v-if="page>1" :to="`/panel/products/`+ (parseInt(page) -1).toString()" class="page-item perv">قبلی</router-link>
-        <router-link v-if="page>2" :to="`/panel/products/` + (parseInt(page) -2).toString()"   class="page-item extra">{{page-2}}</router-link>
-        <router-link v-if="page>1" :to="`/panel/products/` + (parseInt(page) -1).toString()"   class="page-item extra">{{page-1}}</router-link>
+        <router-link v-if="page>1" :to="`/panel/products/`+ (page -1).toString()" class="page-item perv">قبلی</router-link>
+        <router-link v-if="page>2" :to="`/panel/products/` + (page -2).toString()"   class="page-item extra">{{page-2}}</router-link>
+        <router-link v-if="page>1" :to="`/panel/products/` + (page -1).toString()"   class="page-item extra">{{page-1}}</router-link>
         <router-link :to="`/panel/products/` + page" class="page-item active">{{page}}</router-link>
-        <router-link v-if="max >= parseInt(page+1)" :to="`/panel/products/` + (parseInt(page) + 1).toString()"   class="page-item extra">{{parseInt(page)+1}}</router-link>
-        <router-link v-if="max >= parseInt(page+2)" :to="`/panel/products/` + (parseInt(page) +2).toString()"   class="page-item extra">{{parseInt(page)+2}}</router-link>
-        <router-link v-if="max >= parseInt(page+1)" :to="`/panel/products/` + (parseInt(page) + 1).toString()" class="page-item next">
+        <router-link v-if="max >= (page+1)" :to="`/panel/products/` + (page + 1).toString()"   class="page-item extra">{{page+1}}</router-link>
+        <router-link v-if="max >= (page+2)" :to="`/panel/products/` + (page +2).toString()"   class="page-item extra">{{page+2}}</router-link>
+        <router-link v-if="max >= (page+1)" :to="`/panel/products/` + (page + 1).toString()" class="page-item next">
           بعدی
         </router-link>
       </div>
