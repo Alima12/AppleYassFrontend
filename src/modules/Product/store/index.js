@@ -149,6 +149,7 @@ const state = {
       guarantee:"گارانتی بازگشت وجه 7 روزه",
       maxCount:4,
       isUserFavorite:false,
+      category:{name:"اپل"},
       images: [
         {id:1,image:"https://dkstatics-public.digikala.com/digikala-products/113542044.jpg"},
         {id:2,image:"https://dkstatics-public.digikala.com/digikala-products/113542040.jpg"},

@@ -98,6 +98,11 @@ export default [
             name: 'صفحه بندی',
             component: Products,
           },
+          {
+            path: 'new',
+            name: 'محصول جدید',
+            component: Products,
+          },
         ]
 
       },
