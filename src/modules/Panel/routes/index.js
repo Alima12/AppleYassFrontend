@@ -103,6 +103,11 @@ export default [
             name: 'محصول جدید',
             component: Products,
           },
+          {
+            path: 'edit/:code',
+            name: 'ویرایش محصول',
+            component: Products,
+          },
         ]
 
       },

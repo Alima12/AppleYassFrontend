@@ -21,7 +21,20 @@ const state = {
           image:"https://dkstatics-public.digikala.com/digikala-products/121904901.jpg"
         },
       ],
-      attributes:["جنسه بدنه: آلمینیوم","حافظه داخلی: 64 گیگابایت ","شبکه های ارتباطی: بدون سیم‌کارت","رابط‌ها: جک 3.5 میلی‌متری صدا"],
+      attributes:[
+        {
+         text:"جنسه بدنه: آلمینیوم"
+        },
+        {
+          text:"حافظه داخلی: 64 گیگابایت "
+        },
+        {
+          text:"شبکه های ارتباطی: بدون سیم‌کارت"
+        },
+        {
+          text:"رابط‌ها: جک 3.5 میلی‌متری صدا"
+        }
+      ],
       comments:[
         {name:"علی", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:20,dislikes:19,content:"عالیه حتما بخرید",reply:[]},
         {name:"محمد", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:10,dislikes:50,content:"عالیه حتما بخرید",reply:[]},
@@ -30,7 +43,7 @@ const state = {
         {name:"وحیذ", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:50,dislikes:10,content:"عالیه حتما بخرید",reply:[{name:"علی", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:50,dislikes:0,content:"عالیه حتما بخرید"},{name:"علی", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:50,dislikes:0,content:"عالیه حتما بخرید"},{name:"علی", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:50,dislikes:0,content:"عالیه حتما بخرید"}]},
 
       ],
-      technicalattrs:[{name:"",value:""},],
+      technicalattrs:[{name:"قابلیت بی سیم",value:"دارد"}],
       moreDetails: "",
 
 
@@ -60,7 +73,7 @@ const state = {
         },
       ],
       comments:[],
-      technicalattrs:[{name:"",value:""},],
+      technicalattrs:[{name:"قابلیت بی سیم",value:"دارد"},],
       moreDetails: "",
 
     },

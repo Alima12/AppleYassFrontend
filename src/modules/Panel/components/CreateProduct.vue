@@ -1,5 +1,5 @@
 <template>
-
+{{$route.params}}
  <form action="" method="post">
       <div class="row p-1">
         <div class="col-lg-10 col-md-9 col-sm-7">  
@@ -27,6 +27,16 @@
       </div>
      
       <div class="row p-1">
+        <div class="col-lg-12 col-md-12 col-sm-12 image-wrapper">  
+            <div v-for="img in product.images" class="image-exact">
+                <div class="img">
+                    <img :src="img.image" alt="">
+                </div>
+                <div class="delete-image">
+                    <i class="fa fa-times-circle" @click="deleteImage(img.id)"></i>
+                </div>
+            </div>
+        </div>
         <div class="col-lg-12 col-md-12 col-sm-12">  
           <label for="name" class="mb-2">تصاویر:</label>
           <input @change="setFiles()" id="product-images"  name="name" type="file" accept=".jpg, .png, .jpeg, .gif" multiple class="font-size-13" placeholder="تصاویر">
@@ -43,10 +53,10 @@
 
         <div class="row p-1 my-2">
             <div class="col-lg-12 col-md-12 col-sm-12">  
-            <label for="category" class="mb-2">دسته بندی:</label>
-            <select name="" id="" class="form-select" v-model="tempCategory">
-                <option v-for="cat in categories" :value="cat.id">{{cat.title}}</option>
-            </select>
+                <label for="category" class="mb-2">دسته بندی:</label>
+                <select name="" id="" class="form-select" v-model="tempCategory" size="3" aria-label="size 3 select example">
+                    <option v-for="cat in categories" :value="cat.id">{{cat.title}}</option>
+                </select>
             </div>
         </div>
 
@@ -184,6 +194,14 @@
             ],
         }
     },
+    mounted(){
+        let id = this.$route.params.code || null;
+        console.log(id);
+        if(id){
+            let p = this.$store.getters.getProduct(id);
+            this.product = p;
+        }
+    },
     methods:{
         makeid(length) {
             var result           = '';
@@ -210,7 +228,7 @@
             let images = document.querySelector("#product-images");
             for (let index = 0; index < images.files.length; index++) {
                 this.product.images.push({
-                    id:index,
+                    id:this.product.images.length +1,
                     image:images.files[index]
                 });
                 
@@ -225,6 +243,9 @@
         },
         saveProdcut(){
             alert()
+        },
+        deleteImage(id){
+            this.product.images = this.product.images.filter(img=> img.id != id);
         }
     },
     watch:{
@@ -239,5 +260,37 @@
   }
 </script>
 <style>
+.image-wrapper{
+    display: flex;
+    justify-content: start;
+    margin-bottom:40px ;
+}
 
+.image-exact{
+    position: relative;
+    width: 190px;
+    padding: 10px;
+}
+.image-wrapper .img{
+    width: 100%;
+    height: 100%;
+
+}
+
+.image-wrapper .img img{
+    width: 100%;
+    height: 100%;
+
+}
+
+.image-wrapper .delete-image{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+.image-wrapper .delete-image i{
+    font-size: 22px;
+    cursor: pointer;
+    color: red;
+}
 </style>

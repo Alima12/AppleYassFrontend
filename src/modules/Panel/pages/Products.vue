@@ -72,7 +72,6 @@
                     <i class="fa fa-circle fa-2x" :style="`color:${color.color};margin-left:10px`"></i>
                     <span class="fw-bold">{{color.price.toLocaleString()}}</span>&nbsp; | &nbsp;
                     <span class="fw-bold">{{color.inventory}}</span>  موجود
-                    
 
                   </p>
                 </td>
@@ -80,7 +79,7 @@
                   <a class="btn btn-outline-success mx-1" title="مشاهده" :href="`/product/${product.code}`" target="_blank">
                     <i class="fa fa-eye"></i>
                   </a>
-                  <a class="btn btn-outline-primary" title="ویرایش" :href="`/product/${product.code}`" target="_blank">
+                  <a class="btn btn-outline-primary" title="ویرایش" :href="`/panel/products/edit/${product.code}`">
                     <i class="fa fa-pencil"></i>
                   </a>
                 
@@ -107,9 +106,11 @@
         </div>
       </div>
     </div>
-    <div class="new-product" v-else-if="/.{1}panel.{1}products.{1}new$/.test($route.path)" >
+    <!-- -if="/.{1}panel.{1}products.{1}new$/.test($route.path)"  -->
+    <div class="new-product" v-else>
         <CreateEditProduct />
     </div>
+    
 
 
 
