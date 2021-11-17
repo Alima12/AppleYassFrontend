@@ -4,6 +4,9 @@ module.exports = {
       "@vue/app",
       { useBuiltIns: "entry" }
     ]
-  ]
+  ],
+  configureWebpack: {
+    plugins: [new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)]
+  },
 }
 
