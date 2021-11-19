@@ -35,7 +35,7 @@
                               <i class="fa fa-times-circle fa-2x text-danger" v-else></i>
                             </td>
                             <td>
-                                <a href="" class="item-delete mlg-15" @click.prevent="" title="حذف" style="font-size:22px"></a>
+                                <a href="" class="item-delete mlg-15" @click.prevent="deleteDiscount(disc)" title="حذف" style="font-size:22px"></a>
                                 <a href="" class="item-edit " @click.prevent="editDiscount(disc)" style="font-size:22px" title="ویرایش"></a>
                             </td>
                         </tr>
@@ -213,7 +213,33 @@
         this.editMode = true;
         window.scrollTo({top:750,behavior:"smooth"})
 
-      }
+      },
+      deleteDiscount(item){
+        Swal.fire({
+          title: '<h5>حذف کد تخفیف</h5>',
+          html: `<p class="text-danger">آیا از حذف کد تخفیف زیر اطمینان دارید؟</p>
+          <p class="fw-bold">${item.code}</p>`,
+          icon: 'warning',
+          confirmButtonText: 'حذف کن',
+          confirmButtonColor:"#e74c3c",
+          CancelButtonColor:"#95a5a6",
+          cancelButtonText:"انصراف",
+          confirmButtonText: 'حذف',
+          showCancelButton: true,
+        }).then(result=>{
+          if (result.isConfirmed) {
+              this.Discounts = this.Discounts.filter(dic=> dic.code!= item.code);
+              Swal.fire({
+                  title: 'حذف با موفقیت انجام شد',
+                  text:'کد تخفیف مورد نظر با موفقیت حذف شد',
+                  icon:'success',
+                  confirmButtonColor:"#27ae60",
+                  confirmButtonText: 'متوجه شدم',
+              })
+          }
+        });
+      },
+
 
     },
     
