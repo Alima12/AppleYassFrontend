@@ -196,7 +196,6 @@
     },
     mounted(){
         let id = this.$route.params.code || null;
-        console.log(id);
         if(id){
             let p = this.$store.getters.getProduct(id);
             this.product = p;

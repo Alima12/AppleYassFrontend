@@ -1,12 +1,10 @@
 module.exports = {
- presets: [
+  presets: [
     [
       "@vue/app",
       { useBuiltIns: "entry" }
     ]
   ],
-  configureWebpack: {
-    plugins: [new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)]
-  },
+
 }
 
