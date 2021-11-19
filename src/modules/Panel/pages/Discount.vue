@@ -47,7 +47,6 @@
             </div>
             <div class="col-12 mt-2">
               <p class="box__title">افزودن تخفیف جدید</p>
-              {{discount}}
               <form action="" method="post">
 
                 <div class="row p-1">
@@ -96,7 +95,9 @@
                     <p class="title__noti">وضعیت</p>
                     <div class="notificationGroup">
                         <input id="option1" v-model="discount.status" name="option1" type="checkbox"/>
-                        <label for="option1">فعال</label>
+                        <label for="option1" v-if="discount.status">فعال</label>
+                        <label for="option1" v-else>غیر فعال</label>
+
                     </div>
                   </div>
                 </div>
@@ -106,7 +107,8 @@
                     <p class="title__noti">قابلیت استفاده چندباره</p>
                     <div class="notificationGroup">
                         <input id="option2" v-model="discount.reUseAble" name="option2" type="checkbox"/>
-                        <label for="option2">فعال</label>
+                        <label for="option2" v-if="discount.reUseAble">فعال</label>
+                        <label for="option2" v-else>غیر فعال</label>
                     </div>
                   </div>
                 </div>
@@ -130,7 +132,7 @@
 
                 <div class="row p-1 my-3">
                   <div class="col-lg-4 col-md-8 col-sm-12 mx-auto p-2">
-                    <button class="w-100 btn btn-primary p-3" @click="saveProdcut()">
+                    <button class="w-100 btn btn-primary p-3" @click.prevent="saveProdcut()">
                       <span>
                         ذخیره
                       </span> 
@@ -189,6 +191,16 @@
       },
       addUserSpecial(){
         this.discount.specialUser.push({email:""});
+      },
+      saveProdcut(){
+        // do ajax
+        this.Discounts.push(this.discount);
+        this.discount = {
+            specialUser:[
+            
+            ]
+        };
+        window.scrollTo({top:0,behavior:"smooth"})
       }
 
     },
