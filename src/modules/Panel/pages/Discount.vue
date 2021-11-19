@@ -36,7 +36,7 @@
                             </td>
                             <td>
                                 <a href="" class="item-delete mlg-15" @click.prevent="" title="حذف" style="font-size:22px"></a>
-                                <a href="" class="item-edit " @click.prevent="" style="font-size:22px" title="ویرایش"></a>
+                                <a href="" class="item-edit " @click.prevent="editDiscount(disc)" style="font-size:22px" title="ویرایش"></a>
                             </td>
                         </tr>
                  
@@ -46,7 +46,9 @@
                 </div>
             </div>
             <div class="col-12 mt-2">
-              <p class="box__title">افزودن تخفیف جدید</p>
+              <p class="box__title" v-if="editMode">ویرایش تخفیف</p>
+              <p class="box__title" v-else>افزودن تخفیف جدید</p>
+
               <form action="" method="post">
 
                 <div class="row p-1">
@@ -135,7 +137,7 @@
                     <button class="w-100 btn btn-primary p-3" @click.prevent="saveProdcut()">
                       <span>
                         ذخیره
-                      </span> 
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -170,6 +172,7 @@
             
             ]
           },
+          editMode:false,
       }
     },
 
@@ -194,13 +197,22 @@
       },
       saveProdcut(){
         // do ajax
-        this.Discounts.push(this.discount);
+        if(!this.editMode){
+          this.Discounts.push(this.discount);
+        }
         this.discount = {
             specialUser:[
             
             ]
         };
         window.scrollTo({top:0,behavior:"smooth"})
+        this.editMode = false
+      },
+      editDiscount(discount){
+        this.discount = this.Discounts.find(d=> d.code == discount.code);
+        this.editMode = true;
+        window.scrollTo({top:750,behavior:"smooth"})
+
       }
 
     },
