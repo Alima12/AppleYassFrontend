@@ -1,5 +1,4 @@
 <script>
-import { defineComponent } from 'vue'
 import { Bar } from 'vue3-chart-v2'
 
 export default{

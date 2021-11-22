@@ -2,7 +2,12 @@
 
   <div class="main-content">
     <div class="row">
-      <div class="col-6"><MonthlyChart /></div>
+      <div class="col-lg-6 col-md-12 col-sm-12">
+        <p class="text__title">
+          بازدید ماهانه
+        </p>
+        <MonthlyChart />
+      </div>
 
     </div>
     
