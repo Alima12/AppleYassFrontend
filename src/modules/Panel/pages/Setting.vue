@@ -13,7 +13,7 @@
       <div class="row p-1">
         <div class="col-lg-12 col-md-12 col-sm-12">  
           <label for="fullname" class="mb-2">عنوان سایت:</label>
-          <input name="fullname" v-model="fullname" type="text" class="text font-size-13" placeholder="این متن در تب مرورگر نمایش داده میشود">
+          <input name="fullname" v-model="webTitle" type="text" class="text font-size-13" placeholder="این متن در تب مرورگر نمایش داده میشود">
         </div>
        
       </div>
@@ -70,7 +70,7 @@
 
 
       </div>
-      
+
       <div class="row p-1">
         <div class="col-4 mx-auto text-center">
           <button class="btn btn-outline-success w-100" style="padding:10px 60px" @click="addCertificate()">
@@ -85,7 +85,12 @@
 
 
 
-     
+      <div class="row p-1">
+        <div class="col-lg-12 col-md-12 col-sm-12">  
+          <label for="number" class="mb-2">متن کپی رایت:</label>
+          <input name="aboutUs" v-model="copyRights" class="form-control" placeholder="متن کپی رایت" />
+        </div>
+      </div>
 
       <div class="row p-1 my-3">
         <div class="col-lg-4 col-md-8 col-sm-12 mx-auto">
@@ -113,7 +118,13 @@
       return{
         certificates:[
           {id:0,img:"https://www.digikala.com/static/files/6e2d6b38.png"},
-        ]
+        ],
+        copyRights:"",
+        aboutUs:"",
+        webTitle:"",
+        address:"",
+        phoneNumber:"",
+
       }
     },
     methods:{
@@ -126,6 +137,10 @@
       changeCertificate(id){
         let file = document.querySelector(`.file-input-${id}`);
         this.certificates.find(c=> c.id == id).img = URL.createObjectURL(file.files[0])
+      },
+      saveSetting(){
+        // do ajax
+        
       }
     }
   }
