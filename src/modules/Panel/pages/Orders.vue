@@ -15,7 +15,7 @@
                         <div class="t-header-search-content ">
                             <input type="text"  class="text"  placeholder="شناسه">
                             <input type="text"  class="text" placeholder="تاریخ">
-                            <btutton class="btn btn-webamooz_net">جستجو</btutton>
+                            <btutton class="btn btn-my-styles">جستجو</btutton>
                         </div>
                     </div>
                 </form>

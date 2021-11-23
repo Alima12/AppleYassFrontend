@@ -1,27 +1,73 @@
 <template>
 
   <div class="main-content">
-            <div class="row no-gutters font-size-13 margin-bottom-10">
-            <div class="col-3 padding-20 border-radius-3 bg-white margin-left-10 margin-bottom-10">
+        <div class="row no-gutters font-size-13 margin-bottom-10" v-if="user.isAdmin">
+            <div class="col-3 padding-20 border-radius-3 bg-success margin-left-10 margin-bottom-10">
                 <p>مجموع خرید شما در یک ماه اخیر:</p>
                 <p>25,000,000</p>
             </div>
-            <div class="col-3 padding-20 border-radius-3 bg-danger margin-bottom-10">
-                <p></p>
-                <p>2,500,000 تومان</p>
+            <div class="col-3 padding-20 border-radius-3 bg-warning margin-left-10 margin-bottom-10">
+                <p>مجموع خرید شما در یک ماه اخیر:</p>
+                <p>25,000,000</p>
             </div>
-
-
-            <div class="col-3 padding-20 border-radius-3 bg-danger margin-bottom-10">
-                <p> درآمد خالص </p>
-                <p>2,500,000 تومان</p>
+            <div class="col-3 padding-20 border-radius-3 bg-danger margin-left-10 margin-bottom-10">
+                <p>مجموع خرید شما در یک ماه اخیر:</p>
+                <p>25,000,000</p>
             </div>
-
-            <div class="col-3 padding-20 border-radius-3 bg-danger margin-bottom-10">
-                <p> درآمد خالص </p>
-                <p>2,500,000 تومان</p>
+            <div class="col-3 padding-20 border-radius-3 bg-primary margin-right-10 margin-bottom-10">
+                <p>مجموع خرید شما در یک ماه اخیر:</p>
+                <p>25,000,000</p>
             </div>
         </div>
+        <div class="row no-gutters font-size-13 margin-bottom-10" v-else>
+            <div class="col-3 padding-20 border-radius-3 bg-success margin-left-10 margin-bottom-10 last-actions">
+                <p class="fw-bold text-white d-flex justify-content-center align-items-center">
+                    <span class="fs-5 m-2 text-justify">
+                        سفارشات
+                        تحویل شده
+                    </span>
+                    <i class="fa fa-arrow-left fa-3x cursor-pointer"></i>
+                </p>
+                <p class="fs-6 fw-light text-light">10 سفارش</p>
+
+            </div>
+            <div class="col-3 padding-20 border-radius-3 bg-warning margin-left-10 margin-bottom-10 last-actions">
+
+                <p class="fw-bold text-dark d-flex justify-content-center align-items-center">
+                    <span class="fs-5 m-2 text-justify">
+                        سفارشات
+                    در حال پردازش
+                    </span>
+                    <i class="fa fa-arrow-left fa-3x cursor-pointer"></i>
+                </p>
+                <p class="fs-6 fw-light text-dark">1 سفارش</p>
+
+            </div>
+            <div class="col-3 padding-20 border-radius-3 bg-danger margin-left-10 margin-bottom-10 last-actions">
+
+                <p class="fw-bold text-white d-flex justify-content-center align-items-center">
+                    <span class="fs-5 m-2 text-justify">
+                        سفارشات  مرجوعی
+                    </span>
+                    <i class="fa fa-arrow-left fa-3x cursor-pointer"></i>
+                </p>
+                <p class="fs-6 fw-light text-light">10 سفارش</p>
+
+            </div>
+            <div class="col-3 padding-20 border-radius-3 bg-primary margin-right-10 margin-bottom-10 last-actions">
+
+                <p class="fw-bold text-white d-flex justify-content-center align-items-center">
+                    <span class="fs-5 m-2 text-justify">
+                        سفارشات در انتظار پرداخت
+                    </span>
+                    <i class="fa fa-arrow-left fa-3x cursor-pointer"></i>
+                </p>
+                <p class="fs-6 fw-light text-light">10 سفارش</p>
+
+            </div> 
+        </div>
+
+
         <div class="row no-gutters font-size-13 margin-bottom-10" v-if="user.isAdmin">
             <div class="col-8 padding-20 bg-white margin-bottom-10 margin-left-10 border-radius-3">
                 <MonthlyChart />
@@ -36,12 +82,13 @@
                 <p class="title icon-outline-receipt">مجموع تعداد سفارشات 10 روز اخیر</p>
                 <p class="amount-show color-444">60 سفارش</p>
 
-                <router-link to="/panel/transactions" class="color-2b4a83"><i class="fa fa-history" aria-hidden="true"></i>همه تراکنش ها</router-link>
+                <router-link to="/panel/orders" class="color-2b4a83"><i class="fa fa-history" aria-hidden="true"></i>همه سفارش ها</router-link>
             </div>
         </div>
         <div class="row bg-white no-gutters font-size-13">
             <div class="title__row">
-                <p>تراکنش های اخیر شما</p>
+                <p v-if="user.isAdmin">تراکنش های اخیر</p>
+                <p v-else>تراکنش های اخیر شما</p>
             </div>
             <div class="table__box">
                 <table width="100%" class="table">
@@ -50,36 +97,31 @@
                         <th>شناسه پرداخت</th>
                         <th>ایمیل پرداخت کننده</th>
                         <th>مبلغ (تومان)</th>
-                        <th>درامد شما</th>
-                        <th>درامد سایت</th>
-                        <th>نام دوره</th>
                         <th>تاریخ و ساعت</th>
                         <th>وضعیت</th>
+                        <th>عملیات</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr role="row">
-                        <td><a href=""> 1</a></td>
-                        <td><a href="">mohammadnio3@gmail.com</a></td>
-                        <td><a href="">600,000</a></td>
-                        <td><a href="">400,000</a></td>
-                        <td><a href="">400,000</a></td>
-                        <td><a href="">خرید دوره - دوره متخصص php سطح مقدماتی</a></td>
-                        <td><a href=""> 22:14:48 1399/02/23</a></td>
-                        <td><a href="" class="text-success">پرداخت موفق</a></td>
-                    </tr>
-                    <tr role="row">
-                        <td><a href=""> 1</a></td>
-                        <td><a href="">mohammadniko3@gmail.com</a></td>
-                        <td><a href="">600,000</a></td>
-                        <td><a href="">400,000</a></td>
-                        <td><a href="">400,000</a></td>
-                        <td><a href="">خرید دوره - دوره متخصص php سطح مقدماتی</a></td>
-                        <td><a href=""> 22:14:48 1399/02/23</a></td>
-                        <td><a href="" class="text-error">پرداخت ناموفق</a></td>
-                        <td class="i__oprations">
-                            <a href="" class="item-delete margin-left-10" title="حذف"></a>
-                            <a href="edit-transaction.html" class="item-edit" title='ویرایش'></a>
+                    <tr role="row" v-for="item in filterlastTransactions()">
+                        <td>{{item.code}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.amount.toLocaleString()}}</td>
+                        <td>{{item.date}}</td>
+                        <td class="text-error" v-if="!item.status">ناموفق</td>
+                        <td class="text-success" v-else>موفق</td>
+                        <td class="i__oprations" v-if="!user.isAdmin">
+                            <a href="" class="" title='پرداخت' v-if="!item.status">
+                                <i class="fa fa-paper-plane fa-2x text-primary"></i>
+                            </a>
+                            <span title='پرداخت موفق' v-else>
+                                <i class="fa fa-check-circle text-success fa-2x"></i>
+                            </span>
+                        </td>
+                        <td class="i__oprations" v-else>
+                            <a href="" class="" title='حذف'>
+                                <i class="fa fa-trash fa-2x text-error"></i>
+                            </a>
                         </td>
                     </tr>
                     </tbody>
@@ -98,10 +140,32 @@ import MonthlyChart from '../components/Charts/MonthlyChart.vue'
        
     },
     data(){
+        let lastTransactions = [
+            {code:"eurhf2",email:"aliali.ali1378@yahoo.com",amount:3000000,date:"1400-09-02 22:34:07",status:true},
+            {code:"kjfgfj",email:"alimahdavi137887@gmail.com",amount:300000,date:"1400-09-02 22:34:07",status:false},
+            {code:"23jds2",email:"lopin7896@yahoo.com",amount:6500000,date:"1400-09-02 22:34:07",status:true}
+        ];
         return {
-            user:{isAdmin:true}
+            user:{isAdmin:false,email:"aliali.ali1378@yahoo.com"},
+            lastTransactions,
+        }
+    },
+    methods:{
+        filterlastTransactions(){
+            if(this.user.isAdmin){
+                return this.lastTransactions;
+            }else{
+                return this.lastTransactions.filter(tr=> tr.email == this.user.email);
+            }
         }
     }
   }
 
 </script>
+<style>
+    .last-actions:hover{
+        opacity : 0.7 !important;
+        cursor: pointer;
+    }
+
+</style>

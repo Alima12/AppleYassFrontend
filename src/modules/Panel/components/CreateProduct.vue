@@ -225,10 +225,11 @@
         },
         setFiles(){
             let images = document.querySelector("#product-images");
+
             for (let index = 0; index < images.files.length; index++) {
                 this.product.images.push({
                     id:this.product.images.length +1,
-                    image:images.files[index]
+                    image:URL.createObjectURL(images.files[index])
                 });
                 
             }
