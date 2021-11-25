@@ -146,7 +146,7 @@ import MonthlyChart from '../components/Charts/MonthlyChart.vue'
             {code:"23jds2",email:"lopin7896@yahoo.com",amount:6500000,date:"1400-09-02 22:34:07",status:true}
         ];
         return {
-            user:{isAdmin:false,email:"aliali.ali1378@yahoo.com"},
+            user:this.$store.state.user,
             lastTransactions,
         }
     },

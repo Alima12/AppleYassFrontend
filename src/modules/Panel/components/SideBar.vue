@@ -7,6 +7,7 @@
         >
           <router-link :to="route.path">{{route.title}}</router-link>  
         </li>  
+        
     </ul>
 </template>
 <script>
@@ -15,13 +16,12 @@
     name: "SideBar",
     data(){
       return{
-        user:{isAdmin:false},
+        user:this.$store.state.user,
         panelRoutes:[
           {adminPermission:false,path:"/panel/dashboard",title:"داشبورد",icon:"i-dashboard"},
           {adminPermission:false,path:"/panel/myorders",title:"سفارشات من",icon:"i-orders"},
           {adminPermission:false,path:"/panel/mytransactions",title:"تراکنش های من",icon:"i-transactions"},
           {adminPermission:false,path:"/panel/profile",title:"پروفایل",icon:"i-user__inforamtion"},
-
 
           {adminPermission:true,path:"/panel/users",title:"کاربران",icon:"i-users"},
           {adminPermission:true,path:"/panel/category",title:"دسته بندی",icon:"i-categories"},

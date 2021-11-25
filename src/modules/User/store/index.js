@@ -2,7 +2,9 @@ import { createStore } from 'vuex'
 import axios from 'axios'
 const state = {
   isAuthenticated:true,
-  token:""
+  token:"",
+  isAdmin:true,
+  email:""
 }
 
 const mutations = {
