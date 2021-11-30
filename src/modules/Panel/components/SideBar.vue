@@ -11,12 +11,13 @@
     </ul>
 </template>
 <script>
-
+  import axios from "axios"
   export default {
     name: "SideBar",
     data(){
+
       return{
-        user:this.$store.state.user,
+        user:"",
         panelRoutes:[
           {adminPermission:false,path:"/panel/dashboard",title:"داشبورد",icon:"i-dashboard"},
           {adminPermission:false,path:"/panel/myorders",title:"سفارشات من",icon:"i-orders"},
@@ -37,6 +38,11 @@
         ]
       }
     },
+    mounted(){
+      setInterval(()=>{
+        this.user = this.$store.getters.getMe;
+      },1000)
+    },
     methods:{
       setClass(route){
         let cls = `${route.icon}`
@@ -45,7 +51,7 @@
       },
       filterdpanelRoutes(){
         return this.panelRoutes.filter(route=>{
-          if(!route.adminPermission || route.adminPermission && this.user.isAdmin){
+          if(!route.adminPermission || route.adminPermission && this.user.is_admin){
             return route
           }
         })

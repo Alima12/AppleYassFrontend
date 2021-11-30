@@ -1,4 +1,7 @@
-import { createStore } from 'vuex'
+import axios from "axios"
+
+const Categories = []
+
 
 const state = {
   productItems:[
@@ -41,12 +44,12 @@ const state = {
         {name:"امیر", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:10,dislikes:25,content:"عالیه حتما بخرید",reply:[]},
         {name:"حسین", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:29,dislikes:10,content:"عالیه حتما بخرید",reply:[]},
         {name:"وحیذ", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:50,dislikes:10,content:"عالیه حتما بخرید",reply:[{name:"علی", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:50,dislikes:0,content:"عالیه حتما بخرید"},{name:"علی", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:50,dislikes:0,content:"عالیه حتما بخرید"},{name:"علی", image:"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png",date:"سه روز پیش",likes:50,dislikes:0,content:"عالیه حتما بخرید"}]},
-
+  
       ],
       technicalattrs:[{name:"قابلیت بی سیم",value:"دارد"}],
       moreDetails: "",
-
-
+  
+  
       
     },
     {
@@ -75,7 +78,7 @@ const state = {
       comments:[],
       technicalattrs:[{name:"قابلیت بی سیم",value:"دارد"},],
       moreDetails: "",
-
+  
     },
     {
       code:"2a21bA",
@@ -99,7 +102,7 @@ const state = {
       comments:[],
       technicalattrs:[{name:"",value:""},],
       moreDetails: "",
-
+  
     },
     {
       code:"5Sab4u",
@@ -123,7 +126,7 @@ const state = {
       comments:[],
       technicalattrs:[{name:"",value:""},],
       moreDetails: "",
-
+  
     },
     {
       code:"3dfdfg",
@@ -147,8 +150,8 @@ const state = {
       comments:[],
       technicalattrs:[{name:"",value:""},],
       moreDetails: "",
-
-
+  
+  
     },
     {
       code:"432435j",
@@ -182,11 +185,11 @@ const mutations ={
 
 
 const actions= {
-  // getProductItems ({ commit }) {
-  //   axios.get(`/api/products`).then((response) => {
-  //     commit('updateProductItems', response.data)
-  //   });
-  // },
+  getProductItems ({ commit }) {
+    axios.get(`/`).then((response) => {
+      commit('updateProductItems', response.data)
+    });
+  },
 }
 
 const getters ={
@@ -215,3 +218,4 @@ export default {
   getters
 
 }
+

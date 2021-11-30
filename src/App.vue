@@ -11,6 +11,14 @@
     name: "App",
     components:{
       Header,
-    }
+    },
+    mounted(){
+      this.$store.dispatch("getProductItems")
+    },
+    watch: {
+      $route() {
+        this.$store.dispatch("onStart")
+      }
+    },
   }
 </script>

@@ -2,9 +2,9 @@
   <div class="title">
     <p>ورود به حساب کاربری</p>
   </div>
-  <form action="" class="needs-validation" novalidate @submit.prevent="formvalid()">
+  <form action="" class="needs-validation" novalidate @submit.prevent="Login()">
     <div>
-      <label for="username" class="form-label"> نام کاربری:</label>
+      <label for="username" class="form-label">  شماره تلفن:</label>
       <input class="form-control" :class="{'is-valid':usernameE==false,'is-invalid':usernameE==true}" type="text"  v-model="username" name="username" required/>
       <div class="invalid-feedback">
         {{usernameEM}}
@@ -35,6 +35,7 @@
     
 </template>
 <script>
+  import axios from 'axios';
   export default {
     name: "Login",
     data(){
@@ -48,6 +49,22 @@
       }
     },
     methods:{
+      Login(){
+        if(this.formvalid()){
+          let formData = new FormData()
+          formData.append("phone_number",this.username);
+          formData.append("password",this.password);
+
+          axios.post("api/token/",formData).then(response=>{
+            if(response.status == 200){
+              localStorage.setItem("token",response.data.access);
+              this.$router.push("/panel")
+            }
+          });
+
+
+        }
+      },
       formvalid(){
         let english = /^[A-Za-z0-9]*$/;
         this.usernameE = false;
@@ -63,9 +80,14 @@
         this.passwordE = false;
         this.passwordEM="";
 
-        if(this.password.length< 8){
+        if(this.password.length< 4){
           this.passwordE = true;
           this.passwordEM=" رمز عبور شما باید بزرگتر از 8  کاراکتر باشد";
+        }
+        if(!this.passwordE&& !this.usernameE){
+          return true;
+        }else{
+          return false;
         }
       }
     },

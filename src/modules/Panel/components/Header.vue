@@ -14,7 +14,7 @@
                 </div>
             </div>
             <a href="" class="logout" title="خروج">
-                <i class="fa fa-sign-out"></i>
+                <i class="fa fa-sign-out" @click="Logout()"></i>
             </a>
         </div>
     </div>
@@ -30,8 +30,15 @@
         },
         showNotifs(){
             $('.dropdown__notification').toggleClass('is-active');
+        },
+        Logout(){
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            this.$router.push("/")
+
         }
     }
+
   }
 </script>
 <style>

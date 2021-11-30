@@ -8,7 +8,7 @@
               <div class="v-dialog__container" style="display: block;"></div>
               <div class="box__camera default__avatar"></div>
           </div>
-          <span class="profile__name">کاربر : علی مهدوی</span>
+          <span class="profile__name">کاربر : {{user.get_full_name}}</span>
       </div>
 
       <SideBar />
@@ -38,6 +38,11 @@
       HeaderPanel
 
     },
+    data(){
+      return{
+        user:{},
+      }
+    },
     methods:{
       create_custom_dropdowns() {
         $('select').each(function (i, select) {
@@ -62,6 +67,13 @@
       },
     },
     mounted(){
+      if(this.$store.getters.isLogined){
+        setInterval(()=>{
+          this.user = this.$store.getters.getMe;
+        },1000);
+      }else{
+        this.$router.push("/auth/login");
+      }
       this.create_custom_dropdowns();
       document.querySelector(".header nav").classList.add("panel")
       $(document).on('click', function (event) {
