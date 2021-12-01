@@ -32,10 +32,8 @@ const actions = {
     let token = localStorage.getItem("token")
     if (token) {
       context.commit('login', token)
-      axios.get(`users/${1}/`).then(response=>{
+      axios.get(`users/getMe/`).then(response=>{
         context.commit('setUser',response.data);
-        let _tmp = JSON.stringify(response.data)
-        localStorage.setItem("user",_tmp);
       }).catch(err=>{
         context.commit('logout')
       });
@@ -47,13 +45,8 @@ const actions = {
 }
 
 const getters ={
-  getMe:state =>{
-    console.log(state.user)
-    return state.user
-  },
+  getMe:state =>state.user,
   isLogined:state => state.isAuthenticated,
-  
-
 }
 
 

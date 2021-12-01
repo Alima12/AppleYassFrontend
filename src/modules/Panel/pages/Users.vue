@@ -42,15 +42,15 @@
                 <tbody>
                 <tr role="row" class="fw-bold" v-for="user in filterdUsers">
                     <td>{{user.id}}</td>
-                    <td>{{user.fullname}}</td>
-                    <td>{{user.phoneNumber}}</td>
+                    <td>{{user.get_full_name}}</td>
+                    <td>{{user.phone_number}}</td>
                     <td>{{user.email}}</td>
                     <td>
-                        <span v-if="user.isAdmin" class="text-success">ادمین</span>
-                        <span v-else-if="user.isActive" class="text-primary">عضو فعال</span>
+                        <span v-if="user.is_admin" class="text-success">ادمین</span>
+                        <span v-else-if="user.is_active" class="text-primary">عضو فعال</span>
                         <span v-else class="text-error">عضو غیر فعال</span>
                     </td>
-                    <td>{{user.dateJoin}}</td>
+                    <td>{{user.date_joined}}</td>
                     <td class="text-success">{{user.ip}}</td>
                     <td>
                         <a style="font-size:20px;cursor:pointer;" @click.prevent="deleteUser(user.id)" class="item-delete mlg-15" title="حذف"></a>
@@ -67,8 +67,8 @@
                 <p class="box__title" v-if="$route.name != 'edit-user'">افزودن کاربر</p>
                 <p class="box__title" v-else>ویرایش کاربر</p>
                 <form action="" class="padding-30" method="post">
-                    <input v-model="editUser.fullname" type="text" class="text" placeholder="نام و نام خانوادگی">
-                    <input v-model="editUser.phoneNumber" type="text" class="text" placeholder="شماره موبایل">
+                    <input v-model="editUser.get_full_name" type="text" class="text" placeholder="نام و نام خانوادگی">
+                    <input v-model="editUser.phone_number" type="text" class="text" placeholder="شماره موبایل">
                     <input v-model="editUser.email" type="text" class="text" placeholder="ایمیل">
                     <input v-model="editUser.ip" type="text" class="text" placeholder="آی پی" disabled>
                     <select name="" id="">
@@ -91,24 +91,14 @@
 
 <script>
   import Swal from 'sweetalert2'
+import axios from 'axios'
 
   export default {
     name: "Users",
     components:{},
     data(){
         let users = [
-                {id:0,fullname:"Ali",phoneNumber:"09303444354",email:"aliali.ali1378@yahoo.com",isAdmin:true,isActive:true,dateJoin:"1400-06-01",ip:"148.12.12.1",totalBuys:3000000},
-                {id:1,fullname:"Amir",phoneNumber:"09301444404",email:"aliali.ali1378@yahoo.com",isAdmin:false,isActive:true,dateJoin:"1400-08-05",ip:"142.12.10.1",totalBuys:40000000},
-                {id:2,fullname:"Milad",phoneNumber:"09174214351",email:"aliali.ali1378@yahoo.com",isAdmin:false,isActive:true,dateJoin:"1400-07-05",ip:"128.1.11.1",totalBuys:2000000},
-                {id:3,fullname:"Maryam",phoneNumber:"09901232010",email:"aliali.ali1378@yahoo.com",isAdmin:true,isActive:true,dateJoin:"1400-06-05",ip:"248.2.12.1",totalBuys:1000000},
-                {id:4,fullname:"Parisa",phoneNumber:"09141598520",email:"aliali.ali1378@yahoo.com",isAdmin:false,isActive:true,dateJoin:"1400-09-05",ip:"147.12.12.1",totalBuys:31000000},
-                {id:6,fullname:"Rostam",phoneNumber:"09127267626",email:"aliali.ali1378@yahoo.com",isAdmin:false,isActive:true,dateJoin:"1400-10-05",ip:"210.12.12.1",totalBuys:35200000},
-                {id:5,fullname:"Reyhan",phoneNumber:"09174212112",email:"aliali.ali1378@yahoo.com",isAdmin:false,isActive:false,dateJoin:"1400-07-01",ip:"220.12.12.1",totalBuys:341000},
-                {id:7,fullname:"Saman",phoneNumber:"09151201214",email:"aliali.ali1378@yahoo.com",isAdmin:false,isActive:false,dateJoin:"1400-06-21",ip:"148.02.12.1",totalBuys:3123000},
-                {id:8,fullname:"Ahmad",phoneNumber:"09202544565",email:"aliali.ali1378@yahoo.com",isAdmin:false,isActive:true,dateJoin:"1400-06-20",ip:"148.12.12.1",totalBuys:100000},
-                {id:9,fullname:"Sara",phoneNumber:"09928511230",email:"aliali.ali1378@yahoo.com",isAdmin:false,isActive:true,dateJoin:"1400-06-08",ip:"112.12.12.1",totalBuys:1008000},
-                {id:10,fullname:"Samira",phoneNumber:"09382020151",email:"aliali.ali1378@yahoo.com",isAdmin:false,isActive:true,dateJoin:"1400-06-11",ip:"148.12.12.1",totalBuys:3900000}
-
+                
         ]
         return{
             users:users,
@@ -122,7 +112,7 @@
         }
     },
     created(){
-       $(document).on('click touchstart', function (e) {
+        $(document).on('click touchstart', function (e) {
             var serach__box = $('.t-header-search');
             var input = $('.search-input__box');
             if ($(e.target).is(serach__box) || serach__box.has(e.target).length == 1) {
@@ -148,14 +138,14 @@
               $(this).focus();
           }
       });
-      $(document).on('click', function (event) {
+        $(document).on('click', function (event) {
           if ($(event.target).closest('.dropdown-select').length === 0) {
               $('.dropdown-select').removeClass('open');
               $('.dropdown-select .option').removeAttr('tabindex');
           }
           event.stopPropagation();
       });
-      $(document).on('click', '.dropdown-select .option', function (event) {
+        $(document).on('click', '.dropdown-select .option', function (event) {
           $(this).closest('.list').find('.selected').removeClass('selected');
           $(this).addClass('selected');
           var text = $(this).data('display-text') || $(this).text();
@@ -203,21 +193,28 @@
         this.editPrepareUser()
     },
     mounted(){
+        axios.get("users/").then(response=>{
+            response.data.forEach(usr => {
+                this.users.push(usr)
+            });
+        }).catch(err=>{
+            console.log("Error",err.message)
+        })
         this.editPrepareUser()
 
     },
     methods:{
         filterUsers(value=""){
             if(value == 'admin'){
-                this.filterdUsers = this.users.filter(user=>user.isAdmin)
+                this.filterdUsers = this.users.filter(user=>user.is_admin)
                 this.activeCat = 'admin';
 
             }else if(value == 'active'){
-                this.filterdUsers = this.users.filter(user=>user.isActive)
+                this.filterdUsers = this.users.filter(user=>user.is_active)
                 this.activeCat = 'active';
 
             }else if(value == 'deactive'){
-                this.filterdUsers = this.users.filter(user=>!user.isActive)
+                this.filterdUsers = this.users.filter(user=>!user.is_active)
                 this.activeCat = 'deactive';
 
             }else{
@@ -225,9 +222,9 @@
                 this.activeCat = 'all';
             }
             if(this.sName!="" || this.sEmail!="" || this.sNumber!="" || this.sIP!=""){
-                this.filterdUsers = this.filterdUsers.filter(user=> user.fullname.toLowerCase().includes(this.sName.toLowerCase()));
+                this.filterdUsers = this.filterdUsers.filter(user=> user.get_full_name.toLowerCase().includes(this.sName.toLowerCase()));
                 this.filterdUsers = this.filterdUsers.filter(user=> user.email.toLowerCase().includes(this.sEmail.toLowerCase()));
-                this.filterdUsers = this.filterdUsers.filter(user=> user.phoneNumber.includes(this.sNumber));
+                this.filterdUsers = this.filterdUsers.filter(user=> user.phone_number.includes(this.sNumber));
                 this.filterdUsers = this.filterdUsers.filter(user=> user.ip.includes(this.sIP));
 
             }
@@ -238,9 +235,9 @@
                 setTimeout(()=>{
                     let current = document.querySelector("span.current")
                     let premission = 'کاربر غیر فعال'
-                    if(this.editUser.isAdmin){
+                    if(this.editUser.is_admin){
                         premission = "ادمین"
-                    }else if(this.editUser.isActive){
+                    }else if(this.editUser.is_active){
                         premission = "کاربر فعال"
                     }
                     current.innerText = premission;
@@ -254,8 +251,8 @@
                 title: '<h5>حذف کاربر</h5>',
                 html: `<div>
                 <div>
-                    <p>اسم: ${user.fullname}</p>
-                    <p>شماره تلفن : ${user.phoneNumber}</p>
+                    <p>اسم: ${user.get_full_name}</p>
+                    <p>شماره تلفن : ${user.phone_number}</p>
                     <p>ایمیل: ${user.email}</p>
                     <p>آیپی: ${user.ip}</p>
 
@@ -275,14 +272,19 @@
             }).then(result=>{
                 if (result.isConfirmed) {
                     this.users = this.users.filter(usr=> usr.id !== user.id);
-                    this.filterUsers()
-                    Swal.fire({
-                        title: 'حذف با موفقیت انجام شد',
-                        text:'دسته بندی مورد نظر حذف شد',
-                        icon:'success',
-                        confirmButtonColor:"#27ae60",
-                        confirmButtonText: 'متوجه شدم',
+                    axios.delete(`users/${user.id}/`).then(response=>{
+                        if(response.status == 204){
+                            Swal.fire({
+                                title: 'حذف با موفقیت انجام شد',
+                                text:'دسته بندی مورد نظر حذف شد',
+                                icon:'success',
+                                confirmButtonColor:"#27ae60",
+                                confirmButtonText: 'متوجه شدم',
+                            })
+                        }
                     })
+                    this.filterUsers()
+                   
                 }
             });
         }

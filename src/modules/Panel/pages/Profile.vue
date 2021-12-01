@@ -1,15 +1,19 @@
 <template>
-
+    <loading 
+      v-model:active="isLoading"
+      :can-cancel="true"
+      :is-full-page="true"
+      />
   <div class="main-content">
     <form action="" @submit.prevent="saveProfile()">
        <div class="profile__info border cursor-pointer text-center">
           <div class="avatar__img">
-            <img src="https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg" class="avatar___img">
+            <img :src="image_address" class="avatar___img">
             <input type="file" accept="image/*" class="hidden avatar-img__input">
             <div class="v-dialog__container" style="display: block;"></div>
             <div class="box__camera default__avatar"></div>
           </div>
-          <span class="profile__name">کاربر : علی مهدوی</span>
+          <span class="profile__name">کاربر : {{fullname}}</span>
         </div>
       <div class="row p-1">
         <div class="col-lg-6 col-md-6 col-sm-6">  
@@ -57,7 +61,7 @@
             <h4>آدرس ها</h4>
             <p class="user-address" v-for="add in address">
               <span>
-                {{add}}
+                {{add.address}}
               </span>
               <i class="fa fa-trash fa-2x text-danger" @click="deleteAddress(add)"></i>
             </p>
@@ -83,23 +87,25 @@
 </template>
 <script>
   import Swal from 'sweetalert2'
+  import Loading from 'vue-loading-overlay';
+
   export default {
     name: "Profile",
-    components:{},
+    components:{Loading},
     data(){
       return{
+        user:{},
         fullname:"",
         changeMode:false,
         phoneNumber:'',
         phoneNumberE:false,
-        address:[
-            "فارس/شیراز/گلستان/خیابان رایحه/مجتمع فرهنگیان/بلوک 2/ طبقه اول /واحد 412",
-            "کهگیلویه و بویر احمد/دهدشت/گلزار شهدا/گلزار هشتم"
-        ],
+        address:[],
         email:"aliali.ali1378@yahoo.com",
         newAddress:'',
         fileImg:"",
-        imageChanged:false
+        imageChanged:false,
+        isLoading:true,
+        image_address:""
       }
     },
     methods:{
@@ -119,7 +125,7 @@
         Swal.fire({
           title: '<h5>حذف آدرس</h5>',
           html: `<p class="text-danger">آیا از حذف آدرس زیر اطمینان دارید؟</p>
-          <p class="fw-bold">${address}</p>`,
+          <p class="fw-bold">${address.address}</p>`,
           icon: 'warning',
           confirmButtonText: 'حذف کن',
           confirmButtonColor:"#e74c3c",
@@ -129,7 +135,7 @@
           showCancelButton: true,
         }).then(result=>{
           if (result.isConfirmed) {
-              this.address = this.address.filter(ad=> ad != address);
+              this.address = this.address.filter(ad=> ad.id != address.id);
               Swal.fire({
                   title: 'حذف با موفقیت انجام شد',
                   text:'حذف آدرس با موفقیت انجام شد',
@@ -169,6 +175,24 @@
       saveProfile(){
 
       },
+      setUser(u){
+        this.phoneNumber = u.phone_number;
+        this.email = u.email;
+        this.fullname = u.get_full_name;
+        u.address.forEach(ad => {
+          this.address.push({
+            id:ad.id,
+            address:`${ad.city}/${ad.rest_of}`
+          })
+        });
+        if (u.images.length > 0){
+
+          this.image_address = u.images[0].image
+        }
+        
+
+
+      }
       
       
     },
@@ -178,7 +202,11 @@
         $(".avatar-img__input").on('change', (e)=> {
           this.fileImg = e.target.files[0];
         });
+        this.user = this.$store.getters.getMe;
+        this.setUser(this.user)
+        this.isLoading = false;
       },1000);
+
     },
     watch:{
       fileImg(){
