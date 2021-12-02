@@ -45,7 +45,7 @@
     },
     methods:{
       create_custom_dropdowns() {
-        $('select').each(function (i, select) {
+        $('select.set').each(function (i, select) {
             if (!$(this).next().hasClass('dropdown-select')) {
                 $(this).after('<div class="dropdown-select wide ' + ($(this).attr('class') || '') + '" tabindex="0"><span class="current"></span><div class="list"><ul></ul></div></div>');
                 var dropdown = $(this).next();
