@@ -3,7 +3,7 @@
       <span class="bars d-none padding-0-18" @click="togglebar()"></span>
       <a class="header__logo  d-none" href="https://webamooz.net"></a>
       <div class="profile__info border cursor-pointer text-center">
-          <div class="avatar__img"><img src="https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg" class="avatar___img">
+          <div class="avatar__img"><img :src="img" class="avatar___img">
               <input type="file" accept="image/*" class="hidden avatar-img__input">
               <div class="v-dialog__container" style="display: block;"></div>
               <div class="box__camera default__avatar"></div>
@@ -41,6 +41,7 @@
     data(){
       return{
         user:{},
+        img:""
       }
     },
     methods:{
@@ -68,8 +69,9 @@
     },
     mounted(){
       if(this.$store.getters.isLogined){
-        setInterval(()=>{
+        setTimeout(()=>{
           this.user = this.$store.getters.getMe;
+          this.img = this.user.images[this.user.images.length -1 ].image
         },1000);
       }else{
         this.$router.push("/auth/login");

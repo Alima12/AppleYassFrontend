@@ -247,9 +247,45 @@ import axios from 'axios';
         });
       },
       saveProfile(){
+        this.isLoading = true;
+        let formData = new FormData();
+        formData.append("first_name", this.first_name);
+        formData.append("last_name", this.last_name);
+        formData.append("national_code", this.national_code);
+        formData.append("phone_number", this.phoneNumber);
+        formData.append("username", this.username);
+        console.log(this.imageChanged);
+        const config = {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+        if(this.imageChanged){
+          formData.append("image", this.fileImg);
+        }
+        console.log(formData);
+         axios.put(`users/getMe/`, formData, config).then(response=>{
+          this.setUser(response.data)
+        }).then(response=>{
+          Swal.fire({
+                  title: 'موفق',
+                  text:'آدرس با موفقیت اضافه شد',
+                  icon:'success',
+                  confirmButtonColor:"#27ae60",
+                  confirmButtonText: 'متوجه شدم',
+          }).then(result=>{
+          })
+          window.scrollTo({top:0,behavior:"smooth"})
+          
+        });  
+
+
+
+
 
       },
       setUser(u){
+        this.address = []
         this.phoneNumber = u.phone_number;
         this.email = u.email;
         this.fullname = u.get_full_name;
@@ -265,9 +301,10 @@ import axios from 'axios';
         });
         if (u.images.length > 0){
 
-          this.image_address = u.images[0].image
+          this.image_address = u.images[u.images.length-1].image
         }
         
+        this.isLoading = false;
 
 
       }
@@ -276,9 +313,10 @@ import axios from 'axios';
     },
     mounted(){
       setTimeout(()=>{
-        let fileInput= document.querySelector(".avatar-img__input")
+        // let fileInput= document.querySelector(".avatar-img__input")
         $(".avatar-img__input").on('change', (e)=> {
           this.fileImg = e.target.files[0];
+          
         });
         this.user = this.$store.getters.getMe;
         this.setUser(this.user)
