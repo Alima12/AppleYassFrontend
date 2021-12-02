@@ -6,7 +6,7 @@
       />
   <div class="main-content">
     <form action="" @submit.prevent="saveProfile()">
-       <div class="profile__info border cursor-pointer text-center">
+       <div class="profile__info border cursor-pointer text-center" style="margin-bottom: 90px;">
           <div class="avatar__img">
             <img :src="image_address" class="avatar___img">
             <input type="file" accept="image/*" class="hidden avatar-img__input">
@@ -17,9 +17,14 @@
         </div>
       <div class="row p-1">
         <div class="col-lg-6 col-md-6 col-sm-6">  
-          <label for="fullname" class="mb-2">نام و نام خانوادگی:</label>
-          <input name="fullname" v-model="fullname" type="text" class="text font-size-13" placeholder="نام و نام خانوادگی">
+          <label for="fullname" class="mb-2">نام:</label>
+          <input name="fullname" v-model="first_name" type="text" class="text font-size-13" placeholder="نام و نام خانوادگی">
         </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">  
+          <label for="fullname" class="mb-2">نام خانوادگی:</label>
+          <input name="fullname" v-model="last_name" type="text" class="text font-size-13" placeholder="نام و نام خانوادگی">
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6"> </div>
         <div class="col-lg-6 col-md-6 col-sm-6 d-flex align-items-center justify-content-end">  
           <router-link to="/panel" class="btn btn-my-styles">تغییر رمز</router-link>
         </div>
@@ -32,17 +37,35 @@
           <input disabled name="email" v-model="email" type="text" class="text font-size-13 text-end" placeholder="ایمیل">
         </div>
       </div>
+
+      <div class="row p-1">
+        <div class="col-lg-12 col-md-12 col-sm-12">  
+          <label for="nationalCode" class="mb-2">شماره ملی:</label>
+          <input  name="nationalCode" v-model="national_code" type="text" class="text font-size-13 text-end" placeholder="کد ملی">
+        </div>
+      </div>
+
+      <div class="row p-1">
+        <div class="col-lg-12 col-md-12 col-sm-12">  
+          <label for="username" class="mb-2">نام کاربری:</label>
+          <input disabled name="username" v-model="username" type="text" class="text font-size-13 text-end" placeholder="نام کاربری">
+        </div>
+      </div>
+
+
       <div class="row p-1">
         <div class="col-lg-10 col-md-8 col-sm-12">  
           <label for="number" class="mb-2">شماره موبایل:</label>
-          <input name="number" v-model="phoneNumber" type="text" class="text font-size-13 text-end" placeholder="مثال: 09123456789">
-          <button class="btn btn-info" v-if="!changeMode" @click.prevent="changeNumber()">عوض کردن</button>
-          <button class="btn btn-warning" v-else @click.prevent="confirmChange()">تایید</button>
+          <input name="number" disabled v-model="phoneNumber" type="text" class="text font-size-13 text-end phone-number-input" placeholder="مثال: 09123456789">
+          <button class="btn btn-info change-number-btn" v-if="!changeMode" @click.prevent="changeNumber()">عوض کردن</button>
+          <button class="btn btn-primary mx-1 send-code-btn" v-if="changeMode" @click.prevent="sendConfirmCode()">ارسال کد</button>
+          <button disabled class="btn btn-warning confirm-code-button" v-if="changeMode" @click.prevent="confirmChange()">تایید</button>
+
           
         </div>
         <div class="col-lg-2 col-md-4 col-sm-12" v-if="changeMode">  
-          <label for="email" class="mb-2">کد:</label>
-          <input name="email" type="text" class="text font-size-13 text-end" placeholder="کد تایید">
+          <label for="confirm-code" class="mb-2">کد:</label>
+          <input disabled name="confirm-code" type="text" class="text font-size-13 text-end confirm-code-input" v-model="confirmCode" placeholder="کد تایید">
         </div>
         <div class="alert alert-danger mt-2 text-center" v-if="phoneNumberE">
           فرمت وارد شده اشتباه است
@@ -88,6 +111,7 @@
 <script>
   import Swal from 'sweetalert2'
   import Loading from 'vue-loading-overlay';
+import axios from 'axios';
 
   export default {
     name: "Profile",
@@ -96,30 +120,43 @@
       return{
         user:{},
         fullname:"",
+        username:"",
         changeMode:false,
         phoneNumber:'',
         phoneNumberE:false,
+        first_name:"",
+        last_name:"",
+        national_code:"",
         address:[],
         email:"aliali.ali1378@yahoo.com",
         newAddress:'',
         fileImg:"",
         imageChanged:false,
         isLoading:true,
-        image_address:""
+        image_address:"",
+
       }
     },
     methods:{
-      confirmChange(){
-        // do ajax
-      },
-      changeNumber(){
+      sendConfirmCode(){
         if (/^0\d{10}$/.test(this.phoneNumber)){
-          this.changeMode = true;
           // do ajax
+          document.querySelector(".confirm-code-input").disabled = false;
+          document.querySelector(".confirm-code-button").disabled = false;
+          document.querySelector(".send-code-btn").disabled = true;
+          document.querySelector(".phone-number-input").disabled = true;
+
         }else{
           this.phoneNumberE = true
         }
-
+      },
+      confirmChange(){
+        //do ajax
+      },
+      changeNumber(){
+        this.changeMode = true;
+        let pni = document.querySelector(".phone-number-input");
+        pni.disabled = false;
       },
       deleteAddress(address){
         Swal.fire({
@@ -136,20 +173,41 @@
         }).then(result=>{
           if (result.isConfirmed) {
               this.address = this.address.filter(ad=> ad.id != address.id);
-              Swal.fire({
+
+              axios.delete("users/address/delete/"+address.id+"/",).then(response=>{
+                Swal.fire({
                   title: 'حذف با موفقیت انجام شد',
                   text:'حذف آدرس با موفقیت انجام شد',
                   icon:'success',
                   confirmButtonColor:"#27ae60",
                   confirmButtonText: 'متوجه شدم',
-              })
+                })
+              }).catch(err=>{
+                let error = err.response.message
+                Swal.fire({
+                  title: 'خطا',
+                  text: error,
+                  icon:'error',
+                  confirmButtonColor:"#c0392b",
+                  confirmButtonText: 'متوجه شدم',
+                })
+              });
+
+              
           }
         });
       },
       addAdress(){
         Swal.fire({
           title: '<h5>افزودن آدرس</h5>',
-          html: `<input type="text" name="addresstoadd" v-model="newAddress" class="form-control new-address-form" />`,
+          html: `
+          <label>شهر:</label>
+          <input type="text" class="new-address-city form-control mb-2" />
+          <label>ادامه آدرس: </label>
+          <input type="text"
+          name="addresstoadd"
+          class="form-control new-address-form" />
+          `,
           icon: 'info',
           confirmButtonText: 'اضافه کن',
           confirmButtonColor:"#009432",
@@ -157,17 +215,33 @@
           cancelButtonText:"انصراف",
           showCancelButton: true,
         }).then(result=>{
-          this.newAddress = document.querySelector(".new-address-form").value
-          if (result.isConfirmed && this.newAddress != '') {
+          let city = document.querySelector(".new-address-city").value;
+          let rest_of = document.querySelector(".new-address-form").value;
+          if (result.isConfirmed && this.rest_of != '' && this.city != '') {
+              let formData = new FormData();
+              formData.append('owner', this.user.id);
+              formData.append('city', city);
+              formData.append('rest_of', rest_of);
 
-              this.address.push(this.newAddress);
-              Swal.fire({
+              axios.post('users/address/new/', formData).then(response=>{
+                Swal.fire({
                   title: 'موفق',
                   text:'آدرس با موفقیت اضافه شد',
                   icon:'success',
                   confirmButtonColor:"#27ae60",
                   confirmButtonText: 'متوجه شدم',
-              })
+                })
+                this.$router.push("/panel/profile/");
+              }).catch(err=>{
+                Swal.fire({
+                  title: 'ناموفق',
+                  text:err.response.data,
+                  icon:'error',
+                  confirmButtonColor:"#27ae60",
+                  confirmButtonText: 'متوجه شدم',
+                })
+              });
+             
               this.newAddress = "";
           }
         });
@@ -179,6 +253,10 @@
         this.phoneNumber = u.phone_number;
         this.email = u.email;
         this.fullname = u.get_full_name;
+        this.first_name = u.first_name;
+        this.last_name = u.last_name;
+        this.username = u.username;
+        this.national_code = u.national_code;
         u.address.forEach(ad => {
           this.address.push({
             id:ad.id,

@@ -16,7 +16,6 @@
                     <div class="t-header-searchbox font-size-13">
                         <input v-model="sName" type="text" class="text search-input__box font-size-13" placeholder="جستجوی کاربر">
                         <div class="t-header-search-content ">
-                            <input type="text" v-model="sIP" class="text margin-bottom-20" placeholder="ایپی">
                             <input type="text" v-model="sEmail" class="text"  placeholder="ایمیل">
                             <input type="text" v-model="sNumber" class="text" placeholder="شماره">
                             <btutton class="btn btn-my-styles">جستجو</btutton>
@@ -31,11 +30,11 @@
                 <tr role="row" class="title-row">
                     <th>شناسه</th>
                     <th>نام و نام خانوادگی</th>
+                    <th>نام کاربری</th>
                     <th>شماره موبایل</th>
                     <th>ایمیل</th>
                     <th>سطح کاربری</th>
                     <th>تاریخ عضویت</th>
-                    <th>ای پی</th>
                     <th>عملیات</th>
                 </tr>
                 </thead>
@@ -43,6 +42,7 @@
                 <tr role="row" class="fw-bold" v-for="user in filterdUsers">
                     <td>{{user.id}}</td>
                     <td>{{user.get_full_name}}</td>
+                    <td>{{user.username}}</td>
                     <td>{{user.phone_number}}</td>
                     <td>{{user.email}}</td>
                     <td>
@@ -51,7 +51,6 @@
                         <span v-else class="text-error">عضو غیر فعال</span>
                     </td>
                     <td>{{user.date_joined}}</td>
-                    <td class="text-success">{{user.ip}}</td>
                     <td>
                         <a style="font-size:20px;cursor:pointer;" @click.prevent="deleteUser(user.id)" class="item-delete mlg-15" title="حذف"></a>
                         <router-link :to="`/panel/users/${user.id}`" style="font-size:20px" href="" class="item-edit " title="ویرایش"></router-link>
@@ -70,7 +69,6 @@
                     <input v-model="editUser.get_full_name" type="text" class="text" placeholder="نام و نام خانوادگی">
                     <input v-model="editUser.phone_number" type="text" class="text" placeholder="شماره موبایل">
                     <input v-model="editUser.email" type="text" class="text" placeholder="ایمیل">
-                    <input v-model="editUser.ip" type="text" class="text" placeholder="آی پی" disabled>
                     <select name="" id="">
                         <option value="0">کاربر فعال</option>
                         <option value="1">کاربر غیر فعال</option>
@@ -105,7 +103,6 @@ import axios from 'axios'
             sName:"",
             sEmail:"",
             sNumber:"",
-            sIP:"",
             filterdUsers:users,
             activeCat:'all',
             editUser:{}
@@ -221,11 +218,10 @@ import axios from 'axios'
                 this.filterdUsers = this.users;
                 this.activeCat = 'all';
             }
-            if(this.sName!="" || this.sEmail!="" || this.sNumber!="" || this.sIP!=""){
+            if(this.sName!="" || this.sEmail!="" || this.sNumber!=""){
                 this.filterdUsers = this.filterdUsers.filter(user=> user.get_full_name.toLowerCase().includes(this.sName.toLowerCase()));
                 this.filterdUsers = this.filterdUsers.filter(user=> user.email.toLowerCase().includes(this.sEmail.toLowerCase()));
                 this.filterdUsers = this.filterdUsers.filter(user=> user.phone_number.includes(this.sNumber));
-                this.filterdUsers = this.filterdUsers.filter(user=> user.ip.includes(this.sIP));
 
             }
         },
@@ -254,7 +250,6 @@ import axios from 'axios'
                     <p>اسم: ${user.get_full_name}</p>
                     <p>شماره تلفن : ${user.phone_number}</p>
                     <p>ایمیل: ${user.email}</p>
-                    <p>آیپی: ${user.ip}</p>
 
 
                 </div>
