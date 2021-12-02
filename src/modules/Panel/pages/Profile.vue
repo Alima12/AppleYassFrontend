@@ -254,7 +254,6 @@ import axios from 'axios';
         formData.append("national_code", this.national_code);
         formData.append("phone_number", this.phoneNumber);
         formData.append("username", this.username);
-        console.log(this.imageChanged);
         const config = {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -263,7 +262,6 @@ import axios from 'axios';
         if(this.imageChanged){
           formData.append("image", this.fileImg);
         }
-        console.log(formData);
          axios.put(`users/getMe/`, formData, config).then(response=>{
           this.setUser(response.data)
         }).then(response=>{
@@ -313,7 +311,6 @@ import axios from 'axios';
     },
     mounted(){
       setTimeout(()=>{
-        // let fileInput= document.querySelector(".avatar-img__input")
         $(".avatar-img__input").on('change', (e)=> {
           this.fileImg = e.target.files[0];
           
