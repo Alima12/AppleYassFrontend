@@ -1,5 +1,4 @@
 <template>
-
   <div class="main-content">
     <div class="tab__box">
       <div class="tab__items">
@@ -38,13 +37,18 @@
             <tbody>
             <tr role="row" v-for="product in products">
                 <td>{{product.code}}</td>
-                <td>
-                  <img width="120" :src="product.images[0].image" alt="">
-                
+                <td >
+                  <img v-if="product.images.length > 0" width="120" :src="product.images[0].image" alt="">
+                  <p v-else>عکس ندارد</p>
                 </td>
                 <td class="fw-bold">{{product.name}}</td>
                 <td class="fw-bold">{{product.title}}</td>
-                <td class="fw-bold">{{product.category.name}}</td>
+                <td class="fw-bold">
+                  <p v-if="product.category">
+                    {{product.category.name}}
+                  </p>
+                  <p v-else>بدون دسته بندی</p>
+                </td>
                 <td>
                   <div class="stars">
                     <i v-for="star in product.stars" class="fa fa-star"></i>
@@ -52,15 +56,15 @@
                 </td>
                 <td>{{product.guarantee}}</td>
                 <td class="pt-3">
-                  <i class="fa fa-check-circle fa-2x text-success" v-if="product.newProduct"></i>
+                  <i class="fa fa-check-circle fa-2x text-success" v-if="product.is_new"></i>
                   <i class="fa fa-times-circle fa-2x text-danger" v-else></i>
                 </td>
                 <td class="pt-3">
-                  <i class="fa fa-check-circle fa-2x text-success" v-if="product.hotProduct"></i>
+                  <i class="fa fa-check-circle fa-2x text-success" v-if="product.is_hot"></i>
                   <i class="fa fa-times-circle fa-2x text-danger" v-else></i>
                 </td>
                 <td class="pt-3">
-                  <i class="fa fa-check-circle fa-2x text-success" v-if="product.isSpecialOffer"></i>
+                  <i class="fa fa-check-circle fa-2x text-success" v-if="product.is_special_offer"></i>
                   <i class="fa fa-times-circle fa-2x text-danger" v-else></i>
                 </td>
                 <td class="pt-3">
@@ -68,11 +72,10 @@
                   <i class="fa fa-times-circle fa-2x text-danger" v-else></i>
                 </td> 
                 <td  style="background-color:rgba(189, 195, 199,.5); border:1px solid #999">
-                  <p class="d-flex align-items-center" v-for="color in product.colors" style="padding:5px 10px">
+                  <p class="d-flex align-items-center"  v-for="color in product.colors" style="padding:5px 10px">
                     <i class="fa fa-circle fa-2x" :style="`color:${color.color};margin-left:10px`"></i>
                     <span class="fw-bold">{{color.price.toLocaleString()}}</span>&nbsp; | &nbsp;
                     <span class="fw-bold">{{color.inventory}}</span>  موجود
-
                   </p>
                 </td>
                 <td>
@@ -123,18 +126,30 @@ import CreateEditProduct from '../components/CreateProduct'
     name: "Products",
     components:{CreateEditProduct},
     data(){
-      let products = this.$store.getters.getProducts;
       return {
-        products,
+        products:"",
+        p:"",
         page:0,
         max:10,
       }
     },
+    mounted(){
+      let params = new URLSearchParams(window.location.search)
+      this.page = params.get("p") ? params.get("p") : 1
+      this.$store.dispatch("getProductP", this.page)
+      setTimeout(async()=>{
+        this.products = await this.$store.getters.getProductsP;
+        console.log(this.$store.getters.getProductsP)
+        console.log("seting")
+      },2000)
+    },
     created(){
-      this.page = parseInt(this.$route.params.id) || 1;
+      let params = new URLSearchParams(window.location.search)
+      this.page = params.get("p") ? params.get("p") : 1
     },
     updated(){
-      this.page = parseInt(this.$route.params.id) || 1;
+      let params = new URLSearchParams(window.location.search)
+      this.page = params.get("p") ? params.get("p") : 1
 
     },
     watch:{
