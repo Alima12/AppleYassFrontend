@@ -1,5 +1,4 @@
 <template>
-{{$route.params}}
  <form action="" method="post">
       <div class="row p-1">
         <div class="col-lg-10 col-md-9 col-sm-7">  
@@ -163,12 +162,20 @@
 
 
     </form>
+    <loading 
+      v-model:active="isLoading"
+      :can-cancel="true"
+      :is-full-page="true"
+      />
 </template>
 <script>
+  import Loading from 'vue-loading-overlay';
   export default {
     name: "CreateEditProduct",
+    components:{Loading},
     data(){
         return{
+                    isLoading:true,
             tempCategory:"",
             product:{
                 code:"",
@@ -184,14 +191,7 @@
                 category:"",
 
             },
-            categories:[
-                {id:0,href:"apple",name:"Apple",title:"محصولات اپل",owner:{}},
-                {id:1,href:"iphone",name:"Iphone",title:"گوشی موبایل",owner:{id:0,name:"Apple",title:"محصولات اپل",owner:{}}},
-                {id:2,href:"ipad",name:"Ipad",title:"تبلت",owner:{id:0,name:"Apple",title:"محصولات اپل",owner:{}}},
-                {id:3,href:"ipod",name:"Ipod",title:"تبلت",owner:{id:0,name:"Apple",title:"محصولات اپل",owner:{}}},
-                {id:4,href:"iwatch",name:"Iwatch",title:"ساعت هوشمند",owner:{id:0,name:"Apple",title:"محصولات اپل",owner:{}}},
-                {id:5,href:"airpod",name:"Airpod",title:"هندزفری",owner:{id:0,name:"Apple",title:"محصولات اپل",owner:{}}},
-            ],
+            categories:[],
         }
     },
     mounted(){
@@ -200,6 +200,11 @@
             let p = this.$store.getters.getProduct(id);
             this.product = p;
         }
+        setTimeout(()=>{
+            this.categories = this.$store.getters.getCategories;
+            this.isLoading = false;
+        },1000)
+
     },
     methods:{
         makeid(length) {

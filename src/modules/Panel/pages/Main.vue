@@ -68,6 +68,7 @@
       },
     },
     mounted(){
+      this.$store.dispatch("getCategory")
       if(this.$store.getters.isLogined){
         setTimeout(()=>{
           this.user = this.$store.getters.getMe;
