@@ -16,8 +16,9 @@
       this.$store.dispatch("getProductItems")
     },
     watch: {
-      $route() {
+      $route(to, from) {
         this.$store.dispatch("onStart")
+        document.title = to.meta.title || 'Some Default Title';
       }
     },
   }

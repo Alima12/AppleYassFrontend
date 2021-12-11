@@ -1,5 +1,5 @@
 <template>
- <form action="" method="post"  @submit.prevent="saveProdcut()">
+ <form action="" method="post">
       <div class="row p-1">
         <div class="col-lg-10 col-md-9 col-sm-7">  
           <label for="code" class="mb-2">کد محصول  :</label>
@@ -82,7 +82,7 @@
             <input v-model="color.color" class="form-control" name="color" type="text" />
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12">  
-            <label class="text-center form-control" for="price">قیمت به ریال</label>
+            <label class="text-center form-control" for="price">قیمت به تومان</label>
             <input v-model="color.price" class="form-control" name="price" type="text" />
         </div>
         <div class="col-lg-3 col-md-2 col-sm-12">  
@@ -143,7 +143,7 @@
     <div class="row p-1">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <label class="mb-2" for="moreDetail">توضیحات اضافی:</label>
-            <textarea name="moreDetail" v-model="product.moreDetails" class="form-control"></textarea>
+            <textarea name="moreDetail" v-model="product.moreDetail" class="form-control"></textarea>
 
         </div>
     </div>
@@ -151,7 +151,7 @@
 
       <div class="row p-1 my-3">
         <div class="col-lg-4 col-md-8 col-sm-12 mx-auto p-2">
-          <button class="w-100 btn btn-primary p-3">
+          <button class="w-100 btn btn-primary p-3" @click="saveProdcut()">
             <span>
               ذخیره
             </span> 
@@ -169,7 +169,6 @@
       />
 </template>
 <script>
-import axios from 'axios';
   import Loading from 'vue-loading-overlay';
   export default {
     name: "CreateEditProduct",
@@ -189,9 +188,7 @@ import axios from 'axios';
                 attributes:[{text:""}],
                 technicalattrs:[{name:"",value:""},],
                 moreDetails: "",
-                files:[],
                 category:"",
-                guarantee:""
 
             },
             categories:[],
@@ -207,7 +204,6 @@ import axios from 'axios';
             this.categories = this.$store.getters.getCategories;
             this.isLoading = false;
         },1000)
-        
 
     },
     methods:{
@@ -240,12 +236,8 @@ import axios from 'axios';
                     id:this.product.images.length +1,
                     image:URL.createObjectURL(images.files[index])
                 });
-                this.product.files.push(
-                    images.files[index]
-                )
                 
             }
-            
 
         },
         addAttr(){
@@ -255,54 +247,10 @@ import axios from 'axios';
             this.product.technicalattrs.push({name:"",value:""});
         },
         saveProdcut(){
-            this.isLoading = true;
-            let formData = new FormData();
-            formData.append("code",this.product.code);
-            formData.append("title",this.product.title);
-            formData.append("name",this.product.name);
-            formData.append("detail",this.product.moreDetails);
-            formData.append("is_new",this.product.newProduct);
-            formData.append("is_hot",this.product.hotProduct);
-            this.product.files.forEach(img=>{
-              formData.append(img.name, img);
-            });
-            formData.append("guarantee", this.product.guarantee)
-            let headers = {
-                "Content-Type": "multipart/form-data"
-            }
-            axios.post("product/create/", formData, headers).then(response=>{
-                let data = response.data;
-                this.sendColors(data.code);
-            }).catch(err=>{
-                console.log(err.response.data)
-            })
-
+            alert()
         },
         deleteImage(id){
             this.product.images = this.product.images.filter(img=> img.id != id);
-        },
-        sendColors(productID){
-            this.product.colors.forEach(async color=>{
-                let data = new FormData()
-                data.append("product_code", productID);
-                data.append("product", 1);
-
-                data.append("color", color.color);
-                data.append("inventory", color.inventory);
-                data.append("price", color.price);
-
-
-
-                
-
-                await axios.post("product/colors/", data).then(response=>{
-                    console.log(response.data)
-                }).catch(err=>{
-                    console.log(err.response.data)
-                })
-            })
-            this.isLoading = false;
-            
         }
     },
     watch:{

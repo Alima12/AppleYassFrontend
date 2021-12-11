@@ -26,8 +26,7 @@ const actions = {
   },
   getProductP(context, page){
     console.log(page)
-    axios.get(`?${page}/`).then(response=>{
-      console.log(response.data)
+    axios.get(`?p=${page}`).then(response=>{
       context.commit('setProductP',response.data)
     });
   },
@@ -39,6 +38,8 @@ const getters ={
   getProductsP: state => state.products.results,
   getNextpage: state => state.products.next,
   getPreviouspage: state => state.products.previous,
+  getProductCount: state => state.products.count,
+
 
 }
 

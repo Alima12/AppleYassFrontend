@@ -22,6 +22,7 @@ export default [
     path: '/panel',
     name: 'پنل',
     component: HomePanel,
+    title:"پنل",
     loginRequired:true,
     children: [
       {
@@ -92,11 +93,13 @@ export default [
         name: 'محصولات',
         component: Products,
         adminPermission:true,
+        title:"محصولات",
         children:[
           {
             path: ':id',
             name: 'صفحه بندی',
             component: Products,
+            title:"محصولات",
           },
           {
             path: 'new',

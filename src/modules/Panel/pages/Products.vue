@@ -93,17 +93,15 @@
         </table>
       </div>
 
-
-
       <div class="pagination row">
         <div class="col-lg-6 col-md-8 col-sm-12 mx-auto pages-container">
           <router-link v-if="page>1" :to="`/panel/products/`+ (page -1).toString()" class="page-item perv">قبلی</router-link>
           <router-link v-if="page>2" :to="`/panel/products/` + (page -2).toString()"   class="page-item extra">{{page-2}}</router-link>
           <router-link v-if="page>1" :to="`/panel/products/` + (page -1).toString()"   class="page-item extra">{{page-1}}</router-link>
           <router-link :to="`/panel/products/` + page" class="page-item active">{{page}}</router-link>
-          <router-link v-if="max >= (page+1)" :to="`/panel/products/` + (page + 1).toString()"   class="page-item extra">{{page+1}}</router-link>
-          <router-link v-if="max >= (page+2)" :to="`/panel/products/` + (page +2).toString()"   class="page-item extra">{{page+2}}</router-link>
-          <router-link v-if="max >= (page+1)" :to="`/panel/products/` + (page + 1).toString()" class="page-item next">
+          <router-link v-if="max >page" :to="`/panel/products/` + (parseInt(page) + 1).toString()"   class="page-item extra">{{parseInt(page)+1}}</router-link>
+          <router-link v-if="max >= (parseInt(page)+2)" :to="`/panel/products/` + (parseInt(page) +2).toString()"   class="page-item extra">{{parseInt(page)+2}}</router-link>
+          <router-link v-if="max > page" :to="`/panel/products/` + (parseInt(page) + 1).toString()" class="page-item next">
             بعدی
           </router-link>
         </div>
@@ -113,49 +111,63 @@
     <div class="new-product" v-else>
         <CreateEditProduct />
     </div>
-    
 
 
-
-
+    <loading 
+      v-model:active="isLoading"
+      :can-cancel="false"
+      :is-full-page="true"
+      />
   </div>
 </template>
 <script>
 import CreateEditProduct from '../components/CreateProduct'
+  import Loading from 'vue-loading-overlay';
   export default {
     name: "Products",
-    components:{CreateEditProduct},
+    components:{CreateEditProduct, Loading},
     data(){
       return {
+        isLoading:true,
         products:"",
-        p:"",
-        page:0,
-        max:10,
+        page:1,
+        max:1,
       }
     },
     mounted(){
-      let params = new URLSearchParams(window.location.search)
-      this.page = params.get("p") ? params.get("p") : 1
-      this.$store.dispatch("getProductP", this.page)
-      setTimeout(async()=>{
-        this.products = await this.$store.getters.getProductsP;
-        console.log(this.$store.getters.getProductsP)
-        console.log("seting")
-      },2000)
+      this.page = this.$route.params.id ? this.$route.params.id : 1
+      this.setProducts()
+      
     },
     created(){
-      let params = new URLSearchParams(window.location.search)
-      this.page = params.get("p") ? params.get("p") : 1
+      this.page = this.$route.params.id ? this.$route.params.id : 1
+      
     },
     updated(){
-      let params = new URLSearchParams(window.location.search)
-      this.page = params.get("p") ? params.get("p") : 1
-
+      this.page = this.$route.params.id ? this.$route.params.id : 1
     },
     watch:{
       page(){
-        // do ajax
-        console.log("page changed")
+        this.setProducts()
+      }
+    },
+    methods:{
+      setProducts(){
+        this.isLoading = true
+        this.$store.dispatch("getProductP", this.page)
+        setTimeout(async()=>{
+          this.products = await this.$store.getters.getProductsP;
+          let count = await this.$store.getters.getProductCount;
+          this.max =0;
+          for (count; count > 0; count-=10) {
+            if(10> count > 0){
+              count = 0;
+            }
+            this.max +=1;
+            
+          }
+          this.isLoading = false
+        },1500)
       }
     }
   }
