@@ -13,22 +13,27 @@
                     <th>شناسه خرید</th>
                     <th>مبلغ پرداختی</th>
                     <th>وضعیت</th>
-                    <th>تاریخ خرید</th>
+                    <th>آخرین بروزرسانی</th>
                     <th>فاکتور</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr role="row" >
-                    <td>4ed34323</td>
-                    <td>3,000,000 تومان</td>
+                <tr role="row" v-for="order in orders">
+                    <td>{{order.refer_code}}</td>
+                    <td>{{order.real_price.toLocaleString()}} تومان</td>
                     <td>
-                      <span class="text-warning fw-bold">در حال پردازش</span>
+                      <span class="text-warning fw-bold" v-if="order.status=='c'">در حال پردازش</span>
+                      <span class="text-warning fw-bold" v-else-if="order.status=='a'">در حال آماده سازی</span>
+                      <span class="text-warning fw-bold" v-else-if="order.status=='s'">در دست پست </span>
+                      <span class="text-warning fw-bold" v-else-if="order.status=='d'">تحویل داده شده</span>
+                      <span class="text-warning fw-bold" v-else-if="order.status=='r'">مرجوع شده</span>
+
                     </td>
                     <td>
-                      1400/08/18
+                      {{extractdate(order.updated_at)}}
                     </td>
                     <td>
-                        <button class="mlg-15 btn btn-warning" title="تایید" @click="showFactor">مشاهده</button>
+                        <button class="mlg-15 btn btn-warning" title="تایید" @click="showFactor(order.items)">مشاهده</button>
                     </td>
                 </tr>
 
@@ -41,59 +46,90 @@
       :is-full-page="fullPage"
       />
 
-
-
 </div>
 
 </template>
 <script>
   import Loading from 'vue-loading-overlay';
   import Swal from 'sweetalert2'
+import axios from 'axios';
   export default {
     name: "MyOrders",
     components:{loading:Loading},
     data(){
       return{
         isLoading: true,
-        fullPage: false
+        fullPage: false,
+        orders:[],
       }  
     },
-    methods:{
-      showFactor(){
-        Swal.fire({
-        title: 'لیست اجناس',
-        html: `<table class="w-100 orders-list">
-  <tr>
-    <th>تصویر</th>
-    <th>تعداد</th>
-    <th>قیمت واحد</th>
-    <th>لینک</th>
-
-  </tr>
-
-  <tr>
-    <td><img width="90px" src="https://dkstatics-public.digikala.com/digikala-products/a1ce7f73cb727e977537090509479f3dd134ea42_1635065691.jpg" alt=""></td>
-    <td>2</td>
-    <td>23,000 تومان</td>
-    <td><a target="_blank" href="#" class="btn btn-info"><i class="fa fa-eye"></i></a></td>
-  </tr>
-  <tr>
-    <td><img width="90px" src="https://dkstatics-public.digikala.com/digikala-products/a1ce7f73cb727e977537090509479f3dd134ea42_1635065691.jpg" alt=""></td>
-    <td>2</td>
-    <td>23,000 تومان</td>
-    <td><a target="_blank" href="#" class="btn btn-info"><i class="fa fa-eye"></i></a></td>
-  </tr>
-    <tr>
-    <td><img width="90px" src="https://dkstatics-public.digikala.com/digikala-products/116904078.jpg" alt=""></td>
-    <td>1</td>
-    <td>89,000 تومان</td>
-    <td><a target="_blank" href="#" class="btn btn-info"><i class="fa fa-eye"></i></a></td>
-  </tr>
-
-</table>`,
-        icon: 'info',
-        confirmButtonText: 'متوجه شدم'
+    mounted(){
+      axios.get("transaction/orders/me/").then(response=>{
+        this.orders = response.data
+        this.isLoading = false;
       })
+    },
+    methods:{
+      extractdate(date){
+        let newdate = new Date(date)
+        let mydate = this.to_jalali(newdate.getFullYear(), newdate.getMonth(), newdate.getDay())
+        return `${mydate[0]}-${mydate[1]}-${mydate[2]}`;
+
+
+      },
+      showFactor(orderItems){
+          let items = ""
+          orderItems.forEach(item=>{
+            console.log(item.product.product.title)
+            let _itemtext = `
+            <tr>
+              <td>${item.product.product.title}</td>
+              <td>${item.count}</td>
+              <td>${item.price.toLocaleString()} ریال</td>
+              <td><a target="_blank" href="/product/${item.product.product.code}/" class="btn btn-info"><i class="fa fa-eye"></i></a></td>
+            </tr>
+            `;
+            items += _itemtext;
+          })
+          Swal.fire({
+          title: 'لیست اجناس',
+          html: `<table class="w-100 orders-list">
+    <tr>
+      <th>عنوان</th>
+      <th>تعداد</th>
+      <th>قیمت واحد</th>
+      <th>لینک</th>
+
+    </tr>
+
+    ${items}
+
+  </table>`,
+          icon: 'info',
+          confirmButtonText: 'متوجه شدم'
+        })
+        },
+      to_jalali(gy, gm, gd){
+        var g_d_m, jy, jm, jd, gy2, days;
+        g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+        gy2 = (gm > 2) ? (gy + 1) : gy;
+        days = 355666 + (365 * gy) + ~~((gy2 + 3) / 4) - ~~((gy2 + 99) / 100) + ~~((gy2 + 399) / 400) + gd + g_d_m[gm - 1];
+        jy = -1595 + (33 * ~~(days / 12053));
+        days %= 12053;
+        jy += 4 * ~~(days / 1461);
+        days %= 1461;
+        if (days > 365) {
+          jy += ~~((days - 1) / 365);
+          days = (days - 1) % 365;
+        }
+        if (days < 186) {
+          jm = 1 + ~~(days / 31);
+          jd = 1 + (days % 31);
+        } else {
+          jm = 7 + ~~((days - 186) / 30);
+          jd = 1 + ((days - 186) % 30);
+        }
+        return [jy, jm, jd];
       }
     }
   }
