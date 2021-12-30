@@ -22,15 +22,18 @@
                 </thead>
                 <tbody>
                 <tr role="row"  v-for="transaction in transactions">
-                    <td>{{transaction.code}}</td>
-                    <td>{{transaction.owner.fullname}}</td>
-                    <td>{{transaction.cost.toLocaleString()}} تومان</td>
+                    <td>{{transaction.refer_code}}</td>
+                    <td>{{transaction.customer.phone_number}}</td>
+
+                    <td>{{transaction.amount.toLocaleString()}} تومان</td>
                     <td>
-                      <span class="text-success fw-bold" v-if="transaction.status">موفق</span>
+                      <span class="text-success fw-bold" v-if="transaction.status == 's'">موفق</span>
+                      <span class="text-warning fw-bold" v-else-if="transaction.status == 'w'">در انتظار پرداخت</span>
+                      <span class="text-dark fw-bold" v-else-if="transaction.status == 'r'">برگشت داده شده</span>
                       <span class="text-danger fw-bold" v-else>ناموفق</span>
                     </td>
                     <td>
-                      {{transaction.date}}
+                      {{extractdate(transaction.updated_at)}}
                     </td>
                 </tr>
 
@@ -49,6 +52,7 @@
 </template>
 <script>
    import Loading from 'vue-loading-overlay';
+   import axios from 'axios';
   export default {
     name: "Transactions",
     components:{loading:Loading},
@@ -57,18 +61,45 @@
         isLoading: true,
         fullPage: false,
         transactions:[
-          {code:"4343457",cost:3000000,status:true,owner:{fullname:"AliMahdavi"},date:"1400/08/18 - 14:02:03"},
-          {code:"5465444",cost:3600000,status:false,owner:{fullname:"AmirAkbari"},date:"1400/02/20 - 14:02:03"},
-          {code:"7890866",cost:390600,status:true,owner:{fullname:"Maryamsheikhi"},date:"1400/05/12 - 14:02:03"},
-          {code:"6768322",cost:120000,status:false,owner:{fullname:"Hadich"},date:"1400/08/02 - 14:02:03"},
-          {code:"4831092",cost:30000,status:true,owner:{fullname:"farich"},date:"1400/08/03 - 14:02:03"},
-
         ]
       }  
     },
     methods:{
+      extractdate(date){
+          let newdate = new Date(date)
+          let mydate = this.to_jalali(newdate.getFullYear(), newdate.getMonth(), newdate.getDay())
+          return `${mydate[0]}-${mydate[1]}-${mydate[2]} - ${newdate.getHours()}:${newdate.getMinutes()}:${newdate.getSeconds()}`;
+
+
+      },
+      to_jalali(gy, gm, gd){
+          var g_d_m, jy, jm, jd, gy2, days;
+          g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+          gy2 = (gm > 2) ? (gy + 1) : gy;
+          days = 355666 + (365 * gy) + ~~((gy2 + 3) / 4) - ~~((gy2 + 99) / 100) + ~~((gy2 + 399) / 400) + gd + g_d_m[gm - 1];
+          jy = -1595 + (33 * ~~(days / 12053));
+          days %= 12053;
+          jy += 4 * ~~(days / 1461);
+          days %= 1461;
+          if (days > 365) {
+            jy += ~~((days - 1) / 365);
+            days = (days - 1) % 365;
+          }
+          if (days < 186) {
+            jm = 1 + ~~(days / 31);
+            jd = 1 + (days % 31);
+          } else {
+            jm = 7 + ~~((days - 186) / 30);
+            jd = 1 + ((days - 186) % 30);
+          }
+          return [jy, jm, jd];
+      }
     },
     created(){
+      axios.get("transaction/").then(response=>{
+        this.transactions= response.data
+        this.isLoading = false;
+      });
      
     }
   }
