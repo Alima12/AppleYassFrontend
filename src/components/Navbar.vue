@@ -15,9 +15,13 @@
     <div class="nav-left">
         <div class="register-login">
             <i class="fa fa-user"></i>
-            <router-link to="/auth/login">
+            <router-link to="/auth/login" v-if="!isAuthenticated">
             ثبت نام / ورود
             </router-link>
+            <router-link to="/panel" v-else>
+            {{$store.getters.getMe.first_name}} {{$store.getters.getMe.last_name}}
+            </router-link>
+
             
         </div>
     </div>
@@ -28,6 +32,16 @@
 
 export default {
   name: 'Navbar',
+  data(){
+    return{
+      isAuthenticated:false,
+    }
+  },
+  mounted(){
+    setTimeout(()=>{
+      this.isAuthenticated = this.$store.getters.isLogined;
+    },1000)
+  }
 }
 </script>
 <style>

@@ -9,7 +9,7 @@
     </main>
     
   </div>
-    <Footer />
+    <Footer :data="footerData" />
 </template>
 
 <script>
@@ -21,6 +21,7 @@ import NewProducts from "../modules/Product/components/NewProducts";
 import Categories from "../components/Categories";
 import Footer from "../components/Footer"
 import "@/assets/css/home.css"
+import axios from 'axios';
 
 export default {
   name: 'Home',
@@ -32,8 +33,57 @@ export default {
     Categories,
     Footer
   },
+  data(){
+    return {
+      footerData:{}
+    }
+  },
   mounted(){
-    
+    axios.get("/config/").then(response=>{
+      this.footerData = response.data;
+    })
+    setTimeout(()=>{
+      let sliders = ['#owl-product','#category']
+      sliders.forEach(slide=>{
+        let responsive = {
+              0:{
+                  items:1
+              },
+              600:{
+                  items:3
+              },
+              1000:{
+                  items:4
+              }
+        }
+        if (slide == '#category'){
+          responsive = {
+              0:{
+                  items:2
+              },
+              600:{
+                  items:4
+              },
+              1000:{
+                  items:6
+              }
+        }
+        }
+        $(slide).owlCarousel({
+          rtl:true,
+          margin:10,
+          responsive
+         
+        })
+      })
+      function filter() {
+        var valThis = $('#txtSearchValue').val();
+        $('.dropdown-select ul > li').each(function () {
+            var text = $(this).text();
+            (text.toLowerCase().indexOf(valThis.toLowerCase()) > -1) ? $(this).show() : $(this).hide();
+        });
+      };
+    }, 5000)
   },
 }
 </script>

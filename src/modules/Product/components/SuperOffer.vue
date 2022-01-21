@@ -11,19 +11,20 @@
             <div class="row">
               <div class="col-lg-4">
                 <div class="image-container">
-                  <router-link :to="`/product/${product.code}`">
-                      <img  :src="product.images[0].image" alt="">
+                  <router-link :to="`/product/${product.id}`">
+                      <img  :src="'http://127.0.0.1:8000'+ product.image" alt="">
                   </router-link>
                 </div>
               </div>
               <div class="col-lg-8">
                 <div class="spedification">
                   <div class="price-row">
-                    <div class="price">{{product.price}}</div>
-                    <div class="off">%{{product.discoutPercent}} تخفیف</div>
+                    <div class="price text-danger text-decoration-line-through">{{product.real_price.toLocaleString()}} <span>تومان</span></div>
+                    <div class="price text-success">{{product.total_price.toLocaleString()}} <span>تومان</span></div>
+                    <div class="off">%{{product.percent}} تخفیف</div>
                   </div>
                   <div class="title">
-                      {{product.name}}
+                      {{product.title}}
                   </div>
                   <hr class="px-5"/>
                   <div class="counter-down">
@@ -43,21 +44,25 @@
       </div>
       <div class="col-lg-3">
         <div class="banner">
-          <img :src="product.images[0].offerBanner" alt="">
+          <img :src="'http://127.0.0.1:8000'+ product.percent_image" alt="">
         </div>
       </div>
   </div>
   </section>
+  
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
   name: 'SuperOffer',
   data(){
-    let superProduct = this.$store.getters.getSuperOfferProduct
     return {
-      product:superProduct,
+      product:{
+        total_price:1000,
+        real_price:1000
+      },
       discountTill:[0,0,0],
     }
   },
@@ -76,6 +81,13 @@ export default {
         this.product.remainTimeSecond-=1;
         this.setTime();
     },1000)
+    axios.get("config/super-offer/").then(response=>{
+      this.product = response.data;
+      let date = new Date(this.product.till)
+      let now = new Date()
+      this.product.remainTimeSecond = Math.floor((date - now) /1000);
+      
+    })
   },
 }
 </script>

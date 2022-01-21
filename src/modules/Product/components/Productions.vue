@@ -8,6 +8,7 @@
   </section>
 </template>
 <script>
+import axios from 'axios'
   import Product from './Product'
 
   export default {
@@ -16,10 +17,17 @@
       Product,
     },
     data(){
-      let products = this.$store.getters.getProducts.filter(product=>product.hotProduct)
       return {
-        products: products,
+        products: [],
       }
+    },
+    mounted(){
+      axios.get("product/hot/").then(response=>{
+        console.log(response.data)
+        this.products = response.data;
+      })
+    },
+    watch:{
     }
   }
 </script>

@@ -5,11 +5,11 @@
     </div>
     <div id="category" class="owl-carousel owl-theme">
       <div class="item" v-for="category in categories">
-        <router-link :to="`/category/${category.code}`">
+        <router-link :to="`/category/${category.name}`">
           <div class="category-container">
             <img :src="category.image">
             <span>
-                {{category.name}}
+                {{category.title}}
             </span>
           </div>
         </router-link>
@@ -19,6 +19,7 @@
   </section>
 </template>
 <script>
+import axios from 'axios'
   export default {
     name: "Categories",
     data(){
@@ -32,6 +33,11 @@
           {code:"handsfree",name:"هندفری",image:"https://dkstatics-public.digikala.com/digikala-products/d52027e381580114b15d694e62903a0a4c90084d_1629541316.jpg"},
         ]
       }
+    },
+    mounted(){
+      axios.get("category/list/").then(response=>{
+        this.categories = response.data;
+      })
     }
   }
 </script>
@@ -44,6 +50,8 @@
   }
 .category-container{
   position: relative;
+  width: 100%;
+  height: 160px;
 
 }
 .category-container img{

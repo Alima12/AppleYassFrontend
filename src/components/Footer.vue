@@ -4,36 +4,28 @@
           <div class="container-fluid">
               <div class="row logo">
                   <div class="col-12">
-                    <img src="https://png.pngitem.com/pimgs/s/63-636592_apple-logo-and-name-hd-png-download.png" alt="">
+                    <img :src="`http://127.0.0.1:8000`+ data.logo + '/' " alt="">
                   </div>
                   <div class="col-12 tel-res">
-                      <p class="telephone"> تلفن تماس : 07432326985 - 09174580056</p>
-                      <p class="address"> آدرس: گچساران / نرسیده به سه راهی / جنب بستنی شاد</p>
+                      <p class="telephone">تلفن تماس: {{data.contact_us}}</p>
+                      <p class="address"> آدرس: {{data.our_address}}</p>
                   </div>
               </div>
               
               <div class="row details">
                   <div class="col-lg-8 col-md-7 col-sm-12">
-                      <div class="title">اپل یاس</div>
-                      <p class="about-us">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.</p>
+                      <div class="title">{{data.web_name}}</div>
+                      <p class="about-us">
+                          {{data.about_us}}
+                      </p>
                   </div>
                   <div class="col-lg-4 col-md-5 col-sm-12">
                       <div class="certificates">
-                            <div class="item">
-                                <a href="#">
-                                    <img src="https://www.digikala.com/static/files/6e2d6b38.png" alt="">
-                                </a>
-                            </div>
-                            <div class="item">
-                              <a href="#">
-                                  <img src="https://www.digikala.com/static/files/6e2d6b38.png" alt="">
-                              </a>
-                          </div>
-                            <div class="item">
-                                <a href="#">
-                                    <img src="https://www.digikala.com/static/files/6e2d6b38.png" alt="">
-                                </a>
-                            </div>
+                        <div class="item" v-for="certificate in certificates">
+                            <a href="#">
+                                <img :src="certificate.image" :alt="certificate.title" :title="certificate.title">
+                            </a>
+                        </div>
                       </div>
                   </div>
               </div>
@@ -41,22 +33,34 @@
               <div class="row">
                 <div class="col-12">
                     <p class="copy-rights">
-                        ©2020 Copy Right | تمامی حقوق این سایت متعلق به اپل یاس میباشد
+                        {{data.copy_rights}}
                     </p>
                         
                 </div>
               </div>
           </div>
+          
       </div>
   </section>
 </template>
 <script>
+import axios from 'axios'
   export default {
     name: "Footer",
+    props:["data"],
     data(){
       return {
+          certificates :[
+
+          ]
       }
+    },
+    mounted(){
+        axios.get("/config/certificates/").then(response=>{
+            this.certificates = response.data;
+        })
     }
+
   }
 </script>
 <style>

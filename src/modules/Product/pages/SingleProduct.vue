@@ -3,6 +3,7 @@
   <div class="row mb-3">
     <h3 class="text-center">{{product.name}}</h3>
     <div class="px-3 mb-3">
+      {{colorId}}
       <hr />
     </div>
     <div class="col-lg-5 col-md-12 col-sm-12">
@@ -25,7 +26,7 @@
         <p class="title">{{product.title}}</p>
         <div class="stars">
           <p>امتیاز: &nbsp; &nbsp;</p>
-          <i v-for="item in product.stars" class="fa fa-star"></i>
+          <i v-for="item in product.rate" class="fa fa-star"></i>
         </div>
         <div class="clearfix">
           <small>تنها خریداران حق ثبت امتیاز دارند</small>
@@ -39,7 +40,7 @@
           <p>ویژگی ها:</p>
           <div class="attributes">
             <ul>
-              <li v-for="attribute in product.attributes">{{attribute}}</li>
+              <li v-for="attribute in product.attributes">{{attribute.text}}</li>
             </ul>
            
           </div>
@@ -107,9 +108,9 @@
             <div class="accordion-body">
               <div class="detail-section">
                 <ul>
-                  <i class="item" v-for="tech in product.technicalattrs">
+                  <i class="item" v-for="tech in product.technical">
                     <spna class="title">{{tech.name}}</spna>
-                    <spna class="content">{{tech.value}}</spna>
+                    <spna class="content">{{tech.text}}</spna>
                   </i>
                 </ul>
               </div>
@@ -125,7 +126,7 @@
           <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
             <div class="accordion-body">
               <div class="detail-section" style="text-align:justify;">
-                {{product.moreDetails}}
+                {{product.detail}}
               </div>
             </div>
           </div>
@@ -136,9 +137,13 @@
     </div>
   </div>
 
-
+      <loading 
+      v-model:active="isLoading"
+      :can-cancel="false"
+      :is-full-page="fullPage"
+      />
   <div class="row">
-    <Comments  :commentList="product.comments" />
+    <!-- <Comments  :commentList="product.comments" /> -->
   </div>
 
 </div>
@@ -148,13 +153,18 @@
   import Product from '../components/Product';
   import Comments from '../components/Comments';
 
+  import Loading from 'vue-loading-overlay';
+  import axios from 'axios'
+
  
   export default {
     name: "SingleProduct",
     components:{
       Product,
-      Comments
+      Comments,
+      loading:Loading
     },
+
     data(){
       return{
         image:"",
@@ -164,10 +174,21 @@
         activeColor:"white",
         inventory:0,
         count:1,
+        isLoading: true,
+        fullPage: true,
+        colorId:0,
       }
     },
     created(){
-      this.setProduct(this.$route.params.code)
+      let code = this.$route.params.code;
+      axios.get(`${code}/`).then(response=>{
+        let product = response.data
+        this.isLoading = false;
+        axios.get(`${code}/colors/`).then(response=>{
+          product.colors = response.data;
+          this.setProduct(product)
+        })
+      })
     },
     mounted(){
       window.scrollTo({top:0,behavior:"smooth"})
@@ -186,41 +207,29 @@
         return ''
       },
       setPrice(color){
-        this.price = color.price;
+        console.log(color.price)
+        this.price = color.get_price;
         this.activeColor = color.color;
         this.inventory = color.inventory;
+        this.colorId = color.id;
+        this.count = 1;
       },
-      setProduct(code){
-        let product = this.$store.getters.getProduct(code);
-        let price = product.colors[0].price;
+      setProduct(product){
+        let price = product.colors[0].get_price;
         let activeColor= product.colors[0].color;
         let inventory= product.colors[0].inventory;
-        let likelyProcuts =this.$store.getters.getProducts;
+        this.colorId = product.colors[0].id;
         this.product = product;
-        this.products = likelyProcuts;
         this.price = price;
         this.activeColor = activeColor;
         this.inventory = inventory;
         this.image = this.product.images[0].image
     },
     addToCart(){
-      let color = this.product.colors.find(color=> color.color == this.activeColor).color;
-      let items = this.$store.getters.getCartItems;
-      let cartItem = items.find(item=>item.code == this.product.code && item.color == color)
-      if(cartItem){
-        this.$store.dispatch("updateItem",[cartItem.code,this.count,color]);
-      }else{
-        let item = {
-          code:this.product.code,
-          color,
-          count:this.count,
-          price: this.price,
-          img:this.image,
-          name:this.product.name
-
-        }
-        this.$store.dispatch('addItem',item);
-      }
+      let data = new FormData();
+      data.append("count", this.count);
+      data.append("color_id", this.colorId);
+      this.$store.dispatch("addCartItem", data);
       this.$router.push('/cart')
 
     }

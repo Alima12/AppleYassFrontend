@@ -11,10 +11,10 @@
             <i :class="{'active':item == activeIndex}" @click="setSlide(item)" class="fa fa-circle"></i>
           </span>  
       </div>
-
   </section>
 </template>
 <script>
+import axios from 'axios'
   import carousel from 'vue-owl-carousel2'
   export default {
     name: "Slider",
@@ -22,32 +22,10 @@
       carousel,
     },
     data(){
-      let slideha = [
-          {
-            index:1 ,
-            image:"https://photos5.appleinsider.com/gallery/43148-83800-210713-iPhone12-xl.jpg",
-            text:"اپل یاس ",
-            isActive: false
-          },
-          {
-            index:2 ,
-            image:"https://9to5mac.com/wp-content/uploads/sites/6/2021/04/big-display-imac.jpg",
-            text:"اپل یاس ",
-            isActive: false
-          },
-          {
-            index:3 ,
-            image:"https://cdn.mos.cms.futurecdn.net/LjqKgNBc8TCXke3CNekJgA.jpg",
-            text:"اپل یاس ",
-            isActive: true
-          }
-        
-      ]
-      let indexha = slideha.length
       return {
-        slides:slideha,
-        indexes :indexha,
-        activeIndex: 1
+        slides:[],
+        indexes :0,
+        activeIndex: 1,
 
       }
 
@@ -61,6 +39,10 @@
         this.setSlide(this.activeIndex)
 
       },5000)
+
+      axios.get("/config/slides/").then(response=>{
+        this.prepareSlides(response.data)
+      })
     },
 
     methods:{
@@ -72,6 +54,14 @@
         this.activeIndex = slideIndex;
         this.slides[slideIndex - 1].isActive=true;
       },
+      prepareSlides(slides){
+        this.slides = slides;
+        this.slides.forEach(slide=>{
+          slide.isActive= false
+        })
+        this.indexes = this.slides.length;
+        this.setSlide(1)
+      }
     }
   }
 </script>

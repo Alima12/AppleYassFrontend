@@ -11,6 +11,7 @@
   </section>
 </template>
 <script>
+  import axios from "axios"
   import Product from './Product';
   export default {
     name: "NewProducts",
@@ -18,11 +19,15 @@
       Product,
     },
     data(){
-      let products = this.$store.getters.getProducts.filter(product=> product.newProduct)
       return {
-        products:products
+        products:[],
       }
     },
+    mounted(){
+      axios.get("product/new/").then(response=>{
+        this.products = response.data;
+      })
+    }
     
   }
 </script>

@@ -1,67 +1,38 @@
-import { createStore } from 'vuex'
+import axios from 'axios'
+
 const state= {
-  cartItems:[]
+  cart:{}
 }
 const mutations= {
   updateCartItems(state,payload){
-    state.cartItems = payload
+    state.cart = payload;
   },
-  cartItemsAdd(state,item){
-    state.cartItems.push(item)
-  },
-  addNumber(state,items){
-    let product = state.cartItems.find(i=> i.code == items[0] && i.color == items[2])
-    product.count = items[1];
-  }
-
 }
 const actions = {
   getCartItems({ commit }) {
-    // axios.get('/api/cart').then((response) => {
-    //   commit('updateProductItems', response.data)
-    // });
+    axios.get('transaction/order/cart/').then((response) => {
+      commit('updateCartItems', response.data[0])
+    });
   },
   addCartItem ({ commit }, cartItem) {
-    // axios.post('/api/cart', cartItem).then((response) => {
-    //   commit('updateProductItems', response.data)
-    // });
+    axios.post('transaction/order/cart/', cartItem).then((response) => {
+      commit('updateCartItems', response.data)
+    });
   },
-  removeCartItem ({ commit }, cartItem) {
-    // axios.delete('/api/cart/delete', cartItem).then((response) => {
-    //   commit('updateProductItems', response.data)
-    // });
+  removeCartItem ({ commit }, id) {
+    axios.delete(`transaction/order/cart/destroy/${id}/`);
   },
   removeAllCartItems ({ commit }) {
     // axios.delete('/api/cart/delete/all').then((response) => {
     //   commit('updateProductItems', response.data)
     // });
   },
-  addItem({commit},item){
-    commit('cartItemsAdd',item);
-  },
-  updateItem({commit},items){
-    commit('addNumber',items)
-
-  }
+  
 }
 
 const getters = {
-  getCartItems: state => state.cartItems,
-  getCartTotalPrice: state=>{
-    let totalPrice = 0;
-    state.cartItems.forEach(item => {
-      totalPrice += (item.price * item.count);
-    });
-    return totalPrice;
-  },
-  getCartQuantity: state=>{
-    let totalItems = 0;
-    state.cartItems.forEach(item => {
-      totalItems += item.count;
-    });
-    return totalItems
-  }
-
+  CartItems: state => state.cart,
+  getCartTotalPrice: state=> state.cart.total_price,
 }
 
 
