@@ -11,6 +11,7 @@
       </router-link>
     </div>
     <div class="cart-title">{{product.name}}</div>
+
     <div class="buttons">
       <div class="right">
         <span class="price">{{product.title}}</span>
@@ -21,8 +22,8 @@
             <a href=""><i class="fa fa-heart"></i></a>
           </div>
           <div class="extend-btn">
-            <a href="">خرید</a>
-            <a href=""><i class="fa fa-shopping-cart"></i></a>
+            <a :href="`/product/${product.code}`">خرید</a>
+            <a :href="`/product/${product.code}`"><i class="fa fa-shopping-cart"></i></a>
           </div>
       </div>
 

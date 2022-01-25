@@ -260,6 +260,7 @@
 }
 .comments .comment .head .name-date .name img{
     width: 60px;
+    border-radius: 10px;
 
 }
 .comments .comment .head .name-date .name span{
@@ -272,7 +273,7 @@
 
 }
 .comments .comment .head .name-date .date span{
-    font-size: .9em;
+    font-size: .7em;
 }
 .comments .comment .head .like-box{
     padding: 5px 8px;
@@ -286,9 +287,13 @@
 
 }
 .comments .comment .head .like-box .like{
-    color: #27ae60;
     display: flex;
     align-items: center;
+   
+
+}
+.comments .comment .head .like-box .like.i{
+    color: #27ae60;
    
 
 }
@@ -298,10 +303,13 @@
     font-weight: bold;
 }
 .comments .comment .head .like-box .dislike{
-    color: #c0392b;
+    /* color: #c0392b; */
     margin-top: 6px;
     display: flex;
     align-items: center;
+}
+.comments .comment .head .like-box .dislike.i{
+    color: #c0392b;
 }
 
 .comments .comment .head .like-box .dislike span{
@@ -318,6 +326,10 @@
 .comments .comment .body .comment-text{
     text-align: justify;
 
+}
+.submitbtn button{
+    border-radius: 5px;
+    font-weight: bold;
 }
 
 
@@ -348,3 +360,4 @@
     font-weight: bold;
 
 }
+

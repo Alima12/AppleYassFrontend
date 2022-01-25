@@ -76,14 +76,7 @@ export default {
          
         })
       })
-      function filter() {
-        var valThis = $('#txtSearchValue').val();
-        $('.dropdown-select ul > li').each(function () {
-            var text = $(this).text();
-            (text.toLowerCase().indexOf(valThis.toLowerCase()) > -1) ? $(this).show() : $(this).hide();
-        });
-      };
-    }, 5000)
+    }, 3000)
   },
 }
 </script>

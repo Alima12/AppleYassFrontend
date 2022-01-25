@@ -2,10 +2,6 @@
 <div class="container-fluid single-product">
   <div class="row mb-3">
     <h3 class="text-center">{{product.name}}</h3>
-    <div class="px-3 mb-3">
-      {{colorId}}
-      <hr />
-    </div>
     <div class="col-lg-5 col-md-12 col-sm-12">
       <div class="image-container">
         <img :src="image" alt="" class="active-image">
@@ -143,7 +139,7 @@
       :is-full-page="fullPage"
       />
   <div class="row">
-    <!-- <Comments  :commentList="product.comments" /> -->
+    <Comments :code="product.code" />
   </div>
 
 </div>
@@ -215,14 +211,16 @@
         this.count = 1;
       },
       setProduct(product){
-        let price = product.colors[0].get_price;
-        let activeColor= product.colors[0].color;
-        let inventory= product.colors[0].inventory;
-        this.colorId = product.colors[0].id;
+        if(product.hasOwnProperty('colors') && product.colors.length>0){
+          let price = product.colors[0].get_price;
+          let activeColor= product.colors[0].color;
+          let inventory= product.colors[0].inventory;
+          this.colorId = product.colors[0].id;
+          this.price = price;
+          this.activeColor = activeColor;
+          this.inventory = inventory;
+        }
         this.product = product;
-        this.price = price;
-        this.activeColor = activeColor;
-        this.inventory = inventory;
         this.image = this.product.images[0].image
     },
     addToCart(){

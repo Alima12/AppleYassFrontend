@@ -13,3 +13,6 @@ body{
 a{
     text-decoration: none;
 }
+.v-toast *{
+    direction: ltr !important;
+}

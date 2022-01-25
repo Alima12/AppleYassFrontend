@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import axios  from 'axios'
 import Vue3PersianDatetimePicker from 'vue3-persian-datetime-picker'
+import VueToast from 'vue-toast-notification';
 
 window.$ = window.jQuery = require('jquery');
 axios.defaults.baseURL = 'http://127.0.0.1:8000/';
@@ -18,9 +19,6 @@ props: {
     altFormat: 'YYYY-MM-DD HH:mm',
     color: '#00acc1',
     autoSubmit: false,
-    //...
-    //... And whatever you want to set as default.
-    //...
     }
 }
-createApp(App).use(store).use(router).use(Vue3PersianDatetimePicker,defaulDateTime).mount('#app')
+createApp(App).use(store).use(router).use(Vue3PersianDatetimePicker,defaulDateTime).use(VueToast).mount('#app')

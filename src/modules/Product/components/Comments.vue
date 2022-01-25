@@ -6,56 +6,7 @@
     </h4>
     <section class="comments">
         <div class="comment" v-for="comment in commentList">
-            <div class="head">
-                <div class="name-date">
-                    <div class="name">
-                        <img :src="comment.image" alt="">
-                        <span>{{comment.name}}</span> 
-                    </div>
-                    <div class="date">
-                        <span>{{comment.date}}</span>
-                    </div>
-                </div>
-                <div class="like-box">
-                    <div class="like">
-                        <span>{{comment.likes}}</span>
-                        <i class="fa fa-thumbs-up like"></i>
-                    </div>
-                    <div class="dislike">
-                        <span>{{comment.dislikes}}</span>
-                        <i class="fa fa-thumbs-down dislike"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="body">
-                <p class="comment-text">{{comment.content}}</p>
-            </div>
-            <div class="comment reply" v-for="reply in comment.reply">
-                <div class="head">
-                    <div class="name-date">
-                        <div class="name">
-                            <img :src="reply.image" alt="">
-                            <span>{{reply.name}}</span> 
-                        </div>
-                        <div class="date">
-                            <span>{{reply.date}}</span>
-                        </div>
-                    </div>
-                    <div class="like-box">
-                        <div class="like">
-                            <span>{{reply.likes}}</span>
-                            <i class="fa fa-thumbs-up like"></i>
-                        </div>
-                        <div class="dislike">
-                            <span>{{reply.dislikes}}</span>
-                            <i class="fa fa-thumbs-down dislike"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="body">
-                    <p class="comment-text">{{reply.content}}</p>
-                </div>
-            </div>
+            <Comment :comment="comment" :code="code" />
         </div>
         <div v-if="commentList.length< 1">
             کامنتی وجود ندارد
@@ -71,29 +22,107 @@
         <h5 class="text-center">
             ارسال نظر
         </h5>
-        <form class="form">
-            <div class="name my-1 p-2">
-                <label for="username" class="mb-1" style="color:#444">نام شما:</label>
-                <input type="text" class="form-control" name="username"/>
-            </div>
+        <form class="form" @submit.prevent="sendComment">
             <div class="coment-content my-1 p-2">
                 <label for="commentcontent" class="mb-1" style="color:#444">نظر:</label>
-                <textarea name="commentcontent" class="form-control" cols="30" rows="10"></textarea>
+                <textarea v-model="comment.content" name="commentcontent" class="form-control" cols="30" rows="10"></textarea>
 
             </div>
             <div class="submitbtn mt-1 p-2">
-                <button class="btn btn-success p-1 float-end">ارسال</button>
+                <button class="btn btn-outline-success p-3 float-end">ارسال</button>
             </div>
+            
         </form>
     </div>
-   
+    <loading 
+      v-model:active="isLoading"
+      :can-cancel="true"
+      :is-full-page="fullPage"
+      />
     
 </template>
 <script>
+    import Comment from "./Comment"
+    import axios from 'axios'
+    import Loading from 'vue-loading-overlay';
+
   export default {
     name: "Comments",
-    props:["commentList"]
-    
+    props:["code"],
+    components:{
+        Comment,
+        loading:Loading
+
+    },
+    data(){
+        return{
+            commentList:[],
+            fullPage:true,
+            isLoading:true,
+            comment:{
+                content:""
+            }
+           
+        }
+    },
+    async created(){
+        setTimeout(()=>{
+            axios.get(`comments/${this.code}/`).then(response=>{
+                let temp = response.data;
+                this.commentList = [...temp]
+
+                this.commentList.forEach(comment=>{
+                    comment.reply = []
+                })
+                let primary = []
+                temp.forEach(comment=>{
+                    
+                    if(comment.parent != null){
+                        this.commentList.find(com=> com.id == comment.parent).reply.push(comment)
+                        primary.push(comment.id)
+                    }
+                })
+                primary.forEach(id=>{
+                    this.commentList = this.commentList.filter(comment=> comment.id != id)
+                })
+                this.isLoading = false;
+            })
+        },2000)
+        
+
+    },
+    methods:{
+        setAlert(message, type){
+            this.$toast.open({
+                message:message,
+                type:type,
+                duration:5000,
+                position: 'bottom'
+
+            })
+        },
+        sendComment(){
+            this.isLoading = true;
+            if(this.comment.content != ""){
+                let data = new FormData()
+                data.append("content", this.comment.content)
+                axios.post(`comments/add/${this.code}/`, data).then(response=>{
+                    if(response.status==201){
+
+                        this.isLoading=false;
+                        window.scrollTo({top:0, behavior:"smooth"})
+                        this.comment.content = "";
+                        this.setAlert("نظر شما با موفقیت ثبت شد و پس از تایید مدیر سایت نمایش داده خواهد شد.", "success")
+                       
+                    }
+                })
+            }else{
+                this.setAlert("فیلد بالا نمیتوند خالی باشد", "error")
+                this.isLoading=false;
+            }
+
+        }
+    }
   }
 </script>
 
