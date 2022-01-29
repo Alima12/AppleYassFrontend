@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import Search from '../views/Search.vue'
 import Category from '../views/Category.vue'
 import userRoutes from '@/modules/User/routes'
 import cartRoutes from '@/modules/Cart/routes'
@@ -22,6 +23,11 @@ const routes = [
     path: '/category/:code',
     name: 'SingleCategory',
     component: Category
+  },
+  {
+    path: '/search',
+    name: 'SearchPage',
+    component: Search
   },
   ...cartRoutes,
   ...productRoutes,

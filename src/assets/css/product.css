@@ -88,6 +88,9 @@
     color: #f1c40f;
     font-size: 1.3em;
 }
+.single-product .detial-container .stars i.empty{
+    color: #444;
+}
 
 .single-product .buy-box .cost{
     text-align: right;

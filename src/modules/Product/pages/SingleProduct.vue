@@ -23,6 +23,8 @@
         <div class="stars">
           <p>امتیاز: &nbsp; &nbsp;</p>
           <i v-for="item in product.rate" class="fa fa-star"></i>
+          <i v-for="item in (5 - product.rate)" class="fa fa-star empty"></i>
+
         </div>
         <div class="clearfix">
           <small>تنها خریداران حق ثبت امتیاز دارند</small>
@@ -77,10 +79,10 @@
           <span>
             محصولات مشابه
           </span>
-          </h3>
+        </h3>
       </div>
       <div id="owl-product-likely" class="owl-carousel owl-theme">
-        <div class="item" v-for="product in products">
+        <div class="item" v-for="product in relatedProduct">
           <Product :product="product" />
         </div>
       </div>
@@ -173,6 +175,7 @@
         isLoading: true,
         fullPage: true,
         colorId:0,
+        relatedProduct:[]
       }
     },
     created(){
@@ -185,9 +188,32 @@
           this.setProduct(product)
         })
       })
+      axios.get(`${code}/related/`).then(response=>{
+        this.relatedProduct = response.data
+        
+      })
     },
     mounted(){
       window.scrollTo({top:0,behavior:"smooth"})
+      setTimeout(()=>{
+        let responsive = {
+          0:{
+              items:1
+          },
+          600:{
+              items:3
+          },
+          1000:{
+              items:4
+          }
+        }
+        $("#owl-product-likely").owlCarousel({
+            rtl:true,
+            margin:10,
+            responsive
+          
+        })
+      },2000);
     },
     methods:{
       setImage(imageId){
