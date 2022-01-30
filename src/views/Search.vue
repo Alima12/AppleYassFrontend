@@ -23,6 +23,11 @@
                             {{category.title}}
                         </p>
                     </div>
+                    <div @click="setCategory({name:'', active:false})" :class="{'active': allcat}" class="item">
+                        <p>
+                            همه
+                        </p>
+                    </div>
                 </div>
             </div>
             <div class="main row">
@@ -42,7 +47,7 @@
                     <div class="filters">
                         <div class="filter-container">
                             <div class="center">
-                                <input class="filter-checkbox" type="checkbox" id="cbx" style="display:none"/>
+                                <input v-model="onlyAvailable" class="filter-checkbox" type="checkbox" id="cbx" style="display:none"/>
                                 <label for="cbx" class="toggle"><span></span></label>    
                             </div>
                             <div class="title">
@@ -104,18 +109,19 @@
                 products:[],
                 params:"",
                 category:"",
-                loadingActivate:true
+                onlyAvailable:false,
+                loadingActivate:true,
+                allcat:false,
             }
         },
         methods:{
             async search(){
                 this.loadingActivate = true;
-                this.manageParams(this.updateQuery())
+                let q = this.manageParams(this.updateQuery())
                 axios.get(
-                    "searching/" + window.location.search
+                    "searching/", {params:q}
                 ).then(response=>{
                     this.products = response.data.results;
-                    console.log(this.products.length)
                     this.loadingActivate = false;
                 })
 
@@ -129,6 +135,8 @@
                 let query = Object.assign({});
                 query.category__name = this.category;
                 query.search = this.params;
+                query.available = this.onlyAvailable;
+
                 this.$router.push({ query });
                 return query
                 
@@ -139,14 +147,22 @@
                 }
                 this.params = query.search;
                 this.category = query.category__name;
-                console.log(this.category)
+                this.onlyAvailable = query.available;
+
                 this.categories.forEach(categ=>{
                     if(categ.name == this.category){
-                        categ.active = true
-                    }else{
-                        categ.active = false
+                        categ.active = true;
+                    }else if(this.category == ""){
+                        this.allcat = true;
+                        categ.active = false;
+
+                    }
+                    else{
+                        categ.active = false;
+                        this.allcat = false;
                     }
                 })
+                return query;
             }
 
         },
@@ -154,6 +170,9 @@
             params(){
                 this.updateQuery()
             },
+            onlyAvailable(){
+                this.search()
+            }
         },
         mounted(){
             
