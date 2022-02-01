@@ -130,9 +130,6 @@
 
 }
 
-.cart-all-price .total .discount-section .active-code{
-    background-color: rgba(39, 174, 96,.8) !important;
-}
 
 .cart-all-price .total .discount-section .active-code span{
     font-weight: bold;
