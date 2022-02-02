@@ -20,26 +20,26 @@
           </thead>
           <tbody>
             <tr role="row" v-for="slide in slides">
-              <td>{{slide.index}}</td>
+              <td>{{slide.id}}</td>
               <td>
-                <router-link :to="`/panel/slide/${slide.index}/edit`">{{slide.text}}</router-link>
+                <router-link :to="`/panel/slide/${slide.id}/edit`">{{slide.text}}</router-link>
               </td>
               <td>
-                <a href="">
+                <a href="/">
                   <img class="img__slideshow" :src="slide.image" :alt="slide.text">
                 </a>
               </td>
-              <td>1399/11/11</td>
+              <td>{{slide.created_at}}</td>
               <td class="slide-action">
                 <a 
                   class="item-eye mlg-15"
                   title="وضعیت"
-                  @click.prevent="deactive(slide.index)"
-                  :class="{'deactive':slide.isActive}"
+                  @click.prevent="deactive(slide.id)"
+                  :class="{'deactive':slide.is_active}"
                 >
                 </a>
                 <a href="" class="item-edit  mlg-15" title="ویرایش"></a>
-                <a href="" class="item-delete mlg-15" title="حذف"></a>
+                <a class="item-delete mlg-15" title="حذف" @click="deleteSlide(slide.id)"></a>
               </td>
             </tr>
           </tbody>
@@ -70,6 +70,7 @@
 </template>
 <script>
   import Swal from 'sweetalert2'
+import axios from 'axios';
 
   export default {
     name: "SlideShow",
@@ -83,61 +84,74 @@
           $('.selectedFiles').text(e.currentTarget.files[0].name).appendTo($('.selectedFiles'));
         });
 
-      },1000);
+      },3000);
     },
     data(){
         return{
           title:"",
           file:"",
-          slides:[
-              {
-                index:1 ,
-                image:"https://photos5.appleinsider.com/gallery/43148-83800-210713-iPhone12-xl.jpg",
-                text:"اپل یاس ",
-                isActive:true,
-              },
-              {
-                index:2 ,
-                image:"https://9to5mac.com/wp-content/uploads/sites/6/2021/04/big-display-imac.jpg",
-                text:"اپل یاس ",
-                isActive:true,
-              },
-              {
-                index:3 ,
-                image:"https://cdn.mos.cms.futurecdn.net/LjqKgNBc8TCXke3CNekJgA.jpg",
-                text:"اپل یاس ",
-                isActive:true,
-              }
-        
-        ]
+          slides:[]
       }
     },
+    mounted(){
+      axios.get("config/slides/list/").then(response=>{
+        this.slides = response.data
+      })
+    },
     methods:{
-      deactive(index){
-        this.slides.find(slide=>slide.index == index).isActive = !this.slides.find(slide=>slide.index == index).isActive
+      deleteSlide(id){
+        Swal.fire({
+          title: 'آیا از حذف این اسلاید اطمینان دارید؟',
+          icon: 'warning',
+          confirmButtonText: 'حذف کن',
+          confirmButtonColor:"#e74c3c",
+          CancelButtonColor:"#95a5a6",
+          cancelButtonText:"انصراف",
+          confirmButtonText: 'حذف',
+          showCancelButton: true,
+        }).then(result=>{
+          if (result.isConfirmed) {
+          axios.delete(`config/slides/${id}/delete/`).then(response=>{
+            if(response.status == 204){
+
+              this.slides = this.slides.filter(slide=>slide.id != id)
+            }
+          })
+          }
+        });
+      
+      },
+      deactive(id){
+        axios.post(`config/slides/${id}/reverse/`).then(response=>{
+          this.slides.find(slide=>slide.id == id).is_active = response.data.state;
+        })
       },
       addSlide(){
         let data = new FormData()
-        data.append("title",this.title)
-        data.append("file",this.file)
-        Swal.fire({
-          title: 'موفق',
-                text:'اسلاید با موفقیت اضافه شد',
-                icon:'success',
-                confirmButtonColor:"#27ae60",
-                confirmButtonText: 'باشه!',
-        }).then((e)=>{
-          // sendRequestToServer();
-          this.$router.push("/panel/slideshow");
-          this.title = "";
-          this.file = "";
+        data.append("text",this.title)
+        data.append("image",this.file)
+        axios.post("config/slides/list/", data).then(response=>{
+          Swal.fire({
+            title: 'موفق',
+                  text:'اسلاید با موفقیت اضافه شد',
+                  icon:'success',
+                  confirmButtonColor:"#27ae60",
+                  confirmButtonText: 'باشه!',
+          }).then((e)=>{
+            
+            this.$router.push("/panel/slideshow");
+            this.title = "";
+            this.file = "";
+          })
         })
+        
         
       },
       setFile(){
         let slideFile = document.querySelector("#slide-file")
         this.file = slideFile.files[0]
-      }
+      },
+
     }
   }
 
