@@ -14,7 +14,9 @@
                     <th>مبلغ پرداختی</th>
                     <th>وضعیت</th>
                     <th>آخرین بروزرسانی</th>
+                    <th>وضعیت پرداخت</th>
                     <th>فاکتور</th>
+
                 </tr>
                 </thead>
                 <tbody>
@@ -23,9 +25,11 @@
                     <td>{{order.real_price.toLocaleString()}} تومان</td>
                     <td>
                       <span class="text-warning fw-bold" v-if="order.status=='c'">در حال پردازش</span>
-                      <span class="text-warning fw-bold" v-else-if="order.status=='a'">در حال آماده سازی</span>
-                      <span class="text-warning fw-bold" v-else-if="order.status=='s'">در دست پست </span>
-                      <span class="text-warning fw-bold" v-else-if="order.status=='d'">تحویل داده شده</span>
+                      <span class="text-danger fw-bold" v-else-if="order.status=='f'">ناموفق</span>
+
+                      <span class="text-primary fw-bold" v-else-if="order.status=='a'">در حال آماده سازی</span>
+                      <span class="text-secondary fw-bold" v-else-if="order.status=='s'">در دست پست </span>
+                      <span class="text-success fw-bold" v-else-if="order.status=='d'">تحویل داده شده</span>
                       <span class="text-warning fw-bold" v-else-if="order.status=='r'">مرجوع شده</span>
 
                     </td>
@@ -33,8 +37,15 @@
                       {{extractdate(order.updated_at)}}
                     </td>
                     <td>
-                        <button class="mlg-15 btn btn-warning" title="تایید" @click="showFactor(order.items)">مشاهده</button>
+                      <span class="text-warning fw-bold" v-if="order.transaction[0].status=='w'">در انتظار</span>
+                      <span class="text-danger fw-bold" v-else-if="order.transaction[0].status=='s'">موفق</span>
+                      <span class="text-primary fw-bold" v-else-if="order.transaction[0].status=='r'">مرجوع شده</span>
+                      <span class="text-primary fw-bold" v-else-if="order.transaction[0].status=='f'">ناموفق</span>
                     </td>
+                    <td>
+                        <button class="mlg-15 btn btn-warning" title="تایید" @click="showFactor(order.refer_code)">مشاهده</button>
+                    </td>
+
                 </tr>
 
                 </tbody>
@@ -66,6 +77,7 @@ import axios from 'axios';
     mounted(){
       axios.get("transaction/orders/me/").then(response=>{
         this.orders = response.data
+        console.log(this.orders)
         this.isLoading = false;
       })
     },
@@ -77,37 +89,48 @@ import axios from 'axios';
 
 
       },
-      showFactor(orderItems){
+      showFactor(refer_code){
+          let products = []
           let items = ""
-          orderItems.forEach(item=>{
-            console.log(item.product.product.title)
-            let _itemtext = `
-            <tr>
-              <td>${item.product.product.title}</td>
-              <td>${item.count}</td>
-              <td>${item.price.toLocaleString()} ریال</td>
-              <td><a target="_blank" href="/product/${item.product.product.code}/" class="btn btn-info"><i class="fa fa-eye"></i></a></td>
-            </tr>
-            `;
-            items += _itemtext;
+          axios.get(`transaction/orders/shoppingview/${refer_code}/`).then(response=>{
+              products = response.data.products
+              let colors = response.data.colors
+              let counts = response.data.counts
+              for (let index = 0; index < products.length; index++) {
+                products[index].color = colors[index];
+                products[index].count = counts[index];
+              }
+
+          }).then(()=>{
+            products.forEach(item=>{
+              let _itemtext = `
+              <tr>
+                <td>${item.title}</td>
+                <td>${item.count}</td>
+                <td>${item.color.price.toLocaleString()} ریال</td>
+                <td><a target="_blank" href="/product/${item.code}/" class="btn btn-info"><i class="fa fa-eye"></i></a></td>
+              </tr>
+              `;
+                items += _itemtext;
+            })
+            Swal.fire({
+              title: 'لیست اجناس',
+              html: `
+                <table class="w-100 orders-list">
+                  <tr>
+                    <th>عنوان</th>
+                    <th>تعداد</th>
+                    <th>قیمت واحد</th>
+                    <th>لینک</th>
+                  </tr>
+                ${items}
+                </table>`,
+              icon: 'info',
+              confirmButtonText: 'متوجه شدم'
+            })
+            
           })
-          Swal.fire({
-          title: 'لیست اجناس',
-          html: `<table class="w-100 orders-list">
-    <tr>
-      <th>عنوان</th>
-      <th>تعداد</th>
-      <th>قیمت واحد</th>
-      <th>لینک</th>
-
-    </tr>
-
-    ${items}
-
-  </table>`,
-          icon: 'info',
-          confirmButtonText: 'متوجه شدم'
-        })
+          
         },
       to_jalali(gy, gm, gd){
         var g_d_m, jy, jm, jd, gy2, days;
