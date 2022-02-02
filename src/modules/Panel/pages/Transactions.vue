@@ -23,7 +23,7 @@
                 <tbody>
                 <tr role="row"  v-for="transaction in transactions">
                     <td>{{transaction.refer_code}}</td>
-                    <td>{{transaction.customer.phone_number}}</td>
+                    <td>{{transaction.customer.first_name}}</td>
 
                     <td>{{transaction.amount.toLocaleString()}} تومان</td>
                     <td>

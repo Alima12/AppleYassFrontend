@@ -21,7 +21,12 @@
                 </thead>
                 <tbody>
                 <tr role="row" class="fw-bold" v-for="comment in Comments">
-                    <td>{{comment.owner.fullname}}</td>
+                    <td v-if="comment.owner != {} || comment.owner.first_name != `` || comment.owner.last_name != `` ">
+                      {{comment.owner.first_name}} {{comment.owner.last_name}}
+                    </td>
+                    <td v-else>
+                      ناشناس
+                    </td>
                     <td>{{comment.owner.email}}</td>
                     <td>{{comment.content}}</td>
                     <td>
@@ -29,23 +34,23 @@
                         <i class="fa fa-eye text-white"></i>
                       </a>
                     </td>
-                    <td>{{comment.date}}</td>
+                    <td>{{comment.created_at}}</td>
                     <td>
                         <span v-if="comment.status == 'a' " class="text-success">تایید شده</span>
-                        <span v-else-if="comment.status == 'd' " class="text-primary">در حال بررسی</span>
+                        <span v-else-if="comment.status == 'w' " class="text-primary">در حال بررسی</span>
                         <span v-else class="text-error">رد شده</span>
                     </td>
                     <td>
-                        <div v-if="comment.status == `d`">
-                          <button class="btn btn-outline-success m-1" @click="acceptComment(comment.id)">
+                        <div v-if="comment.status == `w`">
+                          <button class="btn btn-outline-success m-1" @click="acceptComment(comment)">
                            <i class="fa fa-check"></i>
                           </button>
-                          <button class="btn btn-outline-danger" @click="rejectComment(comment.id)">
+                          <button class="btn btn-outline-danger" @click="rejectComment(comment)">
                            <i class="fa fa-times"></i>
                           </button>
                         </div>
                          <div v-else>
-                          <button class="btn btn-outline-danger m-1" @click="deleteComment(comment.id)">
+                          <button class="btn btn-outline-danger m-1" @click="deleteComment(comment)">
                            <i class="fa fa-trash " style="font-size:22px"></i>
                           </button>
                         </div>
@@ -57,46 +62,88 @@
     </div>
   
   </div>
-
+      <loading 
+      v-model:active="isLoading"
+      :can-cancel="true"
+      :is-full-page="true"
+      />
 </template>
 
 <script>
   import Swal from 'sweetalert2'
+import axios from 'axios';
+  import Loading from 'vue-loading-overlay';
 
   export default {
     name: "Comments",
-    components:{},
+    components:{Loading},
     data(){
 
         return{
            
-           Comments:[
-             {id:0,owner:{fullname:"علی مهدوی",email:"aliali.ali1378@yahoo.com"},content:"از خرید این محصول راضی هستم",product:{code:"432435j"},date:"1400-09-02 22:35:40",status:"a"},
-             {id:1,owner:{fullname:"محسن ی",email:"aliali.ali1378@yahoo.com"},content:"از خرید این محصول راضی هستم",product:{code:"2a21bA"},date:"1400-09-02 22:35:40",status:"d"},
-             {id:2,owner:{fullname:"وحید امیری",email:"aliali.ali1378@yahoo.com"},content:"از خرید این محصول راضی هستم",product:{code:"432435j"},date:"1400-09-02 22:35:40",status:"d"},
-             {id:3,owner:{fullname:"مهدی ترابی",email:"aliali.ali1378@yahoo.com"},content:"از خرید این محصول ناراضی هستم",product:{code:"5Sab4u"},date:"1400-09-02 22:35:40",status:"r"},
-             {id:4,owner:{fullname:"محسن نامجو",email:"aliali.ali1378@yahoo.com"},content:"از خرید این محصول راضی هستم",product:{code:"2a21bA"},date:"1400-09-02 22:35:40",status:"d"}
-           
-           ]
+           Comments:[],
+           isLoading:true
         }
     },
     methods:{
-      deleteComment(id){
-        this.Comments = this.Comments.filter(c=> c.id != id);
+      setAlert(message, type){
+        this.$toast.open({
+            message:message,
+            type:type,
+            duration:5000,
+            position: 'top'
+
+        })
       },
-      acceptComment(id){
-        let comment = this.Comments.find(c=> c.id == id);
-        comment.status = "a"
+      deleteComment(comment){
+        Swal.fire({
+          title: 'آیا از حذف این نظر اطمینان دارید؟',
+          html: `<p class="text-danger">آیا از حذف کامنت زیر اطمینان دارید؟</p>
+          <p class="fw-bold">${comment.content}</p>`,
+          icon: 'warning',
+          confirmButtonText: 'حذف کن',
+          confirmButtonColor:"#e74c3c",
+          CancelButtonColor:"#95a5a6",
+          cancelButtonText:"انصراف",
+          confirmButtonText: 'حذف',
+          showCancelButton: true,
+        }).then(result=>{
+          if (result.isConfirmed) {
+          axios.delete(`comments/${comment.id}/delete/`).then(response=>{
+            this.setAlert("کامنت مورد نظر با موفقیت حذف شد", "error")
+            this.Comments = this.Comments.filter(c=> c.id != comment.id);
+          })
+          }
+        });
+        
       },
-      rejectComment(id){
-        let comment = this.Comments.find(c=> c.id == id);
-        comment.status = ""
+      acceptComment(comment){
+        axios.post(`comments/${comment.id}/accept/`).then(response=>{
+          comment = response.data;
+          comment.status = "a"
+          this.setAlert("کامنت با موفقیت تایید شد", "success")
+
+        })
+      },
+      rejectComment(comment){
+        axios.post(`comments/${comment.id}/reject/`).then(response=>{
+          this.setAlert("کامنت مورد نظر رد شد", "error")
+          comment.status = "r"
+        })
 
       },
 
 
       
-    }
+    },
+    mounted(){
+      axios.get("comments/").then(response=>{
+        this.Comments = response.data;
+        console.log(this.Comments)
+        this.isLoading = false;
+      })
+    },
+
   }
 
 </script>
