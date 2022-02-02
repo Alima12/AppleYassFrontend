@@ -178,10 +178,9 @@
 
 
 
-
 /* Checkbox */
 
-form {
+.confirm-page-container .main .addresses form {
     display: block;
     margin: auto;
     width: 99%;
@@ -190,26 +189,26 @@ form {
     
   }
   
-  input {
+  .confirm-page-container .main .addresses input {
     position: fixed;
     top: -1.5em;
     left: -1.5em;
   }
   
-  label {
+  .confirm-page-container .main .addresses label {
     cursor: pointer;
     display: block;
     font-weight: bold;
     text-shadow: 0 0.1em 0.1em rgba(0, 0, 0, 0.2);
     transition: color 0.2s cubic-bezier(0.45, 0.05, 0.55, 0.95);
   }
-  form label span:nth-child(2){
+  .confirm-page-container .main .addresses form label span:nth-child(2){
     font-size: .7em !important;
   }
-  label:not(:last-of-type) {
+  .confirm-page-container .main .addresses label:not(:last-of-type) {
     margin-bottom: 1.5em;
   }
-  label span {
+  .confirm-page-container .main .addresses label span {
     box-shadow: 0 0 0 0.2em currentColor inset, 0 0.2em 0.2em rgba(0, 0, 0, 0.2), 0 0.3em 0.2em rgba(0, 0, 0, 0.2) inset;
     display: inline-block;
     margin-right: 0.5em;
@@ -220,21 +219,21 @@ form {
     transition: transform 0.2s cubic-bezier(0.5, 0, 0.5, 2), box-shadow 0.2s cubic-bezier(0.45, 0.05, 0.55, 0.95), color 0.2s cubic-bezier(0.45, 0.05, 0.55, 0.95);
   }
   
-  label span,
+  .confirm-page-container .main .addresses label span,
   .worm__segment:before {
     border-radius: 50%;
   }
   
-  input:checked + label,
-  input:checked + label span,
+  .confirm-page-container .main .addresses input:checked + label,
+  .confirm-page-container .main .addresses input:checked + label span,
   .worm__segment:before {
     color: #255ff4;
   }
   
-  input:checked + label, input:checked + label span {
+  .confirm-page-container .main .addresses input:checked + .confirm-page-container .main .addresses label, .confirm-page-container .main .addresses input:checked + .confirm-page-container .main .addresses label span {
     transition-delay: 0.4s;
   }
-  input:checked + label span {
+  .confirm-page-container .main .addresses input:checked + .confirm-page-container .main .addresses label span {
     transform: scale(1.2);
   }
   
@@ -469,7 +468,7 @@ form {
   }
   
   /* States */
-  input:nth-of-type(1):checked ~ .worm .worm__segment:before {
+  .confirm-page-container .main .addresses input:nth-of-type(1):checked ~ .worm .worm__segment:before {
     animation-name: hop1;
   }
   
@@ -481,17 +480,17 @@ form {
       transform: translateX(-1.5em);
     }
   }
-  input:nth-of-type(2):checked ~ .worm .worm__segment {
+  .confirm-page-container .main .addresses input:nth-of-type(2):checked ~ .worm .worm__segment {
     transform: translateY(3em);
   }
-  input:nth-of-type(2):checked ~ .worm .worm__segment:before {
+  .confirm-page-container .main .addresses input:nth-of-type(2):checked ~ .worm .worm__segment:before {
     animation-name: hop2;
   }
 
-  input:nth-of-type(4):checked ~ .worm .worm__segment {
+  .confirm-page-container .main .addresses input:nth-of-type(4):checked ~ .worm .worm__segment {
     transform: translateY(9em);
   }
-  input:nth-of-type(4):checked ~ .worm .worm__segment:before {
+  .confirm-page-container .main .addresses input:nth-of-type(4):checked ~ .worm .worm__segment:before {
     animation-name: hop4;
   }
   
@@ -503,10 +502,10 @@ form {
       transform: translateX(-1.5em);
     }
   }
-  input:nth-of-type(3):checked ~ .worm .worm__segment {
+  .confirm-page-container .main .addresses input:nth-of-type(3):checked ~ .worm .worm__segment {
     transform: translateY(6em);
   }
-  input:nth-of-type(3):checked ~ .worm .worm__segment:before {
+  .confirm-page-container .main .addresses input:nth-of-type(3):checked ~ .worm .worm__segment:before {
     animation-name: hop3;
   }
   
@@ -533,8 +532,8 @@ form {
       color: #e3e4e8;
     }
   
-    input:checked + label,
-  input:checked + label span,
+    .confirm-page-container .main .addresses input:checked + .confirm-page-container .main .addresses label,
+    .confirm-page-container .main .addresses input:checked + .confirm-page-container .main .addresses label span,
   .worm__segment:before {
       color: #5583f6;
     }
