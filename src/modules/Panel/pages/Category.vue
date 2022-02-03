@@ -12,6 +12,7 @@
                     <table class="table">
                         <thead role="rowgroup">
                         <tr role="row" class="title-row">
+                            <th>تصویر</th>
                             <th>نام دسته بندی</th>
                             <th>نام انگلیسی دسته بندی</th>
                             <th>دسته پدر</th>
@@ -20,7 +21,11 @@
                         </thead>
                         <tbody>
                         <tr role="row"  v-for="category in categories">
-                            <td ><a href="">{{category.title}}</a></td>
+                            <td >
+                                <img :src="category.image" :alt="category.title" width="90">
+                                
+                            </td>
+                            <td >{{category.title}}</td>
                             <td>{{category.name}}</td>
                             <td v-if="category.parent==null">ندارد</td>
                             <td v-else>{{category.parent.title}}</td>
@@ -38,7 +43,11 @@
             </div>
             <div class="col-4 bg-white">
                   <p class="box__title">ایجاد دسته بندی جدید</p>
-                  <form @submit.prevent="addCategory()" class="padding-30">
+                  <form @submit.prevent="addCategory()" class="padding-30" id="categoryFonm">
+                      <div class="mb-3">
+                        <label for="formFile" class="form-label">تصویر</label>
+                        <input class="form-control" name="image" type="file" id="ImageFile" @change="setFile()">
+                      </div>
                       <input type="text" v-model="title" placeholder="نام دسته بندی" class="text">
                       <input type="text" v-model="name" placeholder="نام انگلیسی دسته بندی" class="text">
                       <p class="box__title margin-bottom-15">انتخاب دسته پدر</p>
@@ -75,6 +84,8 @@
         editedId:-1,
         editMode:false,
         isLoading:true,
+        imageChanged:false,
+        imageFile:""
 
 
 
@@ -168,19 +179,26 @@
     },
 
     methods:{
+    setFile(){
+        let file = document.querySelector(`#ImageFile`);
+        this.imageFile = file.files[0];
+        this.imageChanged=true;
+      },
       async addCategory(){
         this.isLoading = true
         let current = document.querySelector("span.current")
         current = current.innerText || ''
         let owner = await this.categories.find(own=> own.name== current) || ''
         if(this.editMode){
-            console.log("edit")
-            let t = this.categories.find(cat=> cat.id == this.editedId);
             let formData = new FormData();
             formData.append("name", this.name)
             formData.append("title", this.title)
+
+            if(this.imageChanged){
+                formData.append("image", this.imageFile)
+            }
+
             owner ? formData.append("parent_id",owner.id) : null
-            console.log(formData)
             axios.put("category/"+this.editedId+"/", formData).then(response=>{
                Swal.fire({
                     title: 'موفق',
@@ -204,6 +222,11 @@
             let formData = new FormData();
             formData.append("name", this.name);
             formData.append("title", this.title);
+
+            if(this.imageChanged){
+
+                formData.append("image", this.imageFile)
+            }
             owner ? formData.append("parent_id",owner.id) : null
             axios.post("category/", formData).then(response=>{
                 Swal.fire({
@@ -227,6 +250,8 @@
         }
         this.cancelEdit();
         this.isLoading = false
+        this.imageChanged = false;
+        this.imageFile = "";
         
 
       },
@@ -234,6 +259,8 @@
         this.editMode = true;
         this.name = cat.name;
         this.title = cat.title;
+        this.imageChanged = false;
+        this.imageFile = "";
 
         let current = document.querySelector("span.current")
 
@@ -247,6 +274,8 @@
         this.editedId = -1;
         this.name = '';
         this.title = '';
+        this.imageChanged = false;
+        this.imageFile = "";
         let current = document.querySelector("span.current")
         current.innerText = "";
       },
@@ -263,7 +292,7 @@
 
       }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete("category/"+cat.id+"/").then(response=>{
+                axios.delete(`category/${cat.id}/`).then(response=>{
                     let deleteItem = this.categories.find(category=> category.id == cat.id)
                     this.categories = this.categories.filter(cat=> cat.id !== deleteItem.id);
                     Swal.fire({
