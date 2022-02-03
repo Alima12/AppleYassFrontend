@@ -68,6 +68,12 @@ export default [
             component: SlideShow,
             adminPermission:true,
           },
+          {
+            path: 'edit/:id',
+            name: 'ویرایش اسلاید',
+            component: SlideShow,
+            adminPermission:true,
+          },
         ]
       },
 

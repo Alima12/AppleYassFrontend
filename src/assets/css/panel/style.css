@@ -983,6 +983,7 @@ textarea {
     content: '\f1f8';
     font-family: FontAwesome;
     color: #d63031;
+    cursor: pointer;
 }
 
 .item-eye:before {
@@ -991,6 +992,8 @@ textarea {
     color: #2c3e50;
     font-family: FontAwesome;
     transition: all 1s;
+    cursor: pointer;
+
 
 }
 
@@ -1009,6 +1012,7 @@ textarea {
     content: '\f14b';
     color: #f1c40f;
     font-family: FontAwesome;
+    cursor: pointer;
 
 }
 

@@ -5,6 +5,7 @@
           <div class="tab__items">
               <router-link exact-active-class="is-active" class="tab__item" to="/panel/slideshow" >لیست اسلاید ها</router-link>
               <router-link exact-active-class="is-active" class="tab__item" to="/panel/slideshow/add" >ایجاد اسلاید جدید</router-link>
+              
           </div>
       </div>
     <div class="table__box" v-if="$route.path=='/panel/slideshow'">
@@ -38,43 +39,33 @@
                   :class="{'deactive':slide.is_active}"
                 >
                 </a>
-                <a href="" class="item-edit  mlg-15" title="ویرایش"></a>
+                <a class="item-edit  mlg-15" title="ویرایش" @click="$router.push(`/panel/slideshow/edit/${slide.id}`)"></a>
                 <a class="item-delete mlg-15" title="حذف" @click="deleteSlide(slide.id)"></a>
               </td>
             </tr>
           </tbody>
       </table>
     </div>
-    <div v-else>
-      <p class="box__title">ایجاد اسلاید جدید</p>
-      <div class="row no-gutters bg-white">
-              <div class="col-12">
-                <form action="" class="padding-30" @submit.prevent="addSlide()">
-                    <input type="text" class="text" placeholder="عنوان اسلاید" v-model="title">
-                    <div class="file-upload">
-                        <div class="i-file-upload">
-                            <span>آپلود تصویر</span>
-                            <input v-on:change="setFile()" id="slide-file" type="file" class="file-upload" name="files" />
-                        </div>
-                        <span class="filesize"></span>
-                        <span class="selectedFiles">فایلی انتخاب نشده است</span>
-                    </div>
-
-                    <button class="btn btn-my-styles">ذخیره</button>
-                </form>
-              </div>
-        </div>
+    <div v-else-if="$route.path=='/panel/slideshow/add'">
+     <AddSlide />
     </div>
+    <div v-else>
+     <EditSlide />
+    </div>
+
 
   </div>
 </template>
 <script>
   import Swal from 'sweetalert2'
 import axios from 'axios';
+import AddSlide from "../components/AddSlide"
+import EditSlide from "../components/EditSlide"
+
 
   export default {
     name: "SlideShow",
-    components:{},
+    components:{AddSlide, EditSlide},
     mounted(){
       setTimeout(()=>{
         $('input:file').change(e=>{
