@@ -10,7 +10,6 @@
       </div>
     </div>
 
-    <!--  -->
     <div class="product-list" v-if="/.{1}panel.{1}products(.{1}\d*)?$/.test($route.path)">
 
       <div class="table__box">
@@ -95,21 +94,24 @@
 
       <div class="pagination row">
         <div class="col-lg-6 col-md-8 col-sm-12 mx-auto pages-container">
-          <router-link v-if="page>1" :to="`/panel/products/`+ (page -1).toString()" class="page-item perv">قبلی</router-link>
-          <router-link v-if="page>2" :to="`/panel/products/` + (page -2).toString()"   class="page-item extra">{{page-2}}</router-link>
-          <router-link v-if="page>1" :to="`/panel/products/` + (page -1).toString()"   class="page-item extra">{{page-1}}</router-link>
-          <router-link :to="`/panel/products/` + page" class="page-item active">{{page}}</router-link>
-          <router-link v-if="max >page" :to="`/panel/products/` + (parseInt(page) + 1).toString()"   class="page-item extra">{{parseInt(page)+1}}</router-link>
-          <router-link v-if="max >= (parseInt(page)+2)" :to="`/panel/products/` + (parseInt(page) +2).toString()"   class="page-item extra">{{parseInt(page)+2}}</router-link>
-          <router-link v-if="max > page" :to="`/panel/products/` + (parseInt(page) + 1).toString()" class="page-item next">
+          <router-link v-if="previous != null" :to="goPreviousPage()" class="page-item perv">قبلی</router-link>
+          <router-link v-if="previous != null" :to="goPreviousPage()" class="page-item extra">{{page-1}}</router-link>
+          <p class="page-item active">{{page}}</p>
+          <router-link v-if="next!= null" :to="goNextPage()"   class="page-item extra">{{parseInt(page)+1}}</router-link>
+          <router-link v-if="next != null" :to="goNextPage()" class="page-item next">
             بعدی
           </router-link>
         </div>
       </div>
     </div>
-    <!-- -if="/.{1}panel.{1}products.{1}new$/.test($route.path)"  -->
+
+
+    <div class="new-product" v-else-if="/.{1}panel.{1}products.{1}new$/.test($route.path)">
+        <CreateProduct />
+    </div>
+
     <div class="new-product" v-else>
-        <CreateEditProduct />
+        <EditProduct />
     </div>
 
 
@@ -121,23 +123,32 @@
   </div>
 </template>
 <script>
-import CreateEditProduct from '../components/CreateProduct'
+  import CreateProduct from '../components/CreateProduct'
+  import EditProduct from '../components/EditProduct'
+
   import Loading from 'vue-loading-overlay';
+  import axios from "axios"
   export default {
     name: "Products",
-    components:{CreateEditProduct, Loading},
+    components:{CreateProduct, Loading, EditProduct},
     data(){
       return {
         isLoading:true,
         products:"",
         page:1,
         max:1,
+        next:null,
+        previous:null
       }
     },
     mounted(){
-      this.page = this.$route.params.id ? this.$route.params.id : 1
+      // `/panel/products/` + (parseInt(page) + 1).toString()
+      let query = this.$route.query;
+      this.page = query.page ? query.page : 1
+      if (this.page < 1){
+        this.page = 1
+      }
       this.setProducts()
-      
     },
     created(){
       this.page = this.$route.params.id ? this.$route.params.id : 1
@@ -154,20 +165,20 @@ import CreateEditProduct from '../components/CreateProduct'
     methods:{
       setProducts(){
         this.isLoading = true
-        this.$store.dispatch("getProductP", this.page)
-        setTimeout(async()=>{
-          this.products = await this.$store.getters.getProductsP;
-          let count = await this.$store.getters.getProductCount;
-          this.max =0;
-          for (count; count > 0; count-=10) {
-            if(10> count > 0){
-              count = 0;
-            }
-            this.max +=1;
-            
-          }
-          this.isLoading = false
-        },1500)
+        axios.get(`?p=${this.page}`).then(response=>{
+          this.products = response.data.results;
+          this.previous = response.data.previous;
+          this.next = response.data.next;
+          this.isLoading = false;
+        });
+      },
+      goPreviousPage(){
+        let query = Object.assign({});
+        query.page = this.page > 1 ? this.page - 1 : this.page;
+        this.$router.push({ query });
+      },
+      goNextPage(){
+
       }
     }
   }

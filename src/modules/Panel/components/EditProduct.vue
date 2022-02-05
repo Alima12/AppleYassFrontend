@@ -1,5 +1,5 @@
 <template>
- <form action="" method="post">
+ <form action="" @submit.prevent="saveProdcut()">
       <div class="row p-1">
         <div class="col-lg-10 col-md-9 col-sm-7">  
           <label for="code" class="mb-2">کد محصول  :</label>
@@ -63,11 +63,11 @@
         <div class="col-lg-12 col-md-12 col-sm-12 notification__box">  
             <p class="title__noti">خصوصیت</p>
             <div class="notificationGroup">
-                <input id="option1" v-model="product.hotProduct" name="option1" type="checkbox"/>
+                <input id="option1" v-model="product.is_hot" name="option1" type="checkbox"/>
                 <label for="option1">داغ</label>
             </div>
             <div class="notificationGroup">
-                <input id="option2" v-model="product.newProduct" name="option2" type="checkbox" />
+                <input id="option2" v-model="product.is_new" name="option2" type="checkbox" />
                 <label for="option2">جدید</label>
             </div>
         </div>
@@ -79,15 +79,15 @@
       <div class="row p-1" :style="`background-color:${color.color}`" v-for="color in product.colors">
         <div class="col-lg-4 col-md-4 col-sm-12">  
             <label :style="`background-color:${color.color}`" class="text-center form-control" for="color">رنگ</label>
-            <input v-model="color.color" class="form-control" name="color" type="text" />
+            <input @blur="UpdateColor(color)" v-model="color.color" class="form-control" name="color" type="text" />
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12">  
             <label class="text-center form-control" for="price">قیمت به تومان</label>
-            <input v-model="color.price" class="form-control" name="price" type="text" />
+            <input @blur="UpdateColor(color)" v-model="color.price" class="form-control" name="price" type="text" />
         </div>
         <div class="col-lg-3 col-md-2 col-sm-12">  
             <label class="text-center form-control" for="inventory">تعداد</label>
-            <input v-model="color.inventory" class="form-control" name="inventory" type="text" />
+            <input @blur="UpdateColor(color)" v-model="color.inventory" class="form-control" name="inventory" type="text" />
         </div>
 
         <button class="btn btn-outline-danger col-lg-1 col-md-2 col-sm-12" @click.prevent="removeColor(color)">
@@ -107,9 +107,14 @@
 
 
     <h6>خصوصیات:</h6>
-    <div class="row p-1">
-        <div class="col-lg-11 col-md-11 col-sm-11" v-for="attr in product.attributes">  
-            <input  name="Attr" v-model="attr.text" type="text" class="text font-size-13" placeholder="شرح">
+    <div class="row p-1 mb-4">
+        <div class="col-lg-11 col-md-11 col-sm-12 mb-1 d-flex justify-content-between" v-for="attr in product.attributes">  
+            <input @blur="updateAttr(attr)" name="Attr" v-model="attr.text" type="text" class="text font-size-13" placeholder="شرح">
+            <div class="mx-1">
+                <button class="btn btn-outline-danger" @click.prevent="removeAttr(attr)">
+                    <i class="fa fa-times-circle"></i>
+                </button>
+            </div>
         </div>
         <div class="col-1">
             <button class="btn btn-outline-success" @click.prevent="addAttr()">
@@ -121,13 +126,16 @@
 
     <h6>خصوصیات فنی:</h6>
     <div class="row p-1">
-        <div class="col-lg-11 col-md-11 col-sm-11 d-flex" v-for="tech in product.technicalattrs">
+        <div class="col-lg-11 col-md-11 col-sm-11 d-flex justify-content-space-beetwen mb-3" v-for="tech in product.technical">
             <div class="w-50 p-1">
-                <input  name="name" v-model="tech.name" type="text"     class="text font-size-13" placeholder="اسم">
+                <input @blur="updateTech(tech)" name="name" v-model="tech.name" type="text"  class="text font-size-13" placeholder="اسم">
             </div> 
             <div class="w-50 p-1">
-                <input  name="value" v-model="tech.value" type="text"   class="text font-size-13" placeholder="توضیح">
+                <input @blur="updateTech(tech)" name="value" v-model="tech.text" type="text"   class="text font-size-13" placeholder="توضیح">
             </div> 
+            <button class="btn btn-outline-danger mines-button" @click.prevent="removeTech(tech)">
+                    <i class="fa fa-times"></i>
+            </button>
         </div>
 
         <div class="col-1">
@@ -143,7 +151,7 @@
     <div class="row p-1">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <label class="mb-2" for="moreDetail">توضیحات اضافی:</label>
-            <textarea name="moreDetail" v-model="product.moreDetail" class="form-control"></textarea>
+            <textarea name="moreDetail" v-model="product.detail" class="form-control"></textarea>
 
         </div>
     </div>
@@ -151,7 +159,7 @@
 
       <div class="row p-1 my-3">
         <div class="col-lg-4 col-md-8 col-sm-12 mx-auto p-2">
-          <button class="w-100 btn btn-primary p-3" @click="saveProdcut()">
+          <button class="w-100 btn btn-primary p-3">
             <span>
               ذخیره
             </span> 
@@ -169,7 +177,9 @@
       />
 </template>
 <script>
+import axios from 'axios';
   import Loading from 'vue-loading-overlay';
+  import Swal from 'sweetalert2'
   export default {
     name: "CreateEditProduct",
     components:{Loading},
@@ -177,36 +187,38 @@
         return{
             isLoading:true,
             tempCategory:"",
-            product:{
-                code:"",
-                name:"",
-                title:"",
-                newProduct:false,
-                hotProduct:true,
-                colors:[{}],
-                images:[],
-                attributes:[{text:""}],
-                technicalattrs:[{name:"",value:""},],
-                moreDetails: "",
-                category:"",
-
-            },
+            product:{},
+            images:[],
             categories:[],
         }
     },
     mounted(){
-        let id = this.$route.params.code || null;
-        if(id){
-            let p = this.$store.getters.getProduct(id);
-            this.product = p;
+        let code = this.$route.params.code || null;
+        if(code){
+            axios.get(`${code}/`).then(response=>{
+                this.product = response.data
+                this.tempCategory = this.product.category.id;
+                this.isLoading = false
+            })
         }
         setTimeout(()=>{
             this.categories = this.$store.getters.getCategories;
             this.isLoading = false;
-        },1000)
+        },2000)
 
     },
     methods:{
+        UpdateColor(color){
+            let data = new FormData()
+            data.append("price", color.price)
+            data.append("color", color.color)
+            data.append("inventory", color.inventory)
+            data.append("product", this.product.id)
+            axios.put(`product/colors/${color.id}/update/`, data).then(response=>{
+                color = response.data;
+                this.setAlert("بروز شد", "success")
+            })
+        },
         makeid(length) {
             var result           = '';
             var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -218,39 +230,190 @@
             return result;
         },
         generateCode(){
-            // this.product.code =  do ajax;
             this.product.code = this.makeid(8);
 
         },
+        sendColors(productID){
+            this.product.colors.forEach(async color=>{
+                let data = new FormData()
+                data.append("product_code", productID);
+                data.append("product", 1);
+
+                data.append("color", color.color);
+                data.append("inventory", color.inventory);
+                data.append("price", color.price);
+                await axios.post("product/colors/", data).then(response=>{
+                }).catch(err=>{
+                    console.log(err.response.data)
+                })
+            })
+            this.isLoading = false;
+            
+        },
         addColor(){
-            this.product.colors.push({});
+            let data = new FormData();
+            axios.post(`product/colors/${this.product.code}/add/`, data).then(response=>{
+                this.product.colors.push(response.data);
+            })
         },
         removeColor(color){
-            this.product.colors = this.product.colors.filter(col=> col != color);
+            Swal.fire({
+                title: 'آیا از حذف این رنگ اطمینان دارید؟',
+                text:"قبل از اینکه حذف کنید مطمئن شوید که این رنگ در هیچ سبد خریدی وجود ندارد اگر نه میتوانید بجای حذف موجودی را صفر کنید",
+                icon: 'warning',
+                confirmButtonText: 'حذف کن',
+                confirmButtonColor:"#e74c3c",
+                CancelButtonColor:"#95a5a6",
+                cancelButtonText:"انصراف",
+                confirmButtonText: 'حذف',
+                showCancelButton: true,
+                }).then(result=>{
+                if (result.isConfirmed) {
+                    axios.delete(`product/colors/${this.product.code}/delete/${color.id}/`).then(response=>{
+                        if(response.status == 204){
+                            this.product.colors = this.product.colors.filter(col=> col != color);
+                            this.setAlert("با موفقیت حذف شد", "error")
+                        }
+                    })
+                }
+                });
+            
         },
         setFiles(){
             let images = document.querySelector("#product-images");
-
             for (let index = 0; index < images.files.length; index++) {
-                this.product.images.push({
-                    id:this.product.images.length +1,
-                    image:URL.createObjectURL(images.files[index])
-                });
-                
+                let data = new FormData()
+                data.append("image", images.files[index])
+
+                axios.post(`product/images/${this.product.code}/`, data).then(response=>{
+                    this.setAlert("عکس با موفقیت اضافه شد", "default")
+                    response.data.image = "http://127.0.0.1:8000" + response.data.image
+                    this.product.images.push(response.data)
+                })
             }
+            
+
 
         },
         addAttr(){
-            this.product.attributes.push({text:""});
+            let data = new FormData();
+            axios.post(`product/attr/${this.product.code}/add/`, data).then(response=>{
+                this.product.attributes.push(response.data);
+            })
         },
+         updateAttr(attr){
+            let data = new FormData()
+            data.append("name", attr.name)
+            data.append("text", attr.text)
+            data.append("product", this.product.id)
+            axios.put(`product/attr/${attr.id}/update/`, data).then(response=>{
+                attr = response.data;
+                this.setAlert("بروز شد", "success")
+            })
+        },
+        removeAttr(attr){
+            Swal.fire({
+                title: 'آیا از حذف این خصوصیت فنی اطمینان دارید؟',
+                icon: 'warning',
+                confirmButtonText: 'حذف کن',
+                confirmButtonColor:"#e74c3c",
+                CancelButtonColor:"#95a5a6",
+                cancelButtonText:"انصراف",
+                confirmButtonText: 'حذف',
+                showCancelButton: true,
+                }).then(result=>{
+                if (result.isConfirmed) {
+                    axios.delete(`product/attr/${this.product.code}/delete/${attr.id}/`).then(response=>{
+                        if(response.status == 204){
+                            this.product.attributes = this.product.attributes.filter(col=> col != attr);
+                            this.setAlert("با موفقیت حذف شد", "error")
+                        }
+                    })
+                }
+                });
+        },
+
         addTech(){
-            this.product.technicalattrs.push({name:"",value:""});
+            let data = new FormData();
+            axios.post(`product/tech/${this.product.code}/add/`, data).then(response=>{
+                this.product.technical.push(response.data);
+            })
+
+        },
+        updateTech(tech){
+            let data = new FormData()
+            data.append("name", tech.name)
+            data.append("text", tech.text)
+            data.append("product", this.product.id)
+            axios.put(`product/tech/${tech.id}/update/`, data).then(response=>{
+                tech = response.data;
+                this.setAlert("بروز شد", "success")
+            })
+        },
+        removeTech(tech){
+            Swal.fire({
+                title: 'آیا از حذف این خصوصیت فنی اطمینان دارید؟',
+                icon: 'warning',
+                confirmButtonText: 'حذف کن',
+                confirmButtonColor:"#e74c3c",
+                CancelButtonColor:"#95a5a6",
+                cancelButtonText:"انصراف",
+                confirmButtonText: 'حذف',
+                showCancelButton: true,
+                }).then(result=>{
+                if (result.isConfirmed) {
+                    axios.delete(`product/tech/${this.product.code}/delete/${tech.id}/`).then(response=>{
+                        if(response.status == 204){
+                            this.product.technical = this.product.technical.filter(col=> col != tech);
+                            this.setAlert("با موفقیت حذف شد", "error")
+                        }
+                    })
+                }
+                });
         },
         saveProdcut(){
-            alert()
+            this.isLoading = true
+            let formData = new FormData();
+            formData.append("code",this.product.code);
+            formData.append("title",this.product.title);
+            formData.append("name",this.product.name);
+            formData.append("detail",this.product.detail);
+            formData.append("is_new",this.product.is_new);
+            formData.append("is_hot",this.product.is_hot);
+            formData.append("category_id",this.tempCategory);
+            formData.append("rate", 0);
+            
+            formData.append("guarantee", this.product.guarantee)
+            let headers = {
+                "Content-Type": "multipart/form-data"
+            }
+            axios.put(`product/update/${this.product.code}/`, formData, headers).then(response=>{
+                this.product = response.data;
+                this.setAlert("محصول با موفقیت بروز شد", "success")
+                this.$router.push("/panel/products/")
+                this.isLoading = false;
+            }).catch(err=>{
+                this.setAlert("ظاهرا مشکلی بوجود آمده است", "error")
+                this.isLoading = false;
+            })
+
+        },
+        setAlert(message, type){
+            this.$toast.open({
+                message:message,
+                type:type,
+                duration:5000,
+                position: 'top'
+
+            })
         },
         deleteImage(id){
             this.product.images = this.product.images.filter(img=> img.id != id);
+  
+
+            axios.delete(`product/images/${this.product.code}/delete/${id}/`).then(response=>{
+                this.setAlert("عکس با موفقیت حذف شد", "error")
+            })
         }
     },
     watch:{
@@ -265,6 +428,11 @@
   }
 </script>
 <style>
+.mines-button{
+    padding: 0px 20px;
+    font-size: .9em;
+}
+
 .image-wrapper{
     display: flex;
     justify-content: start;

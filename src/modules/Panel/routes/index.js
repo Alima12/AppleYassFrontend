@@ -102,12 +102,6 @@ export default [
         title:"محصولات",
         children:[
           {
-            path: ':id',
-            name: 'صفحه بندی',
-            component: Products,
-            title:"محصولات",
-          },
-          {
             path: 'new',
             name: 'محصول جدید',
             component: Products,

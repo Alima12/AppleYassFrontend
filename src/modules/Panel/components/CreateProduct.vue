@@ -290,11 +290,6 @@ import axios from 'axios';
                 data.append("color", color.color);
                 data.append("inventory", color.inventory);
                 data.append("price", color.price);
-
-
-
-                
-
                 await axios.post("product/colors/", data).then(response=>{
                     console.log(response.data)
                 }).catch(err=>{
