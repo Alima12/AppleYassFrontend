@@ -121,12 +121,12 @@
 
     <h6>خصوصیات فنی:</h6>
     <div class="row p-1">
-        <div class="col-lg-11 col-md-11 col-sm-11 d-flex" v-for="tech in product.technicalattrs">
+        <div class="col-lg-11 col-md-11 col-sm-11 d-flex" v-for="tech in product.technical">
             <div class="w-50 p-1">
                 <input  name="name" v-model="tech.name" type="text"     class="text font-size-13" placeholder="اسم">
             </div> 
             <div class="w-50 p-1">
-                <input  name="value" v-model="tech.value" type="text"   class="text font-size-13" placeholder="توضیح">
+                <input  name="value" v-model="tech.text" type="text"   class="text font-size-13" placeholder="توضیح">
             </div> 
         </div>
 
@@ -184,10 +184,10 @@ import axios from 'axios';
                 title:"",
                 newProduct:false,
                 hotProduct:true,
-                colors:[{}],
+                colors:[],
                 images:[],
                 attributes:[{text:""}],
-                technicalattrs:[{name:"",value:""},],
+                technical:[{name:"",value:""},],
                 moreDetails: "",
                 files:[],
                 category:"",
@@ -227,7 +227,11 @@ import axios from 'axios';
 
         },
         addColor(){
-            this.product.colors.push({});
+            this.product.colors.push({
+                color:"",
+                inventory:0,
+                price:0
+            });
         },
         removeColor(color){
             this.product.colors = this.product.colors.filter(col=> col != color);
@@ -252,7 +256,7 @@ import axios from 'axios';
             this.product.attributes.push({text:""});
         },
         addTech(){
-            this.product.technicalattrs.push({name:"",value:""});
+            this.product.technical.push({name:"",value:""});
         },
         saveProdcut(){
             this.isLoading = true;
@@ -263,37 +267,71 @@ import axios from 'axios';
             formData.append("detail",this.product.moreDetails);
             formData.append("is_new",this.product.newProduct);
             formData.append("is_hot",this.product.hotProduct);
-            this.product.files.forEach(img=>{
-              formData.append(img.name, img);
-            });
             formData.append("guarantee", this.product.guarantee)
-            let headers = {
-                "Content-Type": "multipart/form-data"
-            }
-            axios.post("product/create/", formData, headers).then(response=>{
+            formData.append("category_id", this.tempCategory)
+            axios.post("product/create/", formData).then(response=>{
                 let data = response.data;
                 this.sendColors(data.code);
+                this.setTechs(data.code);
+                this.setAttrs(data.code);
+                this.setImages(data.code);
+                this.$router.push("/panel/products/")
             }).catch(err=>{
-                console.log(err.response.data)
+                console.log(err)
             })
 
         },
+        setImages(code){
+            let images = document.querySelector("#product-images");
+            for (let index = 0; index < images.files.length; index++) {
+                let data = new FormData()
+                data.append("image", images.files[index])
+
+                axios.post(`product/images/${code}/`, data).then(response=>{
+                    this.setAlert("عکس با موفقیت اضافه شد", "default")
+                })
+            }
+        },
+        setAlert(message, type){
+            this.$toast.open({
+                message:message,
+                type:type,
+                duration:5000,
+                position: 'top'
+
+            })
+        },
+        setTechs(code){
+            this.product.technical.forEach(tech=>{
+                let data = new FormData();
+                data.append("name", tech.name)
+                data.append("text", tech.text)
+                axios.post(`product/tech/${this.product.code}/add/`, data).then(response=>{
+                    this.setAlert("ویژگی فنی با موفقیت اضافه شد", "success");
+                })
+            });
+        },
+        setAttrs(code){
+            this.product.attributes.forEach(attr=>{
+                let data = new FormData();
+                data.append("text", attr.text)
+                axios.post(`product/attr/${code}/add/`, data).then(response=>{
+                    this.setAlert("ویژگی با موفقیت اضافه شد", "success");
+                })
+            })
+        },
+
         deleteImage(id){
             this.product.images = this.product.images.filter(img=> img.id != id);
         },
         sendColors(productID){
-            this.product.colors.forEach(async color=>{
-                let data = new FormData()
-                data.append("product_code", productID);
-                data.append("product", 1);
-
+            this.product.colors.forEach(color=>{
+                let data = new FormData();
                 data.append("color", color.color);
                 data.append("inventory", color.inventory);
                 data.append("price", color.price);
-                await axios.post("product/colors/", data).then(response=>{
-                    console.log(response.data)
-                }).catch(err=>{
-                    console.log(err.response.data)
+                axios.post(`product/colors/${productID}/add/`, data).then(response=>{
+                    console.log("saved")
                 })
             })
             this.isLoading = false;

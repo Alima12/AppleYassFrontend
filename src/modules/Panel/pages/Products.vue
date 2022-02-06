@@ -4,7 +4,7 @@
       <div class="tab__items">
           <router-link class="tab__item" exact-active-class="is-active" to="/panel/products">همه محصولات</router-link>
           <router-link class="tab__item" to="/panel/products/new" exact-active-class="is-active">
-            افزودن محصولات
+            افزودن محصول
             <i class="fa fa-plus-circle mr-1 text-success"></i>  
           </router-link>
       </div>
@@ -50,7 +50,7 @@
                 </td>
                 <td>
                   <div class="stars">
-                    <i v-for="star in product.stars" class="fa fa-star"></i>
+                    <i v-for="star in product.rate" class="fa fa-star"></i>
                   </div>
                 </td>
                 <td>{{product.guarantee}}</td>
@@ -94,13 +94,13 @@
 
       <div class="pagination row">
         <div class="col-lg-6 col-md-8 col-sm-12 mx-auto pages-container">
-          <router-link v-if="previous != null" :to="goPreviousPage()" class="page-item perv">قبلی</router-link>
-          <router-link v-if="previous != null" :to="goPreviousPage()" class="page-item extra">{{page-1}}</router-link>
+          <p v-if="previous != null" @click="goPreviousPage()" class="page-item perv">قبلی</p>
+          <p v-if="previous != null" @click="goPreviousPage()" class="page-item extra">{{page-1}}</p>
           <p class="page-item active">{{page}}</p>
-          <router-link v-if="next!= null" :to="goNextPage()"   class="page-item extra">{{parseInt(page)+1}}</router-link>
-          <router-link v-if="next != null" :to="goNextPage()" class="page-item next">
+          <p v-if="next!= null" @click="goNextPage()"   class="page-item extra">{{parseInt(page)+1}}</p>
+          <p v-if="next != null" @click="goNextPage()" class="page-item next">
             بعدی
-          </router-link>
+          </p>
         </div>
       </div>
     </div>
@@ -134,28 +134,26 @@
     data(){
       return {
         isLoading:true,
-        products:"",
-        page:1,
+        products:[],
+        page:0,
         max:1,
         next:null,
-        previous:null
+        previous:null,
       }
     },
     mounted(){
-      // `/panel/products/` + (parseInt(page) + 1).toString()
       let query = this.$route.query;
       this.page = query.page ? query.page : 1
       if (this.page < 1){
         this.page = 1
       }
-      this.setProducts()
-    },
-    created(){
-      this.page = this.$route.params.id ? this.$route.params.id : 1
-      
     },
     updated(){
-      this.page = this.$route.params.id ? this.$route.params.id : 1
+      let query = this.$route.query;
+      this.page = query.page ? query.page : 1
+      if (this.page < 1){
+        this.page = 1
+      }
     },
     watch:{
       page(){
@@ -169,16 +167,19 @@
           this.products = response.data.results;
           this.previous = response.data.previous;
           this.next = response.data.next;
+          this.count = response.data.count;
           this.isLoading = false;
         });
       },
       goPreviousPage(){
         let query = Object.assign({});
-        query.page = this.page > 1 ? this.page - 1 : this.page;
+        query.page = this.page > 1 ? parseInt(this.page) - 1 : this.page;
         this.$router.push({ query });
       },
       goNextPage(){
-
+        let query = Object.assign({});
+        query.page = this.page > 0 ? parseInt(this.page) + 1 : this.page;
+        this.$router.push({ query });
       }
     }
   }
