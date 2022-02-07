@@ -1,5 +1,14 @@
 <template>
   <div class="main-content" >
+    <div class="tab__box">
+      <div class="tab__items">
+          <router-link class="tab__item" exact-active-class="is-active" to="/panel/superoffer/">لیست پیشنهادات</router-link>
+          <router-link class="tab__item" to="/panel/superoffer/add/" exact-active-class="is-active">
+            افزودن پیشنهاد
+            <i class="fa fa-plus-circle mr-1 text-success"></i>  
+          </router-link>
+      </div>
+    </div>
     <div class="row no-gutters" v-if="/^.panel.superoffer.?$/.test($route.path)">
         <div class="col-12 margin-left-10 margin-bottom-15 border-radius-3">
                 <p class="box__title text-center">تخفیفات شگفت انگیز</p>
@@ -100,7 +109,6 @@
             let before = new Date(date);
             let now = new Date();
             let dif = now - before;
-            console.log(dif)
             if(dif < 0){
                 return true
             }
