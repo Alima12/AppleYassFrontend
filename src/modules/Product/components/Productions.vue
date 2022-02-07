@@ -23,7 +23,6 @@ import axios from 'axios'
     },
     mounted(){
       axios.get("product/hot/").then(response=>{
-        console.log(response.data)
         this.products = response.data;
       })
     },

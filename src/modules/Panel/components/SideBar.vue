@@ -28,6 +28,7 @@
           {adminPermission:true,path:"/panel/category",title:"دسته بندی",icon:"i-categories"},
           {adminPermission:true,path:"/panel/slideshow",title:"مدیریت اسلاید",icon:"i-slideshow"},
           {adminPermission:true,path:"/panel/products",title:"اجناس",icon:"i-basket"},
+          {adminPermission:true,path:"/panel/superoffer",title:"پیشنهاد شگفت انگیز",icon:"i-gift"},
           {adminPermission:true,path:"/panel/charts",title:"آمار",icon:"i-chart"},
           {adminPermission:true,path:"/panel/discount",title:"تخفیف",icon:"i-discounts"},
           {adminPermission:true,path:"/panel/comments",title:"نظرات",icon:"i-comments"},

@@ -13,6 +13,8 @@ import Comments from "../pages/Comments.vue"
 import Transactions from "../pages/Transactions.vue"
 import Orders from "../pages/Orders.vue"
 import Setting from "../pages/Setting.vue"
+import SuperOffer from "../pages/SuperOffer.vue"
+
 
 
 
@@ -110,6 +112,27 @@ export default [
             path: 'edit/:code',
             name: 'ویرایش محصول',
             component: Products,
+          },
+        ]
+
+      },
+
+      {
+        path: 'superoffer',
+        name: 'پیشنهاد',
+        component: SuperOffer,
+        adminPermission:true,
+        title:"پیشنهاد شگفت انگیز",
+        children:[
+          {
+            path: 'add',
+            name: 'پیشنهاد جدید',
+            component: SuperOffer,
+          },
+          {
+            path: ':code',
+            name: 'ویرایش پیشنهاد',
+            component: SuperOffer,
           },
         ]
 

@@ -607,6 +607,10 @@ textarea {
 .sidebar__nav .i-setting a::before {
     content: "\f013";
 }
+.sidebar__nav .i-gift a::before {
+    content: "\f06b";
+}
+
 
 .sidebar__nav .i-users a::before {
     content: "\f0c0";
