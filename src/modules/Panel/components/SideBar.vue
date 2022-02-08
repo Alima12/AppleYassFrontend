@@ -19,7 +19,7 @@
       return{
         user:"",
         panelRoutes:[
-          {adminPermission:false,path:"/panel/dashboard",title:"داشبورد",icon:"i-dashboard"},
+          {adminPermission:false,path:"/panel",title:"داشبورد",icon:"i-dashboard"},
           {adminPermission:false,path:"/panel/myorders",title:"سفارشات من",icon:"i-orders"},
           {adminPermission:false,path:"/panel/mytransactions",title:"تراکنش های من",icon:"i-transactions"},
           {adminPermission:false,path:"/panel/profile",title:"پروفایل",icon:"i-user__inforamtion"},

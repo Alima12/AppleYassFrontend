@@ -16,18 +16,25 @@ export default [
         path: 'login',
         name: 'Login',
         component: Login,
-        loginRedirect:true
+        meta: {
+          NotAuthenticated: true,
+        },
       },
       {
         path: 'register',
         name: 'Register',
         component: Register,
-        loginRedirect:true
+        meta: {
+          NotAuthenticated: true,
+        },
       },
       {
         path: 'reset_password',
         name: 'ResetPassword',
-        component: ResetPassword
+        component: ResetPassword,
+        meta: {
+          Authenticated: true,
+        },
       },
 
     ]

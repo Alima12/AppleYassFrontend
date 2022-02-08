@@ -6,7 +6,6 @@ export default [
     path: '/product/:code',
     name: 'SingleProduct',
     component: SingleProduct,
-    loginRedirect:true
 
   },
 

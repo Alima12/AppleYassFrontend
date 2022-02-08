@@ -22,13 +22,15 @@ import SuperOffer from "../pages/SuperOffer.vue"
 export default [
   {
     path: '/panel',
-    name: 'پنل',
+    name: 'Panel',
     component: HomePanel,
     title:"پنل",
-    loginRequired:true,
+    meta: {
+      Authenticated: true,
+    },
     children: [
       {
-        path: 'dashboard',
+        path: '',
         name: 'پیشخوان',
         component: Dashboard,
 
@@ -37,14 +39,15 @@ export default [
         path: 'profile',
         name: 'پروفایل',
         component: Profile,
-        adminPermission:true,
-
       },
       {
         path: 'users',
         name: 'کاربران',
         component: Users,
-        adminPermission:true,
+        meta: {
+          Authenticated: true,
+          AdminRequiered: true
+        },
         children:[
           {
             path: 'new',
@@ -62,7 +65,10 @@ export default [
         path: 'slideshow',
         name: 'مدیریت اسلاید ها',
         component: SlideShow,
-        adminPermission:true,
+        meta: {
+          Authenticated: true,
+          AdminRequiered: true
+        },
         children:[
           {
             path: 'add',
@@ -100,7 +106,10 @@ export default [
         path: 'products',
         name: 'محصولات',
         component: Products,
-        adminPermission:true,
+        meta: {
+          Authenticated: true,
+          AdminRequiered: true
+        },
         title:"محصولات",
         children:[
           {
@@ -121,7 +130,10 @@ export default [
         path: 'superoffer',
         name: 'پیشنهاد',
         component: SuperOffer,
-        adminPermission:true,
+        meta: {
+          Authenticated: true,
+          AdminRequiered: true
+        },
         title:"پیشنهاد شگفت انگیز",
         children:[
           {
@@ -141,42 +153,60 @@ export default [
         path: 'charts',
         name: 'آمار',
         component: Charts,
-        adminPermission:true,
+        meta: {
+          Authenticated: true,
+          AdminRequiered: true
+        },
 
       },
       {
         path: 'discount',
         name: 'تخفیفات',
         component: Discount,
-        adminPermission:true,
+        meta: {
+          Authenticated: true,
+          AdminRequiered: true
+        },
 
       },
       {
         path: 'comments',
         name: 'نظرات',
         component: Comments,
-        adminPermission:true,
+        meta: {
+          Authenticated: true,
+          AdminRequiered: true
+        },
 
       },
       {
         path: 'transactions',
         name: 'تراکنش ها',
         component: Transactions,
-        adminPermission:true,
+        meta: {
+          Authenticated: true,
+          AdminRequiered: true
+        },
 
       },
       {
         path: 'orders',
         name: 'سفارشات',
         component: Orders,
-        adminPermission:true,
+        meta: {
+          Authenticated: true,
+          AdminRequiered: true
+        },
 
       },
       {
         path: 'setting',
         name: 'تنظیمات',
         component: Setting,
-        adminPermission:true,
+        meta: {
+          Authenticated: true,
+          AdminRequiered: true
+        },
 
       },
     ]

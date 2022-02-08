@@ -8,11 +8,12 @@ import productRoutes from '@/modules/Product/routes'
 import panel from '@/modules/Panel/routes'
 import store from '../store'
 
+
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
   },
   {
     path: '/category',
@@ -41,28 +42,35 @@ const router = createRouter({
 })
 
 
-router.beforeEach((to, from, next) => {
-  if(to.matched.length == 1 && to.matched[0].path == "/panel"){
-    next("/panel/dashboard")
-  }
-  if(to.matched.length == 1 && to.matched[0].path == "/auth"){
-    next("/")
-  }
-  if (to.matched.some(record => record.meta.loginRequired)) {
-    if (store.state.user.isAuthenticated) {
+ 
+router.beforeEach(async (to, from, next) => {
+  let isAdmin = await store.getters.isAdmin;
+  if (to.matched.some(record => record.meta.Authenticated)) {
+    if (!localStorage.getItem("token")) {
+      next({
+        path: '/auth/login',
+      })
+    } else {
+      if (to.matched.some(record => record.meta.AdminRequiered)) {
+        if (isAdmin) {
+          next()
+        } else {
+          next({ path: '/panel' })
+        }
+      } else {
+        next()
+      }
+    }
+  } else if (to.matched.some(record => record.meta.NotAuthenticated)) {
+    if (localStorage.getItem('token') == null) {
       next()
     } else {
-      next("/login")
+      next({ name: 'Panel' })
     }
-  } else if (to.matched.some(record => record.meta.loginRedirect)) {
-    if (!store.state.user.isAuthenticated) {
-      next()
-    } else {
-      next("/profile")
-    }
-  } else {
-    
+  } else{
     next()
   }
 })
+
+
 export default router
