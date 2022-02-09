@@ -16,21 +16,39 @@ export default [
         path: '',
         name: 'ShoppingCart',
         component: ShoppingCart,
+        meta: {
+          title:"سبد خرید"
+        }
       },
       {
         path: 'confirm',
         name: 'ConfirmCart',
         component: ConfirmPage,
+        meta: {
+          Authenticated: true,
+          title:"تایید خرید"
+
+        },
       },
       {
         path: 'payment',
         name: 'Payment',
         component: Payment,
+        meta: {
+          Authenticated: true,
+          title:"انتقال به درگاه پرداخت"
+
+        },
       },
       {
         path: 'result/:code',
         name: 'Result',
         component: Result,
+        meta: {
+          Authenticated: true,
+          title:"رسید"
+
+        },
       },
    
     ]

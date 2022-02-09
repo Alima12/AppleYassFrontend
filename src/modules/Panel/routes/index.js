@@ -24,21 +24,28 @@ export default [
     path: '/panel',
     name: 'Panel',
     component: HomePanel,
-    title:"پنل",
     meta: {
       Authenticated: true,
+      title:"پنل",
     },
     children: [
       {
         path: '',
         name: 'پیشخوان',
         component: Dashboard,
-
+        meta: {
+          Authenticated: true,
+          title:"پیشخوان",
+        },
       },
       {
         path: 'profile',
         name: 'پروفایل',
         component: Profile,
+        meta: {
+          Authenticated: true,
+          title:"ویرایش پروفایل",
+        },
       },
       {
         path: 'users',
@@ -46,18 +53,26 @@ export default [
         component: Users,
         meta: {
           Authenticated: true,
-          AdminRequiered: true
+          AdminRequiered: true,
+          title:"لیست کاربران",
+
         },
         children:[
           {
             path: 'new',
             name: 'افزودن کاربر جدید',
             component: Users,
+            meta:{
+              title:"افزودن کاربر جدید"
+            }
           },
           {
             path: ':id',
             name: 'edit-user',
             component: Users,
+            meta:{
+              title:"ویرایش کاربر"
+            }
           },
         ]
       },
@@ -67,20 +82,26 @@ export default [
         component: SlideShow,
         meta: {
           Authenticated: true,
-          AdminRequiered: true
+          AdminRequiered: true,
+          title:"مدیریت اسلاید ها"
+
         },
         children:[
           {
             path: 'add',
             name: 'افزودن اسلاید',
             component: SlideShow,
-            adminPermission:true,
+            meta:{
+              title:"افزودن اسلاید"
+            }
           },
           {
             path: 'edit/:id',
             name: 'ویرایش اسلاید',
             component: SlideShow,
-            adminPermission:true,
+            meta:{
+              title:"ویرایش اسلاید"
+            }
           },
         ]
       },
@@ -89,17 +110,30 @@ export default [
         path: 'mytransactions',
         name: 'تراکنش های من',
         component: MyTransactions,
+        meta:{
+          Authenticated: true,
+          title:"تراکنش های من"
+        }
       },
       {
         path: 'myorders',
         name: 'سفارشات من',
         component: MyOrders,
+        meta:{
+          Authenticated: true,
+          title:"سفارشات من"
+        }
       },
       {
         path: 'category',
         name: 'دسته بندی',
         component: Category,
-        adminPermission:true,
+        meta: {
+          Authenticated: true,
+          AdminRequiered: true,
+          title:"مدیریت دسته بندی"
+
+        },
       },
 
       {
@@ -108,7 +142,8 @@ export default [
         component: Products,
         meta: {
           Authenticated: true,
-          AdminRequiered: true
+          AdminRequiered: true,
+          title:"مدیریت محصولات"
         },
         title:"محصولات",
         children:[
@@ -116,11 +151,17 @@ export default [
             path: 'new',
             name: 'محصول جدید',
             component: Products,
+            meta: {
+              title:"افزودن محصول جدید"
+            },
           },
           {
             path: 'edit/:code',
             name: 'ویرایش محصول',
             component: Products,
+            meta: {
+              title:"ویرایش محصول"
+            },
           },
         ]
 
@@ -132,19 +173,25 @@ export default [
         component: SuperOffer,
         meta: {
           Authenticated: true,
-          AdminRequiered: true
+          AdminRequiered: true,
+          title:"پیشنهاد شگفت انگیز"
         },
-        title:"پیشنهاد شگفت انگیز",
         children:[
           {
             path: 'add',
             name: 'پیشنهاد جدید',
             component: SuperOffer,
+            meta: {
+              title:"پیشنهاد جدید"
+            },
           },
           {
             path: ':code',
             name: 'ویرایش پیشنهاد',
             component: SuperOffer,
+            meta: {
+              title:"ویرایش پیشنهاد"
+            },
           },
         ]
 
@@ -155,7 +202,10 @@ export default [
         component: Charts,
         meta: {
           Authenticated: true,
-          AdminRequiered: true
+          AdminRequiered: true,
+          meta: {
+            title:"آمار"
+          },
         },
 
       },
@@ -165,7 +215,9 @@ export default [
         component: Discount,
         meta: {
           Authenticated: true,
-          AdminRequiered: true
+          AdminRequiered: true,
+          title:"تخفیفات"
+
         },
 
       },
@@ -175,7 +227,9 @@ export default [
         component: Comments,
         meta: {
           Authenticated: true,
-          AdminRequiered: true
+          AdminRequiered: true,
+          title:"نظرات"
+
         },
 
       },
@@ -185,7 +239,9 @@ export default [
         component: Transactions,
         meta: {
           Authenticated: true,
-          AdminRequiered: true
+          AdminRequiered: true,
+          title:"تراکنش ها"
+
         },
 
       },
@@ -195,7 +251,9 @@ export default [
         component: Orders,
         meta: {
           Authenticated: true,
-          AdminRequiered: true
+          AdminRequiered: true,
+          title:"سفارشات"
+
         },
 
       },
@@ -205,7 +263,9 @@ export default [
         component: Setting,
         meta: {
           Authenticated: true,
-          AdminRequiered: true
+          AdminRequiered: true,
+          title:"تنظیمات"
+
         },
 
       },

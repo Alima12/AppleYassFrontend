@@ -7,28 +7,51 @@ import cartRoutes from '@/modules/Cart/routes'
 import productRoutes from '@/modules/Product/routes'
 import panel from '@/modules/Panel/routes'
 import store from '../store'
+import axios from 'axios'
 
 
 const routes = [
   {
-    path: '/',
+    path: '',
     name: 'Home',
     component: Home,
+    meta: {
+      title: `خانه`,
+      metaTags: [
+        {
+          name: 'فروشگاه اپل یاس',
+          content: 'ارزان ترین قیمت آیفون'
+        },
+        {
+          property: 'og:description',
+          content: 'ارزان ترین ها را از ما بخواهید'
+        }
+      ]
+    }
   },
   {
     path: '/category',
     name: 'Category',
-    component: Category
+    component: Category,
+    meta:{
+      title:"دسته بندی"
+    }
   },
   {
     path: '/category/:code',
     name: 'SingleCategory',
-    component: Category
+    component: Category,
+    meta:{
+      title:"دسته بندی"
+    }
   },
   {
     path: '/search',
     name: 'SearchPage',
-    component: Search
+    component: Search,
+    meta:{
+      title:"جستجو"
+    }
   },
   ...cartRoutes,
   ...productRoutes,
@@ -70,7 +93,44 @@ router.beforeEach(async (to, from, next) => {
   } else{
     next()
   }
+
 })
 
+router.beforeEach(async (to, from, next) => {
+  let response = await axios.get("http://127.0.0.1:8000/config/")
+  const nearestWithTitle = to.matched.slice().reverse().find(r => r.meta && r.meta.title);
+  const nearestWithMeta = to.matched.slice().reverse().find(r => r.meta && r.meta.metaTags);
+  const previousNearestWithMeta = from.matched.slice().reverse().find(r => r.meta && r.meta.metaTags);
 
+  if(nearestWithTitle) {
+    document.title = `${response.data.browser_title} - ` + nearestWithTitle.meta.title;
+  } else if(previousNearestWithMeta) {
+    document.title = `${response.data.browser_title} - ` + previousNearestWithMeta.meta.title;
+  }
+
+  Array.from(document.querySelectorAll('[data-vue-router-controlled]')).map(el => el.parentNode.removeChild(el));
+
+  if(!nearestWithMeta) return next();
+
+
+  nearestWithMeta.meta.metaTags.map(tagDef => {
+    const tag = document.createElement('meta');
+    Object.keys(tagDef).forEach(key => {
+      tag.setAttribute(key, tagDef[key]);
+    });
+    tag.setAttribute('data-vue-router-controlled', '');
+    return tag;
+  })
+  .forEach(tag => document.head.appendChild(tag));
+  let data = response.data.seo_key_words.split(",")
+  data.forEach(t=>{
+    let d = t.split(":")
+    let tag = document.createElement('meta');
+    tag.setAttribute("name",d[0])
+    tag.setAttribute("content",d[1])
+    document.head.appendChild(tag);
+  })
+
+  next();
+});
 export default router

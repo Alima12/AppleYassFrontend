@@ -19,7 +19,6 @@
     watch: {
       $route(to, from) {
         this.$store.dispatch("onStart")
-        document.title = to.meta.title || 'Some Default Title';
       }
     },
   }

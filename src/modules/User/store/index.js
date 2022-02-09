@@ -46,7 +46,7 @@ const actions = {
 }
 
 const getters ={
-  getMe:state => state.user,
+  getMe:state => state.user != "" ? state.user : false,
   isLogined:state => state.isAuthenticated,
   isAdmin:state => state.user ? state.user.is_admin : false,
 

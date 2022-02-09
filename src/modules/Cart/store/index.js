@@ -32,7 +32,6 @@ const actions = {
 
 const getters = {
   CartItems: state => state.cart,
-  getCartTotalPrice: state=> state.cart.total_price,
 }
 
 

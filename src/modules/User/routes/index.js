@@ -11,6 +11,9 @@ export default [
     path: '/auth',
     name: 'AuthBase',
     component: AuthBase,
+    meta:{
+      title:"حساب کاربری"
+    },
     children: [
       {
         path: 'login',
@@ -18,6 +21,8 @@ export default [
         component: Login,
         meta: {
           NotAuthenticated: true,
+          title:"ورود به حساب"
+
         },
       },
       {
@@ -26,6 +31,8 @@ export default [
         component: Register,
         meta: {
           NotAuthenticated: true,
+          title:"ثبت نام"
+
         },
       },
       {
@@ -34,6 +41,8 @@ export default [
         component: ResetPassword,
         meta: {
           Authenticated: true,
+          title:"بازیابی رمزعبور"
+
         },
       },
 

@@ -2,9 +2,11 @@
     <div class="header d-flex item-center bg-white width-100 border-bottom padding-12-30">
         <div class="header__right d-flex flex-grow-1 item-center">
             <span class="bars" @click="togglebar()"></span>
+            <a href="/" style="width:100%;margin-right:20px;margin-top:15px">
+                <i class="fa fa-home" style="font-size:22px"></i>
+            </a>
         </div>
         <div class="header__left d-flex flex-end item-center margin-top-2">
-            <span class="account-balance font-size-12">موجودی : 2500,000 تومان</span>
             <div class="notification margin-15">
                 <a class="notification__icon" @click="showNotifs()"><i class="fa fa-bell"></i></a>
                 <div class="dropdown__notification">
@@ -24,7 +26,6 @@
     name: "HeaderPanel",
     methods:{
         togglebar(){
-            console.log("toggle")
             $('.sidebar__nav').toggleClass('is-active');
             $('.content').toggleClass('is-active');
         },

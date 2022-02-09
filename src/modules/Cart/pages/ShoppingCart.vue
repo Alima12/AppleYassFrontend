@@ -83,20 +83,30 @@
         realPrice:0,
         isLoading: true,
         fullPage: true,
-        discountCode:""
+        discountCode:"",
+        Authenticate:false
       }
     },
-    beforeCreate(){
-      this.$store.dispatch("getCartItems");
-      setTimeout(()=>{
-        this.cart = this.$store.getters.CartItems;
-        this.totalPrice = this.cart.total_price;
-        this.realPrice = this.cart.real_price;
+    async mounted(){
+      if(await this.$store.getters.isLogined){
+        this.$store.dispatch("getCartItems");
+        setTimeout(()=>{
+          this.cart = this.$store.getters.CartItems;
+          this.totalPrice = this.cart.total_price;
+          this.realPrice = this.cart.real_price;
+          this.isLoading = false;
+        },1000)
+      }
+      else{
+        this.getFromLocal()
         this.isLoading = false;
-      },1000)
+      }
     },
     methods:{
-
+      getFromLocal(){
+        let result = localStorage.getItem("cart-items") ? JSON.parse(localStorage.getItem("cart-items")) : []
+        this.cart.items = result
+      },
       setNewValue(price){
         this.realPrice = price[0];
         this.totalPrice = price[1];
