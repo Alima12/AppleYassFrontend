@@ -11,7 +11,7 @@
             <div class="row">
               <div class="col-lg-4">
                 <div class="image-container">
-                  <router-link :to="`/product/${product.id}`">
+                  <router-link :to="`/product/${code}`">
                       <img  :src="'http://127.0.0.1:8000'+ product.image" alt="">
                   </router-link>
                 </div>
@@ -64,6 +64,7 @@ export default {
         real_price:1000
       },
       discountTill:[0,0,0],
+      code:""
     }
   },
   methods:{
@@ -83,6 +84,7 @@ export default {
     },1000)
     axios.get("config/super-offer/").then(response=>{
       this.product = response.data;
+      this.code =this.product.product.product.code; 
       let date = new Date(this.product.till)
       let now = new Date()
       this.product.remainTimeSecond = Math.floor((date - now) /1000);

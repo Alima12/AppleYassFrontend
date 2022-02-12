@@ -4,7 +4,8 @@
     <i class="fa fa-shopping-cart text-success mx-2"></i>
   </h2>
   <div class="container-fluid produoct-cart-items">
-      <cartItem :item="item"  v-for="item in cart.items" @change="setNewValue" />
+    {{cart.items}}
+      <cartItem :item="item"  v-for="item in cart.items" @change="setNewValue" :setFromLocal="local" />
       
   </div>
   <div class="container-fluid cart-all-price">
@@ -84,11 +85,13 @@
         isLoading: true,
         fullPage: true,
         discountCode:"",
-        Authenticate:false
+        Authenticate:false,
+        local:false,
       }
     },
     async mounted(){
       if(await this.$store.getters.isLogined){
+        this.local = false
         this.$store.dispatch("getCartItems");
         setTimeout(()=>{
           this.cart = this.$store.getters.CartItems;
@@ -99,12 +102,13 @@
       }
       else{
         this.getFromLocal()
-        this.isLoading = false;
+        this.local = true;
       }
+      this.isLoading = false;
     },
     methods:{
       getFromLocal(){
-        let result = localStorage.getItem("cart-items") ? JSON.parse(localStorage.getItem("cart-items")) : []
+        let result = localStorage.getItem("cart-item") ? JSON.parse(localStorage.getItem("cart-item")) : []
         this.cart.items = result
       },
       setNewValue(price){

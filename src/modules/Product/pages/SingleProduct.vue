@@ -141,7 +141,7 @@
       :is-full-page="fullPage"
       />
   <div class="row">
-    <Comments :code="product.code" />
+    <Comments :code="code" />
   </div>
 
 </div>
@@ -175,11 +175,13 @@
         isLoading: true,
         fullPage: true,
         colorId:0,
-        relatedProduct:[]
+        relatedProduct:[],
+        code:""
       }
     },
     created(){
       let code = this.$route.params.code;
+      this.code = code
       axios.get(`${code}/`).then(response=>{
         let product = response.data
         this.isLoading = false;
@@ -250,11 +252,23 @@
         this.image = this.product.images[0].image
     },
     addToCart(){
-      let data = new FormData();
-      data.append("count", this.count);
-      data.append("color_id", this.colorId);
-      this.$store.dispatch("addCartItem", data);
-      this.$router.push('/cart')
+      let user = this.$store.getters.isLogined
+      if(user){
+        let data = new FormData();
+        data.append("count", this.count);
+        data.append("color_id", this.colorId);
+        this.$store.dispatch("addCartItem", data);
+        this.$router.push('/cart')
+      }
+        let result = localStorage.getItem("cart-items") ? JSON.parse(localStorage.getItem("cart-items")) : []
+        result.push(
+          {
+            color_id:this.colorId,
+            count:this.count
+          }
+        )
+        let str = JSON.stringify(result)
+        localStorage.setItem("cart-item",str)
 
     }
 

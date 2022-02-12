@@ -21,13 +21,18 @@
                 </thead>
                 <tbody>
                 <tr role="row" class="fw-bold" v-for="comment in Comments">
-                    <td v-if="comment.owner != {} || comment.owner.first_name != `` || comment.owner.last_name != `` ">
+                    <td v-if="comment.owner != null">
                       {{comment.owner.first_name}} {{comment.owner.last_name}}
                     </td>
                     <td v-else>
                       ناشناس
                     </td>
-                    <td>{{comment.owner.email}}</td>
+                    <td v-if="comment.owner != null">
+                      {{comment.owner.email}}
+                    </td>
+                     <td v-else>
+                      ناشناس
+                    </td>
                     <td>{{comment.content}}</td>
                     <td>
                       <a class="btn btn-primary fw-bold" :href="`/product/${comment.product.code}`" target="_blank" rel="noopener noreferrer">

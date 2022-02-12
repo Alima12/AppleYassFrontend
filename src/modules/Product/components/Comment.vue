@@ -1,9 +1,14 @@
 <template>
             <div class="head">
                 <div class="name-date">
-                    <div class="name">
+                    <div class="name" v-if="comment.owner != null">
                         <img :src="comment.owner.images[comment.owner.images.length - 1].image" alt="">
                         <span>{{comment.owner.first_name}} {{comment.owner.last_name}}</span>
+                        : 
+                    </div>
+                    <div class="name" v-else>
+                        <img src="https://www.pngitem.com/pimgs/m/524-5246388_anonymous-user-hd-png-download.png" alt="">
+                        <span>ناشناس</span>
                         : 
                     </div>
                     <div class="date">
@@ -15,11 +20,13 @@
                 <div class="like-box">
                     <div class="like">
                         <span>{{comment.likes.length}}</span>
-                        <i @click="like(comment)" :class="{'i':comment.likes.includes(user.id)}" class="fa fa-thumbs-up like"></i>
-                    </div>
+                        <i v-if="user" @click="like(comment)" :class="{'i':comment.likes.includes(user.id)}" class="fa fa-thumbs-up like"></i>
+                        <i v-else class="fa fa-thumbs-up like"></i>
+                     </div>
                     <div class="dislike">
                         <span>{{comment.dislikes.length}}</span>
-                        <i @click="dislike(comment)" :class="{'i':comment.dislikes.includes(user.id)}" class="fa fa-thumbs-down dislike"></i>
+                        <i v-if="user" @click="dislike(comment)" :class="{'i':comment.dislikes.includes(user.id)}" class="fa fa-thumbs-down dislike"></i>
+                        <i v-else class="fa fa-thumbs-down like"></i>
                     </div>
                 </div>
             </div>
@@ -43,11 +50,13 @@
                     <div class="like-box">
                         <div class="like">
                             <span>{{reply.likes.length}}</span>
-                            <i @click="like(reply)" :class="{'i':reply.likes.includes(user.id)}" class="fa fa-thumbs-up like"></i>
+                            <i v-if="user" @click="like(reply)" :class="{'i':reply.likes.includes(user.id)}" class="fa fa-thumbs-up like"></i>
+                            <i v-else class="fa fa-thumbs-up like"></i>
                         </div>
                         <div class="dislike">
                             <span>{{reply.dislikes.length}}</span>
-                            <i @click="dislike(reply)" :class="{'i':reply.dislikes.includes(user.id)}" class="fa fa-thumbs-down dislike"></i>
+                            <i v-if="user" @click="dislike(reply)" :class="{'i':reply.dislikes.includes(user.id)}" class="fa fa-thumbs-down dislike"></i>
+                            <i v-else class="fa fa-thumbs-down like"></i>
                         </div>
                     </div>
                 </div>
@@ -70,11 +79,14 @@
                     <div class="like-box">
                         <div class="like">
                             <span>{{rep.likes.length}}</span>
-                            <i @click="like(rep)" :class="{'i':rep.likes.includes(user.id)}" class="fa fa-thumbs-up like"></i>
+                            <i v-if="user" @click="like(rep)" :class="{'i':rep.likes.includes(user.id)}" class="fa fa-thumbs-up like"></i>
+                            <i v-else class="fa fa-thumbs-up like"></i>
                         </div>
                         <div class="dislike">
                             <span>{{rep.dislikes.length}}</span>
-                            <i @click="dislike(rep)" :class="{'i':rep.dislikes.includes(user.id)}" class="fa fa-thumbs-down dislike"></i>
+                            <i v-if="user" @click="dislike(rep)" :class="{'i':rep.dislikes.includes(user.id)}" class="fa fa-thumbs-down dislike"></i>
+                            <i v-else class="fa fa-thumbs-down like"></i>
+                        
                         </div>
                     </div>
                 </div>
